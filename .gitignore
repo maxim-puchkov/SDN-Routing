@@ -1,0 +1,4 @@
+.DS_Store
+build/
+SDNetwork/Library/sh/*.x.c
+SDNetwork.xcodeproj/xcuserdata/
