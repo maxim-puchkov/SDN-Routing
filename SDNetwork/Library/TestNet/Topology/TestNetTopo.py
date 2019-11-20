@@ -11,7 +11,7 @@
 
 from mininet.topo import Topo
 from mininet.util import irange
-from Link import *
+from TestNetRawLink import *
 
 
 # LinkTopo is a network topology with
@@ -95,3 +95,75 @@ class LinkTopo( Topo ):
 	def debugLinks( self, _wlinks ):
 		self.printLinkInput( _wlinks )
 		self.printLinkCosts( _wlinks )
+
+
+# Tiny Topology (Example Network 1)
+# Network with 4 switches, with 5 bidirectional links.
+#
+# One-directional links (10):
+#   s1 <-> (s2, s3, s4)
+#   s2 <-> (s1, s4)
+#   s3 <-> (s1, s4)
+#   s4 <-> (s1, s2, s3)
+#
+# Link costs:
+#   s1-s2:  2
+#   s1-s3:  1
+#   s1-s4:  2
+#   s2-s4:  3
+#   s3-s4:  3
+class TinyTopo( LinkTopo ):
+	displayName = 'Tiny Topology'
+	
+	def build( self ):
+		switches = 4
+		hostsPerSwitch = 1
+		linkWeights = wlinks(
+			((1, 2), 2), ((1, 3), 1), ((1, 4), 2),
+			((2, 4), 3),
+			((3, 4), 3)
+		)
+		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
+
+
+# Small Topology (Example Network 2)
+class SmallTopo( LinkTopo ):
+	displayName = 'Small Topology'
+	
+	def build( self ):
+		_switches = 6
+		hostsPerSwitch = 2
+		linkWeights = wlinks(
+			((1, 2), 2), ((1, 3), 5), ((1, 4), 1),
+			((2, 3), 3), ((2, 4), 2),
+			((3, 4), 3), ((3, 5), 1), ((3, 6), 5),
+			((4, 5), 1),
+			((5, 6), 2)
+		)
+		LinkTopo.build( self, _switches, hostsPerSwitch, linkWeights )
+
+
+# Large Topology (Example Network 3)
+#
+# Link costs:
+#	randomized
+class LargeTopo( LinkTopo ):
+	displayName = 'Large Topology'
+	
+	def build( self ):
+		_switches = 0 #!
+		hostsPerSwitch = 0 #!
+		linkWeights = () #!
+		LinkTopo.build( self, _switches, hostsPerSwitch, linkWeights )
+
+
+class TestTopo( LinkTopo ):
+	displayName = 'Tiny Topology'
+	
+	def build( self ):
+		switches = 3
+		hostsPerSwitch = 1
+		linkWeights = wlinks(
+			((1, 2), 1), ((1, 3), 1), ((2, 3), 1)
+		)
+		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )

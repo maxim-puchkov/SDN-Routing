@@ -8,5 +8,3 @@
 #  Created by mpuchkov on 2019-11-18.
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
-
-from .TestNetEnvironment import *

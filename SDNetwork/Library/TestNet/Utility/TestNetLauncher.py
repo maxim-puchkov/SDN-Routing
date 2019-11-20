@@ -12,8 +12,8 @@
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.clean import Cleanup
-from Topology import *
-from Logger import log
+from TestNet.Topology import *
+from TestNet.Logger import log
 
 
 # Configure and run preset networks

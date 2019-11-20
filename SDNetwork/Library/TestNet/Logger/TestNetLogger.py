@@ -44,7 +44,7 @@ class TestNetLogger:
 		self.__info__(content, '>> DO: ', '\n')
 	# Special log '>> DONE:' to log the end of a procedure
 	def done( self, content ):
-		self.__info__(content, '>> DONE: ', '\n\n')
+		self.__info__(content, '>> DONE: ', '\n')
 	# Special log '>> OK:' to log successful results
 	def ok( self, content ):
 		self.__info__(content, '>> OK: ', '\n')

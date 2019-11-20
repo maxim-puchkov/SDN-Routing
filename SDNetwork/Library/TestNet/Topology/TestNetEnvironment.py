@@ -10,9 +10,9 @@
 #
 
 from mininet.clean import cleanup
-from Topology import TinyTopo, SmallTopo, LargeTopo
-from Logger import log
-from Utility import *
+from TestNet.Topology import TinyTopo, SmallTopo, LargeTopo
+from TestNet.Logger import log
+from TestNet.Utility import *
 
 
 # Three default Topology presets

@@ -9,7 +9,7 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
-from Logger import log
+from TestNet.Logger import log
 import sys
 
 

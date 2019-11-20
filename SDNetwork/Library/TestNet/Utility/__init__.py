@@ -9,7 +9,7 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
-from .TestNetLauncher import *
+from .TestNetLauncher import TestNetLauncher
 from .TestNetParser import *
 from .TestNetDisplay import *
 from .TestNetSelectionGroup import *
