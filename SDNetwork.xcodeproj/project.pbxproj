@@ -40,6 +40,8 @@
 		84BF951A2384940D001B34D0 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF9518238493E5001B34D0 /* Python.framework */; };
 		84F494CD2384D0560002A873 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = 84F494CB2384D0560002A873 /* __init__.py */; };
 		84F494CE2384D0560002A873 /* dijkstra.py in Resources */ = {isa = PBXBuildFile; fileRef = 84F494CC2384D0560002A873 /* dijkstra.py */; };
+		84F494D02384F6A30002A873 /* scratchnet.py in Resources */ = {isa = PBXBuildFile; fileRef = 84F494CF2384F6A30002A873 /* scratchnet.py */; };
+		84F494D22384F6A50002A873 /* scratchnet.py in Resources */ = {isa = PBXBuildFile; fileRef = 84F494D12384F6A50002A873 /* scratchnet.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -92,6 +94,8 @@
 		84E02ABF2384A2D400C34E69 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84F494CB2384D0560002A873 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		84F494CC2384D0560002A873 /* dijkstra.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = dijkstra.py; sourceTree = "<group>"; };
+		84F494CF2384F6A30002A873 /* scratchnet.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = scratchnet.py; path = ../../../../../../../Desktop/mininet/examples/scratchnet.py; sourceTree = "<group>"; };
+		84F494D12384F6A50002A873 /* scratchnet.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = scratchnet.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,7 @@
 		841EC1022381E2CE00C35210 /* TestNet */ = {
 			isa = PBXGroup;
 			children = (
+				84F494D12384F6A50002A873 /* scratchnet.py */,
 				841EC10B2381E2CE00C35210 /* __init__.py */,
 				84619D1B2383867300BF89C1 /* main.py */,
 				841EC1372382976300C35210 /* help.py */,
@@ -219,6 +224,7 @@
 		841EC131238221A500C35210 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				84F494CF2384F6A30002A873 /* scratchnet.py */,
 				841EC132238221C400C35210 /* miniedit.py */,
 			);
 			path = Editor;
@@ -359,6 +365,7 @@
 				841EC1122381E2CE00C35210 /* __init__.py in Resources */,
 				84619D1C2383867300BF89C1 /* main.py in Resources */,
 				841EC1172381E2CE00C35210 /* __init__.py in Resources */,
+				84F494D22384F6A50002A873 /* scratchnet.py in Resources */,
 				841EC13A2382B9E200C35210 /* __help__.sh in Resources */,
 				841EC1242381E88900C35210 /* bin in Resources */,
 				841EC1212381E73200C35210 /* delnet.sh in Resources */,
@@ -366,6 +373,7 @@
 				841EC1382382976300C35210 /* help.py in Resources */,
 				841EC11F2381E39E00C35210 /* makenet.sh in Resources */,
 				841EC133238221C400C35210 /* miniedit.py in Resources */,
+				84F494D02384F6A30002A873 /* scratchnet.py in Resources */,
 				84619D142383700700BF89C1 /* TestNetTinyTopo.py in Resources */,
 				84619D18238384D100BF89C1 /* TestNetEnvironment.py in Resources */,
 				841EC11A2381E2CE00C35210 /* TestNetParser.py in Resources */,

@@ -40,3 +40,24 @@ class TinyTopo( LinkTopo ):
 			((3, 4), 3)
 		)
 		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
+
+
+class TestTopo( LinkTopo ):
+	displayName = 'Tiny Topology'
+	
+	def build( self ):
+		switches = 3
+		hostsPerSwitch = 1
+		linkWeights = wlinks(
+			((1, 2), 1), ((1, 3), 1), ((2, 3), 1)
+		)
+		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
+
+#
+#s1-s2 1 2
+#s1-s3 1 3
+#s2-s3 2 3
+#
+#s1-s2 1 1
+#s1-s3 2 1
+#s2-s3 2 2

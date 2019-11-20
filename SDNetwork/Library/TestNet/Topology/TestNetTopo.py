@@ -32,14 +32,17 @@ class LinkTopo( Topo ):
 				for i in irange( 1, n ) ]
 		# Create all _wlinks between _switches (with cost)
 		def addSwitchLinks():
-			switchLinks = []
-			for weightedLink in _wlinks:
-				(i, j) = weightedLink.nodes
-				w = weightedLink.weight
-				link = self.addLink( s(i), s(j), loss = (w - 1) )
-				print(link)
-				switchLinks.append( link )
-			return switchLinks
+			link1 = self.addLink( s(1), s(2), port1 = 1, port2 = 1, key = ( 1, 2, 1 ) )
+			link2 = self.addLink( s(1), s(3), port1 = 2, port2 = 1, key = ( 1, 3, 1 ) )
+			link3 = self.addLink( s(2), s(3), port1 = 2, port2 = 2, key = ( 2, 3, 1 ) )
+			return [link1, link2, link3]
+#			switchLinks = []
+#			for weightedLink in _wlinks:
+#				(i, j) = weightedLink.nodes
+#				w = weightedLink.weight
+#				link = self.addLink( s(i), s(j), port1 = i, port2 = j, key = ( i, j, w ) )
+#				switchLinks.append( link )
+#			return switchLinks
 		
 		#MARK: - _hosts
 		## Get host by index: h(1) = Host 'h1'
@@ -57,8 +60,7 @@ class LinkTopo( Topo ):
 				last = i * k
 				first = last - k + 1
 				for j in irange( first, last ):
-					link = self.addLink( s(i), h(j) )
-					print(link)
+					link = self.addLink( s(i), h(j), key = ( i, j ) )
 					hostLinks.append( link )
 			return hostLinks
 		

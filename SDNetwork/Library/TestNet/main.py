@@ -65,8 +65,8 @@ def main( argc, *argv ):
 	# 1. Read index or ask for input, then select the topology
 	index = getNetworkTopologyIndex( argv, env.allTopologies.range() )
 	selectedTopo = env.allTopologies.select( index )
+#	selectedTopo = TestTopo()
 	display.message('Selected network: %s (index: %s)' % (selectedTopo.displayName, index))
-	
 	
 	
 	# Create and start Mininet with the selected topology
@@ -74,6 +74,20 @@ def main( argc, *argv ):
 	net.start()
 	CLI( net )
 	
+	# Calculate least-cost paths
+	linkWeights = net.topo._slinks
+	for switch in net.topo.switches():
+		#dijkstra.get_routing_decision(
+		print("Swtich:")
+		print(switch)
+		print("Links")
+		print(linkWeights)
+		print("Switch num:")
+		switchNum = int(switch[1:])
+		print(switchNum)
+		routes = dijkstra.get_routing_decision(switchNum, linkWeights)
+		print("Routes:")
+		print(routes)
 	
 	# Stop Mininet and exit
 	net.stop()

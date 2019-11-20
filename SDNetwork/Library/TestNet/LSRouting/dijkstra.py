@@ -58,7 +58,6 @@ def get_route(start_node,end_node,predecessors):
 def get_routing_decision(start_node, link_and_weight, end_node = 0):#linl_and_weight: (node, node, weight)
 	#do a remove duplicate here
 	link_and_weight = remove_duplicate(link_and_weight)
-	print(link_and_weight)
 	#make sure every node is connected
 
 
@@ -92,18 +91,10 @@ def get_routing_decision(start_node, link_and_weight, end_node = 0):#linl_and_we
 		if disconnected_graph == True:
 			break
 	if end_node == 0:
-		return predecessors
+		routes = []
+		for i in range(switch_num):
+			if i!= start_node:
+				routes.append(get_route(start_node,i,predecessors))
+		return routes
 	else:
 		return get_route(start_node,end_node,predecessors)
-
-
-
-node = 1
-link_and_weight = [(1,2,2),(2,3,1),(3,4,5),(1,3,4),(3,1,4),(1,4,6),(4,1,6)]
-route = get_routing_decision(1, link_and_weight,4)
-print(route)
-
-
-
-
-
