@@ -67,17 +67,23 @@ class LinkTopo( Topo ):
 		# Add all nodes and _wlinks
 		self._switches = add_switches()
 		self._hosts = add_hosts()
-		self._slinks = addSwitchLinks()
-		self._hlinks = addHostLinks()
+		self._slinks = addSwitchLinks() # switch links
+		self._hlinks = addHostLinks() # host links
 
 
 		# Debug display
-		print("Printing links weights for input:")
-		print("\t _wlinks = "),
-		for w in _wlinks: print(w.toString())
-		self.printLinkCosts( _wlinks )
+		# self.debugLinks( _wlinks )
+	
 	
 	#MARK: - DEBUG
+	# Link input at start
+	def printLinkInput( self, _wlinks ):
+		print("Printing links weights for input:")
+		print("\t _wlinks = "),
+		for w in _wlinks:
+			print('\t' + w.toString())
+		self.printLinkCosts( _wlinks )
+	# Created links at end
 	def printLinkCosts( self, _wlinks ):
 		print("\n")
 		for weightedLink in _wlinks:
@@ -85,3 +91,7 @@ class LinkTopo( Topo ):
 			w = weightedLink.weight
 			print("\tCost of link (s%s <-> s%s): %s" % (i, j, w))
 		print('\n\n')
+	
+	def debugLinks( self, _wlinks ):
+		self.printLinkInput( _wlinks )
+		self.printLinkCosts( _wlinks )

@@ -14,6 +14,11 @@ from mininet.log import lg as mnLog
 
 # Logger formats and displays log messages
 class TestNetLogger:
+	def __init__( self ):
+		self.setLogLevel( 'info' )
+	def setLogLevel( self, level = 'info' ):
+		mnLog.setLogLevel( level )
+
 	# Log runtime error messages
 	def __error__( self, content, pre, post ):
 		mnLog.error(pre + content + post)
@@ -44,14 +49,10 @@ class TestNetLogger:
 	def ok( self, content ):
 		self.__info__(content, '>> OK: ', '\n')
 	
-	def setLogLevel( self, level = 'info' ):
-		mnLog.setLogLevel( level )
-	
 
 # Shared TestNet instance
 #   Usage: log.info("message")
 log = TestNetLogger()
-
 
 
 

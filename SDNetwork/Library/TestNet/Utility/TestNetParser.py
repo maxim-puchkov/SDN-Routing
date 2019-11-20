@@ -19,7 +19,8 @@ class TestNetParser:
 	def __init__( self ):
 		self._maxArgc = 2
 	# Input is valid if 2 arguments are provided (string '*/TestNet*.py' and a number)
-	def validate( self, argc ):
+	def validate( self, argv ):
+		argc = len(argv)
 		return ( argc == self._maxArgc )
 	
 	# Get argument
@@ -71,14 +72,3 @@ class TestNetParser:
 
 # Shared TestNet instance
 parser = TestNetParser()
-
-#	## Preset index
-#	def getIndex( self, argv ):
-#		return self.safeGet( argv, 1, int )
-#		maxIndex = selector.presetsSize() - 1
-#		if ( index > maxIndex ):
-#			log.errorln(("Input index (%s) " % index) + \
-#						("is out of bounds (max: %s). " % maxIndex) + \
-#						"Resetting index to 0.")
-#			return 0
-#		return index

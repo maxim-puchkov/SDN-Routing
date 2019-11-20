@@ -33,7 +33,7 @@ class TestNetSelectionGroup:
 	
 	# Select an item by its index
 	def select( self, index ):
-		return self._group[ ( index - self.elementOffset )  % self.size()]()
+		return self._group[ ( index - self.elementOffset )  % self.size()]
 	
 	#MARK: - Selection range
 	def min( self ):
@@ -46,15 +46,3 @@ class TestNetSelectionGroup:
 	
 	def range( self ):
 		return ( self.min(), self.max() )
-
-
-
-
-
-#	def _getDebugPreset(self, index):
-#		return debugPresets[index % len(debugPresets)]
-#	def _getMainPreset(self, index):
-#		return mainPresets[index % len(mainPresets)]
-
-# Shared TestNet instance
-#selector = PresetSelector()

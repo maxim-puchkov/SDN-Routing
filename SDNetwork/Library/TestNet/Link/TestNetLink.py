@@ -12,6 +12,7 @@
 from mininet.link import Link
 
 
+# Not used
 class WeightedLink( Link ):
 
 	def __init__( self, node1, node2, weight, **_kwargs ):
