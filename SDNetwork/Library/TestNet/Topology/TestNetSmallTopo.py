@@ -18,7 +18,7 @@ class SmallTopo( LinkTopo ):
 	displayName = 'Small Topology'
 	
 	def build( self ):
-		switches = 6
+		_switches = 6
 		hostsPerSwitch = 2
 		linkWeights = wlinks(
 			((1, 2), 2), ((1, 3), 5), ((1, 4), 1),
@@ -27,4 +27,4 @@ class SmallTopo( LinkTopo ):
 			((4, 5), 1),
 			((5, 6), 2)
 		)
-		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
+		LinkTopo.build( self, _switches, hostsPerSwitch, linkWeights )

@@ -13,6 +13,7 @@ from mininet.net import Mininet # MininetWithControlNet
 from mininet.cli import CLI
 
 from Logger import log
+from Link import WeightedLink
 from Topology import TinyTopo, SmallTopo, LargeTopo
 from Utility import TestNetSelectionGroup
 
@@ -29,9 +30,12 @@ class TestNetEnvironment( Mininet ):
 		#Mininet.__init__( self, _kwargs )
 		log.done("Initialized TestNetEnvironment<%s>." % id(self))
 	
-	def prepare( self, **_kwargs ):
-		self = Mininet.__init__( self, _kwargs )
-		
+	
+	def start( self, topo, link ):
+		self = Mininet.__init__( self, topo = topo, link = link )
 	
 	
 	
+	
+#	def prepare( self, **_kwargs ):
+#		self = Mininet.__init__( self, _kwargs )

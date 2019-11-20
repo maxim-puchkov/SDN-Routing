@@ -34,10 +34,10 @@ class TestNetParser:
 			return ''
 	## Name of the executable
 	def getFilename( self, argv ):
-		return safeGet( argv, 0 )
+		return self.safeGet( argv, 0 )
 	## Preset index
 	def getIndex( self, argv ):
-		return safeGet( argv, 1, int )
+		return int(self.safeGet( argv, 1 ))
 	## List of all arguments (noexcept)
 	def getAll( self, argv ):
 		# Get filename
@@ -74,7 +74,7 @@ parser = TestNetParser()
 
 #	## Preset index
 #	def getIndex( self, argv ):
-#		return safeGet( argv, 1, int )
+#		return self.safeGet( argv, 1, int )
 #		maxIndex = selector.presetsSize() - 1
 #		if ( index > maxIndex ):
 #			log.errorln(("Input index (%s) " % index) + \

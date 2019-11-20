@@ -33,8 +33,7 @@ class TinyTopo( LinkTopo ):
 	
 	def build( self ):
 		switches = 4
-		hostsPerSwitch = 2
-		#links = {1: (2, 3, 4), 2: (1, 4), 3: (1, 4), 4: (1, 2, 3)}
+		hostsPerSwitch = 1
 		linkWeights = wlinks(
 			((1, 2), 2), ((1, 3), 1), ((1, 4), 2),
 			((2, 4), 3),

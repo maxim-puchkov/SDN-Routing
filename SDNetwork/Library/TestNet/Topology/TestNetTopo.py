@@ -16,40 +16,41 @@ from Link import *
 
 # LinkTopo is a network topology with
 #   n:      swtiches
-#   k:      hosts per every switch
-#   wlinks: link costs from every switch to its
-#           directly connected switches
+#   k:      _hosts per every switch
+#   _wlinks: link costs from every switch to its
+#           directly connected _switches
 class LinkTopo( Topo ):
 
-	def build( self, n, k, wlinks = {}, **_kwargs ):
-		#MARK: - Switches
+	def build( self, n, k, _wlinks = {}, **_kwargs ):
+		#MARK: - _switches
 		## Get switch by index: s(1) = Switch 's1'
 		def s( index ):
-			return self.switches[index - 1]
-		## Create n switches
-		def addSwitches():
+			return self._switches[index - 1]
+		## Create n _switches
+		def add_switches():
 			return [ self.addSwitch( 's%s' % i )
 				for i in irange( 1, n ) ]
-		# Create all wlinks between switches (with cost)
+		# Create all _wlinks between _switches (with cost)
 		def addSwitchLinks():
 			switchLinks = []
-			for weightedLink in wlinks:
+			for weightedLink in _wlinks:
 				(i, j) = weightedLink.nodes
 				w = weightedLink.weight
-				link = self.addLink( s(i), s(j), weight = w)
+				link = self.addLink( s(i), s(j), loss = (w - 1) )
+				print(link)
 				switchLinks.append( link )
 			return switchLinks
 		
-		#MARK: - Hosts
+		#MARK: - _hosts
 		## Get host by index: h(1) = Host 'h1'
 		def h( index ):
-			return self.hosts[index - 1]
-		## Create (n * k) hosts
-		def addHosts():
+			return self._hosts[index - 1]
+		## Create (n * k) _hosts
+		def add_hosts():
 			h = n * k
 			return [ self.addHost( 'h%s' % i )
 				for i in irange( 1, h )]
-		## Create k wlinks from hosts to every switch (no cost)
+		## Create k _wlinks from _hosts to every switch (no cost)
 		def addHostLinks():
 			hostLinks = []
 			for i in irange( 1, n ):
@@ -57,25 +58,27 @@ class LinkTopo( Topo ):
 				first = last - k + 1
 				for j in irange( first, last ):
 					link = self.addLink( s(i), h(j) )
+					print(link)
 					hostLinks.append( link )
 			return hostLinks
 		
-		# Add all nodes and wlinks
-		self.switches = addSwitches()
-		self.hosts = addHosts()
-		self.links = addSwitchLinks() + addHostLinks()
+		# Add all nodes and _wlinks
+		self._switches = add_switches()
+		self._hosts = add_hosts()
+		self._slinks = addSwitchLinks()
+		self._hlinks = addHostLinks()
 
 
 		# Debug display
 		print("Printing links weights for input:")
-		print("\t wlinks = "),
-		for w in wlinks: print(w.toString())
-		self.printLinkCosts( wlinks )
+		print("\t _wlinks = "),
+		for w in _wlinks: print(w.toString())
+		self.printLinkCosts( _wlinks )
 	
 	#MARK: - DEBUG
-	def printLinkCosts( self, wlinks ):
+	def printLinkCosts( self, _wlinks ):
 		print("\n")
-		for weightedLink in wlinks:
+		for weightedLink in _wlinks:
 			(i, j) = weightedLink.nodes
 			w = weightedLink.weight
 			print("\tCost of link (s%s <-> s%s): %s" % (i, j, w))

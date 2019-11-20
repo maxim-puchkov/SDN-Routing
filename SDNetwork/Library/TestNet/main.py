@@ -9,13 +9,20 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
+from mininet.topo import *
+
 from Logger import log
 from Topology import *
 from Link import wlink # makeRawWeightedLink as wlink
 from Environment import *
 #from Presets import selector
 from Utility import display, parser, launcher
+from LSRouting import dijkstra
+
 import sys
+
+#sys.path.insert(1, '../LSRouting')
+#import dijkstra
 
 
 def inRange( value, valueRange ):
@@ -55,19 +62,22 @@ def main( argc, *argv ):
 	# Create a test network environment instance
 	env = TestNetEnvironment()
 	
-	# 1. Read index or ask for input, then select the Topology
+	# 1. Read index or ask for input, then select the topology
 	index = getNetworkTopologyIndex( argv, env.allTopologies.range() )
-	topo = env.allTopologies.select( index )
-	display.message('Selected network: %s (index: %s)' % (topo.displayName, index))
-	
-	# 2. Start the network
+	selectedTopo = env.allTopologies.select( index )
+	display.message('Selected network: %s (index: %s)' % (selectedTopo.displayName, index))
 	
 	
-	# tests
-	__topo1 = TinyTopo()
-	__topo2 = SmallTopo()
-	__topo3 = LargeTopo()
-
+	
+	# Create and start Mininet with the selected topology
+	net = Mininet( topo = selectedTopo )
+	net.start()
+	CLI( net )
+	
+	
+	# Stop Mininet and exit
+	net.stop()
+    
 	
 if __name__ == '__main__':
 	argc = len(sys.argv)

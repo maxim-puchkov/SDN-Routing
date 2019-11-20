@@ -21,7 +21,7 @@ class LargeTopo( LinkTopo ):
 	displayName = 'Large Topology'
 	
 	def build( self ):
-		switches = 0 #!
+		_switches = 0 #!
 		hostsPerSwitch = 0 #!
 		linkWeights = () #!
-		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
+		LinkTopo.build( self, _switches, hostsPerSwitch, linkWeights )

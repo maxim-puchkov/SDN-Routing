@@ -33,7 +33,7 @@ class TestNetSelectionGroup:
 	
 	# Select an item by its index
 	def select( self, index ):
-		return self._group[ ( index - self.elementOffset )  % self.size()]
+		return self._group[ ( index - self.elementOffset )  % self.size()]()
 	
 	#MARK: - Selection range
 	def min( self ):
