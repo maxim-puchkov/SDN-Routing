@@ -62,21 +62,22 @@ def main( argc, *argv ):
 	display.section("Cleaning up")
 	env.clean()
 	display.section("Building Topology Preset")
-	net = env.launcher.prepareNetwork( preset = selectedTopoPreset )
+	env.prepare( selectedTopoPreset )
 	# 5. Launch the network
 	display.section("Starting Network")
-	env.launcher.startNetwork( net )
+#	env.launcher.startNetwork( net )
+	env.start()
 	# 6. Test 1: Destination Host Unreachable
 	display.section("Wait: Performing Host Reachability Test 1...")
-	stat = env.netstat.hostReachability( net )
-	display.highlight(stat)
+#	stat = env.netstat.hostReachability()
+#	display.highlight(stat)
 	
 	
 	
 	#MARK: - Compute the Paths, Create Flow Tables, and do the Second Test
 	# 7. Get the switches and link weights
-	switches = net.topo.switches()
-	linkWeights = net.topo._slinks
+	switches = env.net.topo.switches()
+	linkWeights = env.net.topo._slinks
 	num = lambda switch : int( switch[1:] )
 	# 8. Run LS Routing algorithm
 	display.section("Wait: Running Link-State Routing algorithm...")
@@ -89,8 +90,8 @@ def main( argc, *argv ):
 	
 	# 10. Test 2: OK
 	display.section("Wait: Performing Host Reachability Test 2...")
-	stat2 = env.netstat.hostReachability( net )
-	display.highlight(stat2)
+#	stat2 = env.netstat.hostReachability( net )
+#	display.highlight(stat2)
 	
 	
 	
@@ -116,24 +117,27 @@ def main( argc, *argv ):
 	#MARK: - Command Line Interface
 	# N. Start the CLI to run other tests
 	display.section("Starting Command Line Interface")
-	env.launcher.enableCommandLineInterface( net )
+	env.startCLI()
+#	env.launcher.enableCommandLineInterface( net )
+	
 	
 	
 	#MARK: - Stop Network Simulation
 	# N. Stop network
 	display.section("Shutting down")
-	env.launcher.stopNetwork( net )
+	env.stop()
 	
 	
 
 
 if __name__ == '__main__':
-	try:
-		argc = len(sys.argv)
-		main( argc, sys.argv )
-	except:
-		print('\n\nException caught: ')
-		print(sys.exc_info()[0])
+	argc = len( sys.argv )
+	main( argc, sys.argv )
+#	try:
+#
+#	except:
+#		print('\n\nException caught: ')
+#		print(sys.exc_info()[0])
 		
 
 

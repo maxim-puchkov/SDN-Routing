@@ -10,14 +10,14 @@
 #
 
 from mininet.clean import cleanup
-from TestNet.Topology import TinyTopo, SmallTopo, LargeTopo
+from TestNet.Topology import * # TinyTopo, SmallTopo, LargeTopo
 from TestNet.Logger import log
 from TestNet.Utility import *
 
 
 # Three default Topology presets
 def defaultPresetGroup():
-	group = ( TinyTopo, SmallTopo, LargeTopo )
+	group = ( TinyTopo, SmallTopo, LargeTopo, BabyTopo )
 	return TestNetSelectionGroup( group )
 
 # Check a value is within (min, max) value range
@@ -25,37 +25,54 @@ def inRange( value, valueRange ):
 	(min, max) = valueRange
 	return ( value >= min and value <= max )
 
-def ping( h1, h2, c = 1 ):
-	return h1.cmd( 'ping -c %s %s' % (c, h2.IP()) )
+# Ping a node from another node
+def ping( n1, n2, c = 1 ):
+	return n1.cmd( 'ping -c %s %s' % (c, n2.IP()) )
 	
 	
-# Analyze and test network simulation
-class TestNetEnvironmentStatistics:
-	
-	
-	# Test if two hosts can ping each other
-	def hostReachability( self, network ):
-		first = network.hosts[0]
-		last = network.hosts[len(network.hosts) - 1]
-		return ping( first, last ), ping( last, first )
-		
 
 #
 class TestNetEnvironment:
 	def __init__(self):
 		self.launcher = TestNetLauncher()
 		self.presetTopologies = defaultPresetGroup()
-		self.netstat = TestNetEnvironmentStatistics()
 	
 	# Remove previous mininet data
 	def clean( self ):
 		cleanup()
 		log.infoln("Cleaned up old files")
 	
+	def prepare( self, preset ):
+		self.net = self.launcher.prepareNetwork( preset )
+		self.netstat = TestNetEnvironment.NetworkStatistics( self.net )
+	
+	def start( self ):
+		self.launcher.startNetwork( self.net )
+		
+	def stop( self ):
+		self.launcher.stopNetwork( self.net )
+	
+	def startCLI( self ):
+		self.CLI = TestNetEnvCLI( self.net )
+	
+	
+	class NetworkStatistics:
+		def __init__( self, network ):
+			self.network = network
+		
+		def hostReachability( self ):
+			n = self.network
+			first = n.hosts[0]
+			last = n.hosts[len( n.hosts ) - 1]
+			return ping( first, last ), ping( last, first )
+		#
+		def switchReachability( self ):
+			n = self.network
+			first = n.switches[0]
+			last = n.switches[len( n.switches ) - 1]
+			return ping( first, last ), ping( last, first )
+	
 	# Get the index of one of the three networks to start.
-	#   index 1: 'TinyNetwork', 4 switches s1-s4, 5 links
-	#   index 2: 'SmallNetwork', 6 switches s1-s6, 10 links
-	#   index 3: 'LargeNetwork',
 	def getNetworkTopologyIndex( self, argv, indexRange ):
 		# Default preset index (index starts at 1).
 		(minIndex, maxIndex) = indexRange

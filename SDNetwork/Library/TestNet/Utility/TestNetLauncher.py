@@ -11,7 +11,9 @@
 
 from mininet.net import Mininet
 from mininet.cli import CLI
+from mininet.node import RemoteController
 from mininet.clean import Cleanup
+from mininet.link import TCLink
 from TestNet.Topology import *
 from TestNet.Logger import log
 
@@ -32,7 +34,13 @@ class TestNetLauncher:
 	def prepareNetwork( self, preset, **kwargs ):
 		log.do("Prepare TestNet.")
 		topo = preset()
-		network = Mininet( topo, **kwargs )
+		network = Mininet(
+			topo,
+			controller = RemoteController( 'c0', ip = '127.0.0.1', port = 6653 ),
+			link = TCLink,
+			autoSetMacs = True,
+			**kwargs
+		)
 		log.infoln("Built TestNet topology from template class %s" % type(topo))
 		log.done("Network<id%s> is ready to start." % id(network))
 		return network
@@ -46,7 +54,7 @@ class TestNetLauncher:
 	def startInteractiveNetwork( self, network ):
 		log.do("Start Network<id%s> with CLI." % id(network))
 		network.start()
-		CLI( network )
+		self.enableCommandLineInterface( network )
 	
 	# Stop an active network
 	def stopNetwork( self, network ):

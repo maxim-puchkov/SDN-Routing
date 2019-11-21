@@ -9,9 +9,7 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
-from .TestNetTopo import *
-from .TestNetTinyTopo import *
-from .TestNetSmallTopo import *
-from .TestNetLargeTopo import *
-from .TestNetEnvironment import *
 from .TestNetRawLink import *
+from .TestNetTopo import *
+from .TestNetEnvCLI import *
+from .TestNetEnvironment import *

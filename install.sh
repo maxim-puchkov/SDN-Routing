@@ -7,24 +7,6 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 
 
-# Relative to install.sh directory
-REL=$(dirname $0)
-
-# Copy SDNetwork with TestNet and LinkStateRouting to VM
-BUNDLE_DISPLAY_NAME="SDNetwork"
-NET_LIB="TestNet"
-LSR_LIB="Routing"
-BUNDLE_DIR="${REL}/../${BUNDLE_DISPLAY_NAME}"
-
-# ./installnet.sh <VM IP address>
-# Default IP: 192.168.56.3
-VM_IP="${1:-192.168.56.3}"
-VM_BUNDLE_DIR="~/${BUNDLE_DISPLAY_NAME}"
-
-# Names of executables scripts
-SETUP="setup.sh"
-RUN="run.py"
-
 __done__() {
     tput setaf 2; tput bold; echo -e "\nAll components were successfully installed"; tput sgr0;
 }
@@ -36,9 +18,42 @@ __cmd__() {
 }
 
 
+# Run the script from project parent folder
+REL=$(dirname $0)
+BUNDLE_ROOT=$(dirname $REL)
+BUNDLE_NAME="${REL##*/}"
+if [[ "${BUNDLE_NAME}" == "." ]]; then
+	__error__
+	echo "To install the files correcrly, run the script from the parent folder: "
+	echo "	cd ../"
+	echo "	./ProjectName/install.sh"
+	echo
+	exit 1
+fi;
+BUNDLE_DIR="${BUNDLE_ROOT}/${BUNDLE_NAME}"
+
+
+
+
+# ./install.sh <VM IP address>
+# Default IP: 192.168.56.3
+VM_IP="${1:-192.168.56.3}"
+VM_BUNDLE_DIR="~/${BUNDLE_NAME}"
+VAR="${VM_BUNDLE_DIR}/var"
+
+
+# Copy TestNet and LinkStateRouting to VM
+NET_LIB="TestNet"
+LSR_LIB="Routing"
+
+# Names of executables scripts
+SETUP="setup.sh"
+RUN="run.py"
+
+
 remove_bundle() {
-    echo "Removing old SDNetwork files..."
-    ( ssh mininet@${VM_IP} "if [ -d ${VM_BUNDLE_DIR} ]; then rm -r ${VM_BUNDLE_DIR}; fi; " \
+    echo "Removing old ${BUNDLE_NAME} files..."
+    ( ssh mininet@${VM_IP} "if [ -d ${VM_BUNDLE_DIR} ]; then sudo rm -r ${VM_BUNDLE_DIR}; fi;" \
     && echo "Deleted the '${VM_BUNDLE_DIR}' directory." )
 }
 copy_bundle() {
@@ -56,9 +71,15 @@ set_privilege() {
 }
 
 
+display_broadcast() {
+    MSG="Installing..."
+    echo -e "\t"$MSG | write $USER
+}
+
+
 show_info() {
     __done__
-    echo -e "Installed ${BUNDLE_DISPLAY_NAME} packages:"
+    echo -e "Installed ${BUNDLE_NAME} packages:"
     echo -e "\t$(__cmd__ ${NET_LIB}): Create and test simulated SDNs"
     echo -e "\t$(__cmd__ ${LSR_LIB}): Compute least-cost paths in a simulated SDN"
 
@@ -72,8 +93,8 @@ show_info() {
 }
 
 install() {
-    echo ">> Running $(__cmd__ 'installnet') utility..."
+    echo ">> Running $(__cmd__ 'install') utility..."
     ( (remove_bundle && copy_bundle && set_privilege && install_packages && show_info) || (__error__) )
 }
 
-install
+install "${BUNDLE_NAME}"
