@@ -106,12 +106,13 @@ class TestNetDisplay:
 	# Selection menu of available networks
 	def networkSelectionMenu( self ):
 		# Colorize network names
-		nets = colorizeEach(['Tiny Network', 'Small Network', 'Large Network'], UITextStyle.Color.lightcyan)
+		nets = colorizeEach(['Tiny Network', 'Small Network', 'Large Network', 'Baby Network'], UITextStyle.Color.lightcyan)
 		# Display the menu
-		displaySubtitle("Choose one of the three network environments:")
+		displaySubtitle("Choose one of the network environments:")
 		displayText('1. %s (default) - network with 4 switches and 5 links.' % nets.pop())
 		displayText('2. %s - network with 6 switches and 10 links.' % nets.pop())
 		displayText('3. %s - ...' % nets.pop())
+		displayText('4. %s - smallest network with 3 switches, 6 hosts, and 3 links' % nets.pop())
 		displayFootnote('(see network diagrams in the project definition)')
 	
 

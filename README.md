@@ -26,26 +26,33 @@ Project implements two modules:
 
 ## Installation Guide
 
-Clone this repository or download archived source code.
-
-	git clone git@csil-git1.cs.surrey.sfu.ca:471-project-6/sdn-routing.git
-
 Start Mininet virtual machine and login. For example,
 
-	ssh -Y mininet@192.168.56.3
+	$ ssh -Y mininet@192.168.56.3
 
-In the project's main directory _(renamed to SDNetwork)_, run the `instalnet.sh` script. It will copy all local files in SDNetwork folder to the VM's home directory and install both **TestNet** and **LSRouting** modules. You can specify the IP address of the VM: `installnet.sh <IP>` (default = 192.168.56.3).
+Clone this repository or download archived source code on your computer. 
 
-	cd SDNetwork
-	./installnet.sh 
+	$ git clone git@csil-git1.cs.surrey.sfu.ca:471-project-6/sdn-routing.git
 
+__From the same folder__, run the `install.sh` script. You can specify the IP address of the VM: `install.sh <IP>` (default = 192.168.56.3) if necessary. 
+
+	./sdn-routing/install.sh 
+	./sdn-routing/install.sh 192.168.56.3
+	
+The script will copy all local files in SDNetwork folder to the VM's home directory. Then **TestNet** and **LSRouting** Python modules will be remotely setup
+	
+	Installed /usr/local/lib/python2.7/dist-packages/TestNet-1.0-py2.7.egg
+	Installed /usr/local/lib/python2.7/dist-packages/LSRouting-1.0-py2.7.egg
+	
+When the sc
+	
 	All components were successfully installed
 	Installed SDNetwork packages:
 		TestNet: Create and test simulated SDNs
 		Routing: Compute least-cost paths in a simulated SDN
 	
 	Now you can create test networks by running:
-		~/SDNetwork/run.py: create a test network (run as root).
+		~/sdn-routing/run.py: create a test network (run as root).
 		
 You can verify installation by listing the contents of home directory. Installed SDNetwork directory will appear there. 
 

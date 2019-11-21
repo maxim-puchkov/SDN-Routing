@@ -53,8 +53,7 @@ RUN="run.py"
 
 remove_bundle() {
     echo "Removing old ${BUNDLE_NAME} files..."
-    ( ssh mininet@${VM_IP} "if [ -d ${VM_BUNDLE_DIR} ]; then rm -r ${VM_BUNDLE_DIR}; fi; \
-    if [ -d ${VAR} ]; then sudo rm -r ${VAR}; fi; " \
+    ( ssh mininet@${VM_IP} "if [ -d ${VM_BUNDLE_DIR} ]; then sudo rm -r ${VM_BUNDLE_DIR}; fi;" \
     && echo "Deleted the '${VM_BUNDLE_DIR}' directory." )
 }
 copy_bundle() {

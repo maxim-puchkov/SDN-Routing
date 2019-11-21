@@ -13,6 +13,9 @@ from mininet.topo import Topo
 from mininet.util import irange
 from TestNetRawLink import *
 
+#from itertools import izip_longest
+
+import itertools
 
 # LinkTopo is a network topology with
 #   n:      swtiches
@@ -20,9 +23,9 @@ from TestNetRawLink import *
 #   _wlinks: link costs from every switch to its
 #           directly connected _switches
 class LinkTopo( Topo ):
-
+	
 	def build( self, n, k, _wlinks = {}, **_kwargs ):
-		#MARK: - _switches
+		#MARK: - Switches
 		## Get switch by index: s(1) = Switch 's1'
 		def s( index ):
 			return self._switches[index - 1]
@@ -40,7 +43,7 @@ class LinkTopo( Topo ):
 				switchLinks.append( link )
 			return switchLinks
 		
-		#MARK: - _hosts
+		#MARK: - Hosts
 		## Get host by index: h(1) = Host 'h1'
 		def h( index ):
 			return self._hosts[index - 1]
@@ -59,16 +62,22 @@ class LinkTopo( Topo ):
 					link = self.addLink( s(i), h(j), key = ( i, j ) )
 					hostLinks.append( link )
 			return hostLinks
+			
 		
 		# Add all nodes and _wlinks
 		self._switches = add_switches()
 		self._hosts = add_hosts()
 		self._slinks = addSwitchLinks() # switch links
 		self._hlinks = addHostLinks() # host links
-
-
 		# Debug display
 		# self.debugLinks( _wlinks )
+	
+	
+	def nHosts( self ):
+		return len( self._hosts )
+		
+	def nSwitches( self ):
+		return len( self._switches )
 	
 	
 	#MARK: - DEBUG
@@ -95,7 +104,43 @@ class LinkTopo( Topo ):
 
 
 
-#MARK: - Custom Topology Presets 
+
+def nodeGroup(n, iterable, fillvalue=None):
+	args = [iter(iterable)] * n
+	return itertools.izip_longest(*args, fillvalue=fillvalue)
+
+#MARK: - Custom Topology Presets
+# The smallest topology with 3 switches
+# (assignment 2 question 1)X
+class BabyTopo( Topo ):
+	displayName = 'Baby Topo'
+	
+	def setHostIPs( self ):
+		for host in self.hosts:
+			host.setIP('1.1.1.1')
+	
+	def build( self ):
+		
+		hPair = lambda i : (self.addHost('h%s' % i), self.addHost('h%s' % (i+1)))
+		(s1, s2) = hPair(1)
+		
+		
+		switches = 3
+		hostsPerSwitch = 2
+		linkWeights = wlinks(
+			((1, 2), 4), ((1, 3), 1),
+			((2, 3), 2),
+		)
+		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
+		
+		base = 6
+		ip = '10.'
+		for (i, j) in nodeGroup( hostsPerSwitch, self.hosts() ):
+			print('ok', i, j)
+		
+		
+
+
 # Tiny Topology (Example Network 1)
 # Network with 4 switches, with 5 bidirectional links.
 #
@@ -131,7 +176,7 @@ class SmallTopo( LinkTopo ):
 	
 	def build( self ):
 		_switches = 6
-		hostsPerSwitch = 2
+		hostsPerSwitch = 1
 		linkWeights = wlinks(
 			((1, 2), 2), ((1, 3), 5), ((1, 4), 1),
 			((2, 3), 3), ((2, 4), 2),
@@ -140,6 +185,7 @@ class SmallTopo( LinkTopo ):
 			((5, 6), 2)
 		)
 		LinkTopo.build( self, _switches, hostsPerSwitch, linkWeights )
+
 
 
 # Large Topology (Example Network 3)
