@@ -39,6 +39,10 @@ class TestNetEnvironmentStatistics:
 		last = network.hosts[len(network.hosts) - 1]
 		return ping( first, last ), ping( last, first )
 		
+	def switchReachability( self, network ):
+		first = network.hosts[0]
+		last = network.hosts[len(network.hosts) - 1]
+		return ping( first, last ), ping( last, first )
 
 #
 class TestNetEnvironment:

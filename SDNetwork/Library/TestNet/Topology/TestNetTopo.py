@@ -32,17 +32,13 @@ class LinkTopo( Topo ):
 				for i in irange( 1, n ) ]
 		# Create all _wlinks between _switches (with cost)
 		def addSwitchLinks():
-			link1 = self.addLink( s(1), s(2), port1 = 1, port2 = 1, key = ( 1, 2, 1 ) )
-			link2 = self.addLink( s(1), s(3), port1 = 2, port2 = 1, key = ( 1, 3, 1 ) )
-			link3 = self.addLink( s(2), s(3), port1 = 2, port2 = 2, key = ( 2, 3, 1 ) )
-			return [link1, link2, link3]
-#			switchLinks = []
-#			for weightedLink in _wlinks:
-#				(i, j) = weightedLink.nodes
-#				w = weightedLink.weight
-#				link = self.addLink( s(i), s(j), port1 = i, port2 = j, key = ( i, j, w ) )
-#				switchLinks.append( link )
-#			return switchLinks
+			switchLinks = []
+			for weightedLink in _wlinks:
+				(i, j) = weightedLink.nodes
+				w = weightedLink.weight
+				link = self.addLink( s(i), s(j), key = ( i, j, w ) )
+				switchLinks.append( link )
+			return switchLinks
 		
 		#MARK: - _hosts
 		## Get host by index: h(1) = Host 'h1'
@@ -53,7 +49,7 @@ class LinkTopo( Topo ):
 			h = n * k
 			return [ self.addHost( 'h%s' % i )
 				for i in irange( 1, h )]
-		## Create k _wlinks from _hosts to every switch (no cost)
+		## Create k _wlinks from _hosts to every switch (no cost)h1
 		def addHostLinks():
 			hostLinks = []
 			for i in irange( 1, n ):
@@ -97,6 +93,9 @@ class LinkTopo( Topo ):
 		self.printLinkCosts( _wlinks )
 
 
+
+
+#MARK: - Custom Topology Presets 
 # Tiny Topology (Example Network 1)
 # Network with 4 switches, with 5 bidirectional links.
 #

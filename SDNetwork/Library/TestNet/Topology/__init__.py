@@ -10,8 +10,5 @@
 #
 
 from .TestNetTopo import *
-from .TestNetTinyTopo import *
-from .TestNetSmallTopo import *
-from .TestNetLargeTopo import *
 from .TestNetEnvironment import *
 from .TestNetRawLink import *
