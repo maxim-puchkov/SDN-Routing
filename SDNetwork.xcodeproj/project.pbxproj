@@ -164,6 +164,7 @@
 		841EC10D2381E2CE00C35210 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				84F494CC2384D0560002A873 /* dijkstra.py */,
 				841EC1102381E2CE00C35210 /* __init__.py */,
 				841EC10E2381E2CE00C35210 /* TestNetLauncher.py */,
 				84619D1D2383955E00BF89C1 /* TestNetDisplay.py */,
@@ -219,7 +220,6 @@
 			children = (
 				8459FBC62385AA8B009DC2FD /* setup.py */,
 				84F494CB2384D0560002A873 /* __init__.py */,
-				84F494CC2384D0560002A873 /* dijkstra.py */,
 			);
 			path = LSRouting;
 			sourceTree = "<group>";

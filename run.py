@@ -24,7 +24,6 @@ from TestNet import *
 
 #sys.path.insert(1, '../LSRouting')
 #import dijkstra
-#from LSRouting import dijkstra
 
 # [   {s2: (switchX, switchY) }, {}   ] = (switch, [costs, ...])
 # for [ { }  ]
@@ -78,12 +77,17 @@ def main( argc, *argv ):
 	# 7. Get the switches and link weights
 	switches = env.net.topo.switches()
 	linkWeights = env.net.topo._slinks
-	num = lambda switch : int( switch[1:] )
 	# 8. Run LS Routing algorithm
 	display.section("Wait: Running Link-State Routing algorithm...")
+	print('Links:', linkWeights)
+	print('Switches: ', switches)
+	temp = []
+	for i in linkWeights:
+		temp.append(('s'+str(i[0]), 's'+str(i[1]), i[2]))
+	print(temp)
 	for s in switches:
-		# routes = dijkstra.get_routing_decision( num(s), linkWeights )
-		routes = [ {1: (2, 3, 4)}, {2: (3, 4, 5)}, {123: (4, 5, 6)} ]
+		print(s)
+		routes = get_routing_decision( s, temp )
 	display.message(routes)
 	# 9. Add flow table entries
 	# TODO: ...
