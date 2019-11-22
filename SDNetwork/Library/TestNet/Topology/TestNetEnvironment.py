@@ -45,6 +45,7 @@ class TestNetEnvironment:
 	def prepare( self, preset ):
 		self.net = self.launcher.prepareNetwork( preset )
 		self.netstat = TestNetEnvironment.NetworkStatistics( self.net )
+		self.flows = TestNetEnvironment.FlowTableManager( self.net.controller )
 	
 	def start( self ):
 		self.launcher.startNetwork( self.net )
@@ -56,6 +57,28 @@ class TestNetEnvironment:
 		self.CLI = TestNetEnvCLI( self.net )
 	
 	
+	# OpenFlow
+	class FlowTableManager:
+		shell = 'sh'
+		program = 'ovs-ofctl'
+		
+		def __init__( self, controller ):
+			self.controller = controller
+		
+		def do( self, ofCommand ):
+			shCommand = ' '.join( [self.shell, self.program, ofCommand] )
+			self.controller.cmd( shCommand )
+		
+		# Dump flows
+		def dump( self, switch ):
+			self.do( 'dump-flows ' + switch )
+		
+		# Add new flow
+		def add( self, switch, inputPort, protocol, address, actions ):
+			x = 1
+	
+	
+	# Statistics
 	class NetworkStatistics:
 		def __init__( self, network ):
 			self.network = network

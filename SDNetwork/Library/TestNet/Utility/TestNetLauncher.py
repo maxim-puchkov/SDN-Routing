@@ -11,7 +11,7 @@
 
 from mininet.net import Mininet
 from mininet.cli import CLI
-from mininet.node import RemoteController
+from mininet.node import RemoteController, NOX
 from mininet.clean import Cleanup
 from mininet.link import TCLink
 from TestNet.Topology import *
@@ -36,8 +36,8 @@ class TestNetLauncher:
 		topo = preset()
 		network = Mininet(
 			topo,
-			controller = RemoteController( 'c0', ip = '127.0.0.1', port = 6653 ),
-			link = TCLink,
+			controller = RemoteController( 'c0', ip = '127.0.0.1', port = 6653, xterms = True ),
+#			link = TCLink,
 			autoSetMacs = True,
 			**kwargs
 		)

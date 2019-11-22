@@ -62,7 +62,7 @@ copy_bundle() {
 }
 install_packages() {
     echo "Installing packages..."
-    ssh mininet@${VM_IP} "chmod 0755 ${VM_BUNDLE_DIR}/${SETUP} && sh ${VM_BUNDLE_DIR}/${SETUP}"
+    ssh mininet@${VM_IP} "chmod 0755 ${VM_BUNDLE_DIR}/${SETUP} && sh ${VM_BUNDLE_DIR}/${SETUP} ${BUNDLE_NAME}"
 }
 set_privilege() {
     echo "Setting file access privilege..."

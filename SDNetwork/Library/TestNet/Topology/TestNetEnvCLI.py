@@ -31,16 +31,38 @@ class TestNetEnvCLI( CLI ):
 		display.section("Showing all flows")
 		for s in self.mn.switches:
 			self.do( 'ovs-ofctl dump-flows %s' % s )
-
+	
+	def do_h1h2( self, _line ):
+		display.section("Adding test flows to Network 1 (h1 to h2)")
+		self.do( 'sudo ovs-ofctl add-flow s1 ip,ip_dst=10.0.0.2,actions=output:1' )
+		self.do( 'sudo ovs-ofctl add-flow s1 ip,ip_dst=10.0.0.1,actions=output:4' )
+		self.do( 'sudo ovs-ofctl add-flow s2 ip,ip_dst=10.0.0.1,actions=output:1' )
+		self.do( 'sudo ovs-ofctl add-flow s2 ip,ip_dst=10.0.0.2,actions=output:3' )
+		
+		self.do( 'sudo ovs-ofctl add-flow s1 arp,arp_tpa=10.0.0.2,actions=output:1' )
+		self.do( 'sudo ovs-ofctl add-flow s1 arp,arp_tpa=10.0.0.1,actions=output:4' )
+		self.do( 'sudo ovs-ofctl add-flow s2 arp,arp_tpa=10.0.0.1,actions=output:1' )
+		self.do( 'sudo ovs-ofctl add-flow s2 arp,arp_tpa=10.0.0.2,actions=output:3' )
+	
+	
+	
 	def do_testFlows1( self, _line ):
 		display.section("Adding test flows to Network 1 (h1 to h2)")
-		self.do( 'sudo ovs-ofctl add-flow s1 nw_dst=10.0.0.2,arp,actions=output:1' )
-		self.do( 'sudo ovs-ofctl add-flow s2 nw_dst=10.0.0.4,arp,actions=output:2' )
-		self.do( 'sudo ovs-ofctl add-flow s2 in_port=3,nw_dst=10.0.0.255,arp,actions=output:1' )
-		self.do( 'sudo ovs-ofctl add-flow s2 nw_dst=10.0.0.2,arp,actions=output:3' )
+		self.do( 'sudo ovs-ofctl add-flow s1 ip_dst=10.0.0.2,arp,actions=output:1' )
+		self.do( 'sudo ovs-ofctl add-flow s1 ip_dst=10.0.0.1,arp,actions=output:4' )
+		
+		self.do( 'sudo ovs-ofctl add-flow s2 ip_dst=10.0.0.4,arp,actions=output:2' )
+		self.do( 'sudo ovs-ofctl add-flow s2 ip_dst=10.0.0.1,arp,actions=output:1' )
+		self.do( 'sudo ovs-ofctl add-flow s2 ip_dst=10.0.0.2,arp,actions=output:3' )
 	
 	def do_traffic( self, _line ):
 		display.section("Monitoring sent and received packets of all hosts")
 		for h in self.mn.hosts:
 			h.cmd( 'tcpdump %s' % h.defaultIntf().name )
+	
+	def do_xterms( self, _line ):
+		for h in self.mn.hosts:
+			self.do( 'xterm %s' % h )
+		for s in self.mn.switches:
+			self.do( 'xterm %s' % s )
 

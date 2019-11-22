@@ -42,7 +42,7 @@ cleanup() {
 
 # Install TestNet and LSRouting
 install_packages() {
-	VM_LIBRARY="${VM_BUNDLE_DIR}/${BUNDLE_NAME}/Library"
+	VM_LIBRARY="${VM_BUNDLE_DIR}/SDNetwork/Library"
 	
 	TMP=~/${NET_LIB}
 	mv "${VM_LIBRARY}/${NET_LIB}" "${TMP}"

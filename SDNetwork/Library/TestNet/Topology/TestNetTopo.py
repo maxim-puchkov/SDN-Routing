@@ -59,7 +59,7 @@ class LinkTopo( Topo ):
 				last = i * k
 				first = last - k + 1
 				for j in irange( first, last ):
-					link = self.addLink( s(i), h(j), key = ( i, j ) )
+					link = self.addLink( s(i), h(j), key = ( i, j, 0 ) )
 					hostLinks.append( link )
 			return hostLinks
 			
@@ -112,31 +112,19 @@ def nodeGroup(n, iterable, fillvalue=None):
 #MARK: - Custom Topology Presets
 # The smallest topology with 3 switches
 # (assignment 2 question 1)X
-class BabyTopo( Topo ):
+class BabyTopo( LinkTopo ):
 	displayName = 'Baby Topo'
 	
-	def setHostIPs( self ):
-		for host in self.hosts:
-			host.setIP('1.1.1.1')
-	
 	def build( self ):
-		
-		hPair = lambda i : (self.addHost('h%s' % i), self.addHost('h%s' % (i+1)))
-		(s1, s2) = hPair(1)
-		
-		
-		switches = 3
-		hostsPerSwitch = 2
-		linkWeights = wlinks(
-			((1, 2), 4), ((1, 3), 1),
-			((2, 3), 2),
-		)
+		switches = 2
+		hostsPerSwitch = 1
+		linkWeights = wlinks( ((1, 2), 1) )
+#		linkWeights = wlinks(
+##			((1, 2), 1), ((1, 3), 1)
+##			((2, 3), 5)
+#		)
 		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
-		
-		base = 6
-		ip = '10.'
-		for (i, j) in nodeGroup( hostsPerSwitch, self.hosts() ):
-			print('ok', i, j)
+
 		
 		
 

@@ -19,6 +19,7 @@ import sys
 #import TestNet
 
 from TestNet import *
+from TestNet.Utility import *
 
 
 
@@ -29,9 +30,7 @@ from TestNet import *
 # for [ { }  ]
 
 
-
 	
-
 
 
 
@@ -77,17 +76,36 @@ def main( argc, *argv ):
 	# 7. Get the switches and link weights
 	switches = env.net.topo.switches()
 	linkWeights = env.net.topo._slinks
+
 	# 8. Run LS Routing algorithm
 	display.section("Wait: Running Link-State Routing algorithm...")
-	print('Links:', linkWeights)
-	print('Switches: ', switches)
-	temp = []
+	weights = []
 	for i in linkWeights:
-		temp.append(('s'+str(i[0]), 's'+str(i[1]), i[2]))
-	print(temp)
+		weights.append(('s'+str(i[0]), 's'+str(i[1]), i[2]))
+	#
+	
+	env.flows.dump('s1')
+	
 	for s in switches:
-		print(s)
-		routes = get_routing_decision( s, temp )
+		routes = get_routing_decision( s, weights )
+		print(routes)
+		for pathToDestination in routes:
+			(destination, path) = pathToDestination
+			print("PATH TO")
+			print(destination)
+			print(path)
+			# source = path[0]
+			
+		
+#		routes = get_routing_decision( s, temp )
+#		host
+#		(hostIntf, gatewayIntf) host.connectionsTo(src)[0]
+#
+#		src.IP()
+#		(srcIntf, dstIntf) = node.connectionsTo(nextNode)[0]
+#		# {dest: [src, node1, node2..., dst]}
+	
+	display.message("END")
 	display.message(routes)
 	# 9. Add flow table entries
 	# TODO: ...
