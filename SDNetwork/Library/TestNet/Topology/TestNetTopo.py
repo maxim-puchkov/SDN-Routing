@@ -114,16 +114,18 @@ def nodeGroup(n, iterable, fillvalue=None):
 # (assignment 2 question 1)X
 class BabyTopo( LinkTopo ):
 	displayName = 'Baby Topo'
-	brokenLink = ('s1', 's2')
+	problemLink = ('s1', 's2')
 #	exampleProblemLink = (
 	
 	def build( self ):
 		switches = 3
 		hostsPerSwitch = 1
 		linkWeights = wlinks(
-			((1, 2), 1), ((1, 3), 1)
+			((1, 2), 1), ((1, 3), 1),
 			((2, 3), 5)
 		)
+
+
 		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
 
 

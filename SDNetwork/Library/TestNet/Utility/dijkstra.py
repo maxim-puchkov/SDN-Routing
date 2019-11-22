@@ -1,5 +1,3 @@
-import math
-
 
 def node_with_least_cost(unvisited_switches_dic):
 	cost = float('inf')
@@ -8,7 +6,6 @@ def node_with_least_cost(unvisited_switches_dic):
 		if unvisited_switches_dic[i]<cost:
 			cost = unvisited_switches_dic[i]
 			node = i
-#	print("this cost", cost)
 	return node
 
 
@@ -59,7 +56,7 @@ def remove_duplicate(link_and_weight):#('switch1', 'switch2, weight)
 def get_route(start_node,end_node,predecessors):
 	temp = []
 	if end_node not in predecessors:
-#		print("node not reachable")
+		print("node not reachable")
 		return (start_node,[])
 	pred = predecessors[end_node]
 
@@ -82,8 +79,11 @@ def convert_to_string(link_and_weight):
 
 def get_routing_decision(start_node, link_and_weight, end_node = ""):#linl_and_weight: (node, node, weight)
 	#do a remove duplicate here
-	link_and_weight = remove_duplicate(link_and_weight)
 	link_and_weight = convert_to_string(link_and_weight)
+	link_and_weight = remove_duplicate(link_and_weight)
+
+	start_node = str(start_node)
+	end_node = str(end_node)
 	#print(link_and_weight)
 
 	visited_switches_dic = {}  # node:cost
@@ -104,15 +104,17 @@ def get_routing_decision(start_node, link_and_weight, end_node = ""):#linl_and_w
 		for i in range(len(link_and_weight)):
 			# find all links from current_node to adjacent nodes
 			if link_and_weight[i][0] == current_node and link_and_weight[i][1] in unvisited_switches_dic:
+				disconnected_graph = False
 				if visited_switches_dic[current_node] + link_and_weight[i][2] < unvisited_switches_dic[link_and_weight[i][1]]:
 					predecessors[link_and_weight[i][1]] = current_node
 					unvisited_switches_dic[link_and_weight[i][1]] = visited_switches_dic[current_node] + link_and_weight[i][2]
-					disconnected_graph = False
+
 			if link_and_weight[i][1] == current_node and link_and_weight[i][0] in unvisited_switches_dic:
+				disconnected_graph = False
 				if visited_switches_dic[current_node] + link_and_weight[i][2] < unvisited_switches_dic[link_and_weight[i][0]]:
 					predecessors[link_and_weight[i][0]] = current_node
 					unvisited_switches_dic[link_and_weight[i][0]] = visited_switches_dic[current_node] + link_and_weight[i][2]
-					disconnected_graph = False
+
 		if disconnected_graph == True:
 			break
 	if end_node == "":
@@ -125,9 +127,11 @@ def get_routing_decision(start_node, link_and_weight, end_node = ""):#linl_and_w
 		return get_route(start_node,end_node,predecessors)
 
 
+"""
+test = [(1, 2, 1000), (1, 3, 1), (1, 4, 2),
+			(2, 4, 3),
+			(3, 4, 3),(5,6,7)]
 
-
-
-
-
+print(get_routing_decision(1,test,7))
+"""
 
