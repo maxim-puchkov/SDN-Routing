@@ -80,10 +80,18 @@ You will be prompted to choose one of the preset networks.
 	 (see network diagrams in the project definition) 
 	 Input the index (1 to 3) of a network you want to test:  
     
+
 Upon selecting, the network will launch; next LSRouting algorithm will determine the shortest paths from hosts to hosts.
 The following tests will be conducted:
-    Test 1: Performing host reachability before adding flow tables
-    Test 2: Performing host reachability after adding flow tables
-    Test 3: Disable a link
-    Test 4: Recompute the Least-cost route and send data from hosts to hosts 
+    Test 1: Performing host reachability before adding flow tables.
+    Test 2: Performing host reachability after adding flow tables.
+    Test 3: Disable a link.
+    Test 4: Recompute the Least-cost route and send data from hosts to hosts. 
     
+
+## Goal of the Project
+    This project aims to simulate SDN LSRouting and data delivering using OpenFlow on small self-traffic network.
+
+## Authors
+    Maxim Puchkov
+    Xiyu Zhang
