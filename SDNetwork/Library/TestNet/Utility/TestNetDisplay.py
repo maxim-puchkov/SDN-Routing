@@ -101,6 +101,7 @@ class TestNetDisplay:
 		line = 0
 		for n in range( len(block) ):
 			printColored([n + 1, block[n]], UITextStyle.Color.yellow)
+			print('')
 			
 	
 	# Selection menu of available networks

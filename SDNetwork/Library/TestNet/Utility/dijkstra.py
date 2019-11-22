@@ -8,6 +8,7 @@ def node_with_least_cost(unvisited_switches_dic):
 		if unvisited_switches_dic[i]<cost:
 			cost = unvisited_switches_dic[i]
 			node = i
+#	print("this cost", cost)
 	return node
 
 
@@ -58,7 +59,7 @@ def remove_duplicate(link_and_weight):#('switch1', 'switch2, weight)
 def get_route(start_node,end_node,predecessors):
 	temp = []
 	if end_node not in predecessors:
-		print("node not reachable")
+#		print("node not reachable")
 		return (start_node,[])
 	pred = predecessors[end_node]
 

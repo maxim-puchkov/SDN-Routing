@@ -27,7 +27,8 @@ def inRange( value, valueRange ):
 
 # Ping a node from another node
 def ping( n1, n2, c = 1 ):
-	return n1.cmd( 'ping -c %s %s' % (c, n2.IP()) )
+	_command = 'ping -c%s %s' % (c, n2.IP())
+	return ( _command, n1.cmd(_command) )
 	
 	
 
@@ -58,7 +59,6 @@ class TestNetEnvironment:
 	
 	def prepare( self, preset ):
 		self.net = self.launcher.prepareNetwork( preset )
-		self.netstat = TestNetEnvironment.NetworkStatistics( self.net )
 		self.flows = TestNetEnvironment.FlowTableManager( self.net.controller )
 	
 	def start( self ):
@@ -89,28 +89,22 @@ class TestNetEnvironment:
 		
 		# Add new flow
 		def add( self, switch, dstIP, outPort ):
-			log.infoln("Adding new flow for switch %s to destination %s via port %s\n" % (switch, dstIP, outPort))
+			log.info("Switch %s\t dst=%s\t port=%s\n" % (switch, dstIP, outPort))
 			ret = [self.do( 'add-flow ' + switch + ' ip,nw_dst=' + dstIP + ',actions=output:' + str(outPort) )]
 			ret.append(self.do( 'add-flow ' + switch + ' arp,nw_dst=' + dstIP + ',actions=output:' + str(outPort) ))
 			return ret
+			
+		def clear( self, switch ):
+			return self.do( 'del-flows ' + switch )
+
 	
+	# Two hosts to test
+	def getTestHosts( self ):
+		return ( self.net.hosts[0], self.net.hosts[1] )
 	
-	# Statistics
-	class NetworkStatistics:
-		def __init__( self, network ):
-			self.net = network
-		
-		def hostReachability( self ):
-			n = self.net
-			first = n.hosts[0]
-			last = n.hosts[len( n.hosts ) - 1]
-			return ping( first, last ), ping( last, first )
-		#
-		def switchReachability( self ):
-			n = self.net
-			first = n.switches[0]
-			last = n.switches[len( n.switches ) - 1]
-			return ping( first, last ), ping( last, first )
+	# Testing network
+	def nodeReachability( self, n1, n2 ):
+		return ping( n1, n2 ), ping( n2, n1 )
 	
 	# Get the index of one of the three networks to start.
 	def getNetworkTopologyIndex( self, argv, indexRange ):
@@ -134,6 +128,20 @@ class TestNetEnvironment:
 				index = minIndex
 		return index
 	
-
-	
-	
+	# Disable the link between node1 and node2
+	def disableLink( self, linkNodeNames ):
+#		link.configLinkStatus()
+		(name1, name2) = linkNodeNames
+		node1 = self.getNode(name1)
+		node2 = self.getNode(name2)
+		link = self.net.linksBetween(node1, node2)[0]
+		prev = link
+		link.stop()
+		curr = link
+		
+		print(prev)
+		print(curr)
+		log.infoln("Link between nodes %s and %s is disabled" % (name1, name2))
+		return link
+#		self.configLinkStatus(n)
+		

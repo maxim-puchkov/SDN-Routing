@@ -11,32 +11,8 @@
 
 import sys
 
-#from Logger import log
-#from Topology import *
-##from Environment import TestNetEnvironment
-#from Utility import display, parser
-
-#import TestNet
-
 from TestNet import *
 from TestNet.Utility import *
-
-
-
-#sys.path.insert(1, '../LSRouting')
-#import dijkstra
-
-# [   {s2: (switchX, switchY) }, {}   ] = (switch, [costs, ...])
-# for [ { }  ]
-
-
-	
-
-
-
-
-
-
 
 
 # Main function
@@ -46,6 +22,8 @@ def main( argc, *argv ):
 	# 1. Create environment for creating, running, and testing
 	#    network simulations from presets
 	env = TestNetEnvironment()
+	display.section("Cleaning up")
+	env.clean()
 	# 2. Ask to input the index of a topology preset
 	display.section("Select Network")
 	index = env.getNetworkTopologyIndex( argv, env.presetTopologies.range() )
@@ -55,20 +33,32 @@ def main( argc, *argv ):
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	#MARK: - Begin Network Simulation and do the First Test
-	# 4. Cleanup, then initialize a new network with selected topology
-	display.section("Cleaning up")
-	env.clean()
+	# 4. Initialize a new network with selected topology
 	display.section("Building Topology Preset")
 	env.prepare( selectedTopoPreset )
 	# 5. Launch the network
 	display.section("Starting Network")
-#	env.launcher.startNetwork( net )
 	env.start()
 	# 6. Test 1: Destination Host Unreachable
-	display.section("Wait: Performing Host Reachability Test 1...")
-#	stat = env.netstat.hostReachability()
-#	display.highlight(stat)
+	display.section("Test 1: Hosts are unreachable...")
+	(host1, host2) = env.getTestHosts()
+	test = env.nodeReachability(host1, host2)
+	display.highlight(test)
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -78,104 +68,138 @@ def main( argc, *argv ):
 	linkWeights = env.net.topo._slinks
 
 	# 8. Run LS Routing algorithm
-	display.section("Wait: Running Link-State Routing algorithm...")
+	display.section("Running Link-State Routing algorithm...")
+	display.message('Switch Number\t Address\t Output Port')
 	weights = []
 	for i in linkWeights:
-		weights.append(('s'+str(i[0]), 's'+str(i[1]), i[2]))
-	#
-	
+		weights.append( ('s'+str(i[0]), 's'+str(i[1]), i[2]) )
 	# For each switch
-	for switch in switches:
-		routes = get_routing_decision( switch, weights )
+	for source in switches:
+		routes = get_routing_decision( source, weights )
 		for pathToDestination in routes:
 			# Least cost paths to destinations
 			(destination, path) = pathToDestination
-			source = path[0]
 			# From source host to destination host
-			srcHost = 'h%s' % source[1:]
 			dstHost = 'h%s' % destination[1:]
 			dstAddress = env.IP(dstHost)
 			
-			# Add flows
+			
+			
+			#TODO: # 9. Add flow table entries
+			## Switches to the connected host
+			srcHost = 'h%s' % source[1:]
+			srcAddress = env.IP(srcHost)
+			outToSrc = env.outPort( source, srcHost )
+			env.flows.add( source, srcAddress, outToSrc )
+			
+			## Switches to switches
 			prev = source
 			for i in range( 1, len(path) ):
 				current = path[i]
-				port = env.outPort(prev, current)
+				outToNext = env.outPort( prev, current )
+				env.flows.add( prev, dstAddress, outToNext )
 				prev = current
-				print('flow add switch=', prev, 'destination address=', dstAddress, 'actions output port = ', port )
-				env.flows.add( prev, dstAddress, port )
-				
-				
-#
-#				connection = env.connection(prev, current)
-#				print(connection)
-#				outputPort = env.outPort(connection)
-#				print(outputPort)
-				
-#				env.flows.add( s, 'source ip....', 'outputport....', 'destination ip' )
-				
-				#add( self, switch, address, outPort )
-			
-#			print("PATH")
-#			print(source, destination)
-#			print(path)
-#			print(srcHost, dstHost)
-			
-		
-#		env.flows.add( switch, 10.0.0.1, 3 )
-		
-#		routes = get_routing_decision( s, temp )
-#		host
-#		(hostIntf, gatewayIntf) host.connectionsTo(src)[0]
-#
-#		src.IP()
-#		(srcIntf, dstIntf) = node.connectionsTo(nextNode)[0]
-#		# {dest: [src, node1, node2..., dst]}
-	
-	display.message("END")
-	display.message(routes)
-	# 9. Add flow table entries
-	# TODO: ...
 	
 	# 10. Test 2: OK
-	display.section("Wait: Performing Host Reachability Test 2...")
-#	stat2 = env.netstat.hostReachability( net )
-#	display.highlight(stat2)
+	display.section("Test 2: Hosts are now connected...")
+	test2 = env.nodeReachability(host1, host2)
+	display.highlight(test2)
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
 	#MARK: - Disable one of the Links and do the Third Test
-	# N. Disable a link
-	# TODO: ...
+	# 11. Disable a link
+	link = env.net.topo.problemLink
+	n1 = int( link[0][1:] )
+	n2 = int( link[1][1:] )
+	display.section("Changing network conditions")
+	display.message('Problem link in this simulation is {%s, %s}' % link )
+	display.message('Problem link between %s %s is down' % link )
+#	env.disableLink(link)
 	
-	# N. Test 4:
-	# TODO: ...
+	# 12. Test 3: Hosts
+	display.section("Test 3: Hosts can't communicate...")
+	test3 = env.nodeReachability(host1, host2)
+	display.highlight(test3)
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
 	#MARK: - Recompute the Least-Cost Paths and do the Fourth Test
-	# N.
-	# TODO: ...
+	# 13.
+	for (prev1, prev2, w) in linkWeights:
+		if ((prev1 == n1 and prev2 == n2) or (prev1 == n2 and prev2 == n1)):
+			linkWeights.remove( (prev1, prev2, w) )
+			linkWeights.append( (str(n1), str(n2), 1000) )
+			log.infoln('Replacing link %s with %s' % ([(prev1, prev2, w)], [(n1, n2, 1000)]) )
+			break
 	
-	# N. Test 3:
-	# TODO: ...
+	weightsUpdated = []
+	for i in linkWeights:
+		weightsUpdated.append( ('s'+str(i[0]), 's'+str(i[1]), i[2]) )
+	
+	log.info('Deleting all flows of switch s1')
+	for source in switches:
+		print(', %s' % source),
+		env.flows.clear(source) # delete all old flows
+	print('')
+	
+	
+	display.section("Running Link-State Routing algorithm again...")
+	display.message('Switch Number\t Address\t Output Port')
+	# For each switch
+	for source in switches:
+		routes = get_routing_decision( source, weightsUpdated )
+		for pathToDestination in routes:
+			# Least cost paths to destinations
+			(destination, path) = pathToDestination
+			# From source host to destination host
+			dstHost = 'h%s' % destination[1:]
+			dstAddress = env.IP(dstHost)
+			#MARK: Add flow table entries
+			## Switches to the connected host
+			srcHost = 'h%s' % source[1:]
+			srcAddress = env.IP(srcHost)
+			outToSrc = env.outPort( source, srcHost )
+			env.flows.add( source, srcAddress, outToSrc )
+			## Switches to switches
+			prev = source
+			for i in range( 1, len(path) ):
+				current = path[i]
+				outToNext = env.outPort( prev, current )
+				env.flows.add( prev, dstAddress, outToNext )
+				prev = current
+	# 14. Test 4:
+	display.section("Test 4: Hosts can communicate again...")
+	test4 = env.nodeReachability(host1, host2)
+	display.highlight(test4)
 	
 	
 	
 	
 	#MARK: - Command Line Interface
-	# N. Start the CLI to run other tests
+	# 15. Start the CLI to run other tests
 	display.section("Starting Command Line Interface")
 	env.startCLI()
-#	env.launcher.enableCommandLineInterface( net )
 	
 	
 	
 	#MARK: - Stop Network Simulation
-	# N. Stop network
+	# 16. Stop network
 	display.section("Shutting down")
-	env.flows.add( 's1', '10.0.0.2', 1 )
-	print( env.flows.dump('s1') )
 	env.stop()
 	
 	
@@ -184,49 +208,3 @@ def main( argc, *argv ):
 if __name__ == '__main__':
 	argc = len( sys.argv )
 	main( argc, sys.argv )
-#	try:
-#
-#	except:
-#		print('\n\nException caught: ')
-#		print(sys.exc_info()[0])
-		
-
-
-
-
-
-#	# Calculate least-cost paths
-#	linkWeights = net.topo._slinks
-#	for switch in net.topo.switches():
-#		#dijkstra.get_routing_decision(
-#		print("Swtich:")
-#		print(switch)
-#		print("Links")
-#		print(linkWeights)
-#		print("Switch num:")
-#		switchNum = int(switch[1:])
-#		print(switchNum)
-#		routes = dijkstra.get_routing_decision(switchNum, linkWeights)
-#		print("Routes:")
-#		print(routes)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	#	test = TestTopo()
-		# Create and start Mininet with the selected topology
-
-#	net = Mininet( topo = selectedTopo )
-#	net.start()
-#	CLI( net )

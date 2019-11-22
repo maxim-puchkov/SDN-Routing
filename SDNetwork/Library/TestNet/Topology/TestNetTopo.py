@@ -114,19 +114,18 @@ def nodeGroup(n, iterable, fillvalue=None):
 # (assignment 2 question 1)X
 class BabyTopo( LinkTopo ):
 	displayName = 'Baby Topo'
+	brokenLink = ('s1', 's2')
+#	exampleProblemLink = (
 	
 	def build( self ):
-		switches = 2
+		switches = 3
 		hostsPerSwitch = 1
-		linkWeights = wlinks( ((1, 2), 1) )
-#		linkWeights = wlinks(
-##			((1, 2), 1), ((1, 3), 1)
-##			((2, 3), 5)
-#		)
+		linkWeights = wlinks(
+			((1, 2), 1), ((1, 3), 1)
+			((2, 3), 5)
+		)
 		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
 
-		
-		
 
 
 # Tiny Topology (Example Network 1)
@@ -146,6 +145,7 @@ class BabyTopo( LinkTopo ):
 #   s3-s4:  3
 class TinyTopo( LinkTopo ):
 	displayName = 'Tiny Topology'
+	problemLink = ('s1', 's2')
 	
 	def build( self ):
 		switches = 4
@@ -161,6 +161,7 @@ class TinyTopo( LinkTopo ):
 # Small Topology (Example Network 2)
 class SmallTopo( LinkTopo ):
 	displayName = 'Small Topology'
+	problemLink = ('s1', 's2')
 	
 	def build( self ):
 		_switches = 6
@@ -182,6 +183,7 @@ class SmallTopo( LinkTopo ):
 #	randomized
 class LargeTopo( LinkTopo ):
 	displayName = 'Large Topology'
+	problemLink = ('s1', 's2')
 	
 	def build( self ):
 		_switches = 0 #!
@@ -190,8 +192,10 @@ class LargeTopo( LinkTopo ):
 		LinkTopo.build( self, _switches, hostsPerSwitch, linkWeights )
 
 
+
 class TestTopo( LinkTopo ):
-	displayName = 'Tiny Topology'
+	displayName = 'Test Topology'
+	problemLink = ('s1', 's2')
 	
 	def build( self ):
 		switches = 3

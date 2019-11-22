@@ -25,11 +25,11 @@
 		84619D18238384D100BF89C1 /* TestNetEnvironment.py in Resources */ = {isa = PBXBuildFile; fileRef = 84619D17238384D100BF89C1 /* TestNetEnvironment.py */; };
 		84619D1E2383955E00BF89C1 /* TestNetDisplay.py in Resources */ = {isa = PBXBuildFile; fileRef = 84619D1D2383955E00BF89C1 /* TestNetDisplay.py */; };
 		84619D252383C70F00BF89C1 /* TestNetRawLink.py in Resources */ = {isa = PBXBuildFile; fileRef = 84619D242383C70F00BF89C1 /* TestNetRawLink.py */; };
-		84619D3823840A2300BF89C1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84619D3723840A2300BF89C1 /* main.cpp */; };
 		84BF951A2384940D001B34D0 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF9518238493E5001B34D0 /* Python.framework */; };
 		84F494CD2384D0560002A873 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = 84F494CB2384D0560002A873 /* __init__.py */; };
 		84F494CE2384D0560002A873 /* dijkstra.py in Resources */ = {isa = PBXBuildFile; fileRef = 84F494CC2384D0560002A873 /* dijkstra.py */; };
 		84F494E12385504D0002A873 /* Switch-All-Variables.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84F494E02385504D0002A873 /* Switch-All-Variables.txt */; };
+		84F756852387AFDF00DE1CF8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84F756842387AFDF00DE1CF8 /* README.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,17 +62,17 @@
 		8459FBBE23856873009DC2FD /* setup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = setup.py; path = SDNetwork/Library/TestNet/setup.py; sourceTree = SOURCE_ROOT; };
 		8459FBC123857128009DC2FD /* run.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = run.py; sourceTree = "<group>"; };
 		8459FBC52385A1DB009DC2FD /* setup.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = setup.sh; sourceTree = "<group>"; };
-		8459FBC62385AA8B009DC2FD /* setup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = setup.py; sourceTree = "<group>"; };
+		8459FBC62385AA8B009DC2FD /* setup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; lineEnding = 2; path = setup.py; sourceTree = "<group>"; };
 		84619D17238384D100BF89C1 /* TestNetEnvironment.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = TestNetEnvironment.py; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
 		84619D1D2383955E00BF89C1 /* TestNetDisplay.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = TestNetDisplay.py; sourceTree = "<group>"; };
 		84619D242383C70F00BF89C1 /* TestNetRawLink.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = TestNetRawLink.py; sourceTree = "<group>"; };
 		84619D3523840A2300BF89C1 /* SDNetworkLauncher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SDNetworkLauncher; sourceTree = BUILT_PRODUCTS_DIR; };
-		84619D3723840A2300BF89C1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		84BF9518238493E5001B34D0 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = System/Library/Frameworks/Python.framework; sourceTree = SDKROOT; };
 		84E02ABF2384A2D400C34E69 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84F494CB2384D0560002A873 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		84F494CC2384D0560002A873 /* dijkstra.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = dijkstra.py; sourceTree = "<group>"; };
 		84F494E02385504D0002A873 /* Switch-All-Variables.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Switch-All-Variables.txt"; path = "docs/Switch-All-Variables.txt"; sourceTree = SOURCE_ROOT; };
+		84F756842387AFDF00DE1CF8 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +99,7 @@
 			children = (
 				842B0D7C2386473100DD18D9 /* docs */,
 				842B0D7A23863EE700DD18D9 /* install.sh */,
+				84F756842387AFDF00DE1CF8 /* README.txt */,
 				8459FBC52385A1DB009DC2FD /* setup.sh */,
 				84E02ABF2384A2D400C34E69 /* README.md */,
 				8459FBC123857128009DC2FD /* run.py */,
@@ -122,7 +123,6 @@
 			children = (
 				841EC1232381E88900C35210 /* bin */,
 				841EC11C2381E32100C35210 /* Library */,
-				84619D3623840A2300BF89C1 /* Launcher */,
 				841EC0E12381E17B00C35210 /* Info.plist */,
 			);
 			path = SDNetwork;
@@ -197,14 +197,6 @@
 				84F494E02385504D0002A873 /* Switch-All-Variables.txt */,
 			);
 			path = docs;
-			sourceTree = "<group>";
-		};
-		84619D3623840A2300BF89C1 /* Launcher */ = {
-			isa = PBXGroup;
-			children = (
-				84619D3723840A2300BF89C1 /* main.cpp */,
-			);
-			path = Launcher;
 			sourceTree = "<group>";
 		};
 		84BF9517238493E5001B34D0 /* Frameworks */ = {
@@ -305,6 +297,7 @@
 			files = (
 				842B0D7B23863EE700DD18D9 /* install.sh in Resources */,
 				84619D1E2383955E00BF89C1 /* TestNetDisplay.py in Resources */,
+				84F756852387AFDF00DE1CF8 /* README.txt in Resources */,
 				84619D252383C70F00BF89C1 /* TestNetRawLink.py in Resources */,
 				84F494CE2384D0560002A873 /* dijkstra.py in Resources */,
 				841EC1122381E2CE00C35210 /* __init__.py in Resources */,
@@ -341,7 +334,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84619D3823840A2300BF89C1 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
