@@ -66,16 +66,18 @@ class TestNetEnvironment:
 			self.controller = controller
 		
 		def do( self, ofCommand ):
-			shCommand = ' '.join( [self.shell, self.program, ofCommand] )
-			self.controller.cmd( shCommand )
+			shCommand = ' '.join( [self.program, ofCommand] )
+			return self.controller.cmd( shCommand )
 		
 		# Dump flows
 		def dump( self, switch ):
-			self.do( 'dump-flows ' + switch )
+			return self.do( 'dump-flows ' + switch )
 		
 		# Add new flow
-		def add( self, switch, inputPort, protocol, address, actions ):
-			x = 1
+		def add( self, switch, address, outPort ):
+			ret = [self.do( 'add-flow ' + switch + ' ip,nw_dst=' + address + ',actions=output:' + str(outPort) )]
+			ret.append(self.do( 'add-flow ' + switch + ' arp,nw_dst=' + address + ',actions=output:' + str(outPort) ))
+			return ret
 	
 	
 	# Statistics

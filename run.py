@@ -84,18 +84,26 @@ def main( argc, *argv ):
 		weights.append(('s'+str(i[0]), 's'+str(i[1]), i[2]))
 	#
 	
-	env.flows.dump('s1')
-	
-	for s in switches:
-		routes = get_routing_decision( s, weights )
+	for switch in switches:
+		routes = get_routing_decision( switch, weights )
 		print(routes)
 		for pathToDestination in routes:
 			(destination, path) = pathToDestination
-			print("PATH TO")
-			print(destination)
-			print(path)
-			# source = path[0]
+			source = path[0]
+			srcHost = 'h%s' % source[1:]
+			dstHost = 'h%s' % destination[1:]
 			
+			for s in path:
+				
+				env.flows.add( s, 'ip....', 'port....' )
+			
+			print("PATH")
+			print(source, destination)
+			print(path)
+			print(srcHost, dstHost)
+			
+		
+#		env.flows.add( switch, 10.0.0.1, 3 )
 		
 #		routes = get_routing_decision( s, temp )
 #		host
@@ -147,6 +155,8 @@ def main( argc, *argv ):
 	#MARK: - Stop Network Simulation
 	# N. Stop network
 	display.section("Shutting down")
+	env.flows.add( 's1', '10.0.0.2', 1 )
+	print( env.flows.dump('s1') )
 	env.stop()
 	
 	
