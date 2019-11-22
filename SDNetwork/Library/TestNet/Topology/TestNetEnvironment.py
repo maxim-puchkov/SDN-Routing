@@ -37,6 +37,20 @@ class TestNetEnvironment:
 		self.launcher = TestNetLauncher()
 		self.presetTopologies = defaultPresetGroup()
 	
+	def getNode( self, name ):
+		return self.net.nameToNode[name]
+	
+	def IP( self, name ):
+		return self.getNode(name).IP()
+	
+	# Output port from node with name1
+	def outPort( self, name1, name2 ):
+		node1 = self.getNode(name1)
+		node2 = self.getNode(name2)
+		con = node1.connectionsTo(node2)[0]
+		(intf1, intf2) = con
+		return intf1.node.ports[intf1]
+	
 	# Remove previous mininet data
 	def clean( self ):
 		cleanup()
@@ -60,7 +74,7 @@ class TestNetEnvironment:
 	# OpenFlow
 	class FlowTableManager:
 		shell = 'sh'
-		program = 'ovs-ofctl'
+		program = 'sudo ovs-ofctl'
 		
 		def __init__( self, controller ):
 			self.controller = controller
@@ -74,25 +88,26 @@ class TestNetEnvironment:
 			return self.do( 'dump-flows ' + switch )
 		
 		# Add new flow
-		def add( self, switch, address, outPort ):
-			ret = [self.do( 'add-flow ' + switch + ' ip,nw_dst=' + address + ',actions=output:' + str(outPort) )]
-			ret.append(self.do( 'add-flow ' + switch + ' arp,nw_dst=' + address + ',actions=output:' + str(outPort) ))
+		def add( self, switch, dstIP, outPort ):
+			log.infoln("Adding new flow for switch %s to destination %s via port %s\n" % (switch, dstIP, outPort))
+			ret = [self.do( 'add-flow ' + switch + ' ip,nw_dst=' + dstIP + ',actions=output:' + str(outPort) )]
+			ret.append(self.do( 'add-flow ' + switch + ' arp,nw_dst=' + dstIP + ',actions=output:' + str(outPort) ))
 			return ret
 	
 	
 	# Statistics
 	class NetworkStatistics:
 		def __init__( self, network ):
-			self.network = network
+			self.net = network
 		
 		def hostReachability( self ):
-			n = self.network
+			n = self.net
 			first = n.hosts[0]
 			last = n.hosts[len( n.hosts ) - 1]
 			return ping( first, last ), ping( last, first )
 		#
 		def switchReachability( self ):
-			n = self.network
+			n = self.net
 			first = n.switches[0]
 			last = n.switches[len( n.switches ) - 1]
 			return ping( first, last ), ping( last, first )

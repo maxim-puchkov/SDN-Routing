@@ -84,23 +84,42 @@ def main( argc, *argv ):
 		weights.append(('s'+str(i[0]), 's'+str(i[1]), i[2]))
 	#
 	
+	# For each switch
 	for switch in switches:
 		routes = get_routing_decision( switch, weights )
-		print(routes)
 		for pathToDestination in routes:
+			# Least cost paths to destinations
 			(destination, path) = pathToDestination
 			source = path[0]
+			# From source host to destination host
 			srcHost = 'h%s' % source[1:]
 			dstHost = 'h%s' % destination[1:]
+			dstAddress = env.IP(dstHost)
 			
-			for s in path:
+			# Add flows
+			prev = source
+			for i in range( 1, len(path) ):
+				current = path[i]
+				port = env.outPort(prev, current)
+				prev = current
+				print('flow add switch=', prev, 'destination address=', dstAddress, 'actions output port = ', port )
+				env.flows.add( prev, dstAddress, port )
 				
-				env.flows.add( s, 'ip....', 'port....' )
+				
+#
+#				connection = env.connection(prev, current)
+#				print(connection)
+#				outputPort = env.outPort(connection)
+#				print(outputPort)
+				
+#				env.flows.add( s, 'source ip....', 'outputport....', 'destination ip' )
+				
+				#add( self, switch, address, outPort )
 			
-			print("PATH")
-			print(source, destination)
-			print(path)
-			print(srcHost, dstHost)
+#			print("PATH")
+#			print(source, destination)
+#			print(path)
+#			print(srcHost, dstHost)
 			
 		
 #		env.flows.add( switch, 10.0.0.1, 3 )
