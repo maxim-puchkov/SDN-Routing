@@ -56,8 +56,8 @@ def remove_duplicate(link_and_weight):#('switch1', 'switch2, weight)
 def get_route(start_node,end_node,predecessors):
 	temp = []
 	if end_node not in predecessors:
-		print("node not reachable")
-		return (start_node,[])
+		print(str(start_node)+" --> "+str(end_node)+" node not reachable")
+		return []
 	pred = predecessors[end_node]
 
 	temp.append(end_node)
@@ -66,8 +66,8 @@ def get_route(start_node,end_node,predecessors):
 			pred = predecessors[pred]
 			temp.append(pred)
 	temp.reverse()
-	route = (end_node,temp)
-	return route
+
+	return temp
 
 def convert_to_string(link_and_weight):
 	result = []
@@ -76,11 +76,39 @@ def convert_to_string(link_and_weight):
 		result.append(tuple)
 	return result
 
+def get_route_cost(routes):
+	result = ""
+	global converted_link_and_weight
+	for route in routes:
+		if route != []:
+			cost = 0
+			prompt = str(route[0]) + " --> " + str(route[len(route) - 1]) + " cost: "
+			for i in range(len(route)-1):
+				node1 = route[i]
+				node2 = route[i+1]
+				for j in converted_link_and_weight:
+					if j[0]==node1 and j[1]==node2:
+						cost = cost + j[2]
+						break
+					if j[1]==node1 and j[0]==node2:
+						cost = cost + j[2]
+						break
+			result = result+prompt+str(cost)+'\n'
+	return result
+
+
+
+
+
+
+
 
 def get_routing_decision(start_node, link_and_weight, end_node = ""):#linl_and_weight: (node, node, weight)
 	#do a remove duplicate here
 	link_and_weight = convert_to_string(link_and_weight)
 	link_and_weight = remove_duplicate(link_and_weight)
+	global converted_link_and_weight
+	converted_link_and_weight = link_and_weight
 
 	start_node = str(start_node)
 	end_node = str(end_node)
@@ -127,11 +155,12 @@ def get_routing_decision(start_node, link_and_weight, end_node = ""):#linl_and_w
 		return get_route(start_node,end_node,predecessors)
 
 
-"""
+converted_link_and_weight = []
 test = [(1, 2, 1000), (1, 3, 1), (1, 4, 2),
 			(2, 4, 3),
 			(3, 4, 3),(5,6,7)]
 
-print(get_routing_decision(1,test,7))
-"""
+print(get_route_cost(get_routing_decision(5,test)))
+
+
 
