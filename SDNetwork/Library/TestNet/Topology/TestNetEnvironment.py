@@ -33,6 +33,9 @@ def ping( n1, n2, c = 1 ):
 	_command = 'ping -c%s %s' % (c, n2.IP())
 	return ( _command, n1.cmd(_command) )
 
+def last( _list ):
+	return _list[ len(_list) - 1 ]
+
 
 
 
@@ -66,9 +69,12 @@ class TestNetEnvironment:
 		# For each switch
 		for source in switches:
 			routes = lsAlgorithm( source, weights )
-			# Least cost path for each destinations
-			for (destination, path) in routes:
-				dstHost = 'h%s' % destination[1:]
+			# Compute the least cost route for each destination
+			prev = source
+			for route in routes:
+				# Least cost paths to destinations
+				dst = last(route)
+				dstHost = 'h%s' % dst[1:]
 				dstAddress = self.IP(dstHost)
 				## Switches to the connected host
 				srcHost = 'h%s' % source[1:]
@@ -77,8 +83,8 @@ class TestNetEnvironment:
 				self.flows.add( source, srcAddress, outToSrc )
 				## Switches to switches
 				prev = source
-				for i in range( 1, len(path) ):
-					current = path[i]
+				for i in range( 1, len(route) ):
+					current = route[i]
 					outToNext = self.outputPort( prev, current )
 					self.flows.add( prev, dstAddress, outToNext )
 					prev = current

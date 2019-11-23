@@ -9,7 +9,9 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
+from subprocess import Popen, PIPE
 from mininet.cli import CLI
+from mininet.term import makeTerms, runX11
 from TestNet.Utility import display
 
 
@@ -58,8 +60,12 @@ class TestNetEnvCLI( CLI ):
 			h.cmd( 'tcpdump %s' % h.defaultIntf().name )
 	
 	def do_xterms( self, _line ):
-		for h in self.mn.hosts:
-			self.do( 'xterm %s' % h )
-		for s in self.mn.switches:
-			self.do( 'xterm %s' % s )
-
+		locals = self.getLocals()
+		terms = makeTerms( [ locals[name]
+			for name in [ 'h1', 'h2', 's1', 's2' ] ] )
+		self.mn.terms += terms
+		
+#		print(terms)
+#		for t in terms:
+#			t.communicate()
+#			print(t.read())
