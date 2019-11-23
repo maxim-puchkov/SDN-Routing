@@ -156,11 +156,12 @@ def get_routing_decision(start_node, link_and_weight, end_node = ""):#linl_and_w
 
 
 converted_link_and_weight = []
+"""
 test = [(1, 2, 1000), (1, 3, 1), (1, 4, 2),
 			(2, 4, 3),
 			(3, 4, 3),(5,6,7)]
 
 print(get_route_cost(get_routing_decision(5,test)))
 
-
+"""
 
