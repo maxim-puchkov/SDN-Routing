@@ -9,20 +9,21 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
+import itertools
+
 from mininet.topo import Topo
 from mininet.util import irange
-from TestNetRawLink import *
+from TestNetRawLink import wlinks
 
-#from itertools import izip_longest
-
-import itertools
 
 # LinkTopo is a network topology with
 #   n:      swtiches
 #   k:      _hosts per every switch
-#   _wlinks: link costs from every switch to its
-#           directly connected _switches
+#  _wlinks: weighted links from every switch to its
+#           directly connected switches
 class LinkTopo( Topo ):
+	displayName = 'LinkTopo'
+	info = '<BaseClass>'
 	
 	def build( self, n, k, _wlinks = {}, **_kwargs ):
 		#MARK: - Switches
@@ -75,9 +76,19 @@ class LinkTopo( Topo ):
 	
 	def nHosts( self ):
 		return len( self._hosts )
-		
 	def nSwitches( self ):
 		return len( self._switches )
+	def nLinks( self ):
+		return ( len(self._slinks), len(self._hlinks) )
+	
+	def shortDescription( self ):
+		return self.info
+	def longDescription( self ):
+		return (( 'Topology Name: %s. - %s.\n' % ( self.displayName, self.info ) ) +
+			( 'Total number of switches: %s\n' % self.nSwitches() ) +
+			( '                   hosts: %s\n' % self.nHosts() ) +
+			(('  switch-to-switch links: %s (each link has a weight)\n' +
+			  '    switch-to-host links: %s (no weights)\n') % self.nLinks() ))
 	
 	
 	#MARK: - DEBUG
@@ -115,13 +126,14 @@ def nodeGroup(n, iterable, fillvalue=None):
 class BabyTopo( LinkTopo ):
 	displayName = 'Baby Topo'
 	brokenLink = ('s1', 's2')
+	info = 'very small network with 3 switches and 3 links'
 #	exampleProblemLink = (
 	
 	def build( self ):
 		switches = 3
 		hostsPerSwitch = 1
 		linkWeights = wlinks(
-			((1, 2), 1), ((1, 3), 1)
+			((1, 2), 1), ((1, 3), 1),
 			((2, 3), 5)
 		)
 		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
@@ -146,6 +158,7 @@ class BabyTopo( LinkTopo ):
 class TinyTopo( LinkTopo ):
 	displayName = 'Tiny Topology'
 	problemLink = ('s1', 's2')
+	info = 'simple network with 4 switches and 5 links in-between them'
 	
 	def build( self ):
 		switches = 4
@@ -162,6 +175,7 @@ class TinyTopo( LinkTopo ):
 class SmallTopo( LinkTopo ):
 	displayName = 'Small Topology'
 	problemLink = ('s1', 's2')
+	info = 'a network with 6 switches and 10 links'
 	
 	def build( self ):
 		_switches = 6
@@ -184,6 +198,7 @@ class SmallTopo( LinkTopo ):
 class LargeTopo( LinkTopo ):
 	displayName = 'Large Topology'
 	problemLink = ('s1', 's2')
+	info = ''
 	
 	def build( self ):
 		_switches = 0 #!

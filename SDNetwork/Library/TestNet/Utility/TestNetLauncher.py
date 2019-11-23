@@ -29,19 +29,25 @@ class TestNetLauncher:
 		log.infoln("TEST")
 		return args
 	
+class TestNetLauncher:
+	
 	#MARK: Network Start and Stop
 	# Build the selected topology and created a network
 	def prepareNetwork( self, preset, **kwargs ):
 		log.do("Prepare TestNet.")
-		topo = preset()
+		topology = preset()
+		log.infoln(topology.longDescription())
 		network = Mininet(
-			topo,
-			controller = RemoteController( 'c0', ip = '127.0.0.1', port = 6653, xterms = True ),
-#			link = TCLink,
+			topo = topology,
+			controller = RemoteController( 'c0',
+				ip = '127.0.0.1',
+				port = 6653,
+				xterms = True
+			),
 			autoSetMacs = True,
 			**kwargs
 		)
-		log.infoln("Built TestNet topology from template class %s" % type(topo))
+		log.infoln("Built TestNet topology from template class %s" % type(topology))
 		log.done("Network<id%s> is ready to start." % id(network))
 		return network
 	

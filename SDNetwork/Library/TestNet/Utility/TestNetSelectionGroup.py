@@ -14,14 +14,15 @@
 class TestNetSelectionGroup:
 
 	# Set main container
-	def __init__( self, group ):
+	def __init__( self, group, defaultIndex ):
 		# Index '0' is displayed to the
 		#   user as '1'; '1' as '2'; etc.
 		self.elementOffset = 1
 		self._group = group
+		self.defaultIndex = defaultIndex
 	
 	# Get the group of all items
-	def group( self ):
+	def items( self ):
 		return self._group
 	
 	# Get the group size

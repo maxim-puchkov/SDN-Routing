@@ -18,7 +18,7 @@ class TestNetLogger:
 		self.setLogLevel( 'info' )
 	def setLogLevel( self, level = 'info' ):
 		mnLog.setLogLevel( level )
-
+	
 	# Log runtime error messages
 	def __error__( self, content, pre, post ):
 		mnLog.error(pre + content + post)
@@ -28,7 +28,7 @@ class TestNetLogger:
 	# Error log with new line
 	def errorln( self, content, pre = '>> Error: ', post = '' ):
 		self.__error__(content, pre, (post + '\n'))
-
+	
 	# Log informative messages
 	def __info__( self, content, pre, post ):
 		mnLog.info(pre + content + post)
@@ -38,7 +38,7 @@ class TestNetLogger:
 	# Info log with new line
 	def infoln( self, content, pre = '> ', post = '' ):
 		self.__info__(content, pre, (post + '\n'))
-
+	
 	# Special log '>> DO:' to log the beggining of a procedure
 	def do( self, content ):
 		self.__info__(content, '>> DO: ', '\n')
@@ -53,20 +53,3 @@ class TestNetLogger:
 # Shared TestNet instance
 #   Usage: log.info("message")
 log = TestNetLogger()
-
-
-
-#from mininet.log import MininetLogger
-#class TestNetLogger( MininetLogger ):
-#	def build( self, *args, **kwargs ):
-
-	# Do a command and log when it starts and ends
-#	def cmd( self, command, message="Info message..." ):
-#		self.info(message)
-#		ret = "< TestNetLog: Command output placeholder >"
-#		try:
-#			ret = command()
-#			self.info("done.", ' ', '\n')
-#		except:
-#			self.error("Exception caught.")
-#		return ret
