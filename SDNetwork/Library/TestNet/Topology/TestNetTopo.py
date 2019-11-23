@@ -188,9 +188,11 @@ class LargeTopo( LinkTopo ):
 	problemLink = ('s1', 's2')
 	
 	def build( self ):
-		_switches = 0 #!
-		hostsPerSwitch = 0 #!
-		linkWeights = () #!
+		switches = 3
+		hostsPerSwitch = 1
+		linkWeights = wlinks(
+			((1, 2), 1), ((1, 3), 1), ((2, 3), 1)
+		)
 		LinkTopo.build( self, _switches, hostsPerSwitch, linkWeights )
 
 
@@ -203,6 +205,8 @@ class TestTopo( LinkTopo ):
 		switches = 3
 		hostsPerSwitch = 1
 		linkWeights = wlinks(
-			((1, 2), 1), ((1, 3), 1), ((2, 3), 1)
-		)
+			((1, 2), 1), ((1, 11), 2), ((1, 10), 1),((10,9),1),((10,16),3),((10,7),1),((9,7),2),((7,16),2),((7,8),2),
+			((7,3),1),((16,8),2),((16,15),1),((7,4),1),((1,7),3),((10,11),1),((11,2),1),((2,4),6),((6,3),4),((11,12),4),
+			((12,5),3),((12,14),4),((14,13),1),((2,14),1),((14,3),1),((15,14),1),
+			((15,8),1),((15,4),1),((8,4),1),((4,3),1),((5,13),1),((13,4),2))
 		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )

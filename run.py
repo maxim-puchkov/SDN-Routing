@@ -163,7 +163,8 @@ def main( argc, *argv ):
 	# For each switch
 	for source in switches:
 		routes = get_routing_decision( source, weightsUpdated )
-		#print(routes)
+		#
+		print(routes)
 		for pathToDestination in routes:
 			# Least cost paths to destinations
 			(destination, path) = pathToDestination
