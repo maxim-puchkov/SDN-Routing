@@ -1,7 +1,6 @@
 # Link-State Routing in Software Defined Networking
 
-Create a simulated software defined network and run least-cost paths Dijkstra's algorithm 
-
+Create a simulated software defined network and run least-cost paths Dijkstra's algorithm
 
 
 ## Contents 
@@ -12,11 +11,16 @@ Create a simulated software defined network and run least-cost paths Dijkstra's 
     * [Manual](#manual)
 * [Preset Networks](#preset-networks)
 * [Run Simulation](#run-simulation)
+	* [Commands](#debugging-commands)
+	* [Capture Network Traffic](#wireshark)
 * [Contributors](#contributors)
 
 
 
-## Description
+
+
+&nbsp;
+# Description
 
 This project aims to simulate SDN LSRouting and data delivering using OpenFlow on small self-traffic network.
 
@@ -25,88 +29,99 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 
 
 
-## Installation Guides
+
+
+&nbsp;
+# Installation Guides
 
 ### Quick
 
-Start Mininet Virtual Machine (VM) and login. For example:
+1. Start Mininet on Virtual Machine (VM) and login. For example:
 
-	$ ssh -Y mininet@vm
-	$ ssh -Y mininet@192.168.56.3
+		$ ssh -Y mininet@vm
+		$ ssh -Y mininet@192.168.56.3
 
-Clone this repository or download archived source code on your computer. 
+1. Clone this repository or download archived source code on your computer. 
 
-	$ git clone git@csil-git1.cs.surrey.sfu.ca:471-project-6/sdn-routing.git
+		$ git clone git@csil-git1.cs.surrey.sfu.ca:471-project-6/sdn-routing.git
 
-__From the same folder__, run the `install.sh` shell script to copy your local folder to the VM. If necessary, you can specify the IP address of the VM: `install.sh <IP>` (default = 192.168.56.3).
+1. __From the same folder__, run the `install.sh` shell script to copy your local folder to the VM. If necessary, you can specify the IP address of the VM: `install.sh <IP>` (default = 192.168.56.3).
 
-	$ ./sdn-routing/install.sh 
-	$ ./sdn-routing/install.sh 192.168.56.3
+		$ ./sdn-routing/install.sh 
+		$ ./sdn-routing/install.sh 192.168.56.3
 
-While `install.sh` runs, it executes `ssh mininet@vm ~/sdn-routing/setup.sh ` shell script to install the Python modules.
+1. While `install.sh` runs, it executes `ssh mininet@vm ~/sdn-routing/setup.sh ` shell script to install the Python modules.
 	
-	Installed /usr/local/lib/python2.7/dist-packages/TestNet-1.0-py2.7.egg
-	Installed /usr/local/lib/python2.7/dist-packages/LSRouting-1.0-py2.7.egg
+		Installed /usr/local/lib/python2.7/dist-packages/TestNet-1.0-py2.7.egg
+		Installed /usr/local/lib/python2.7/dist-packages/LSRouting-1.0-py2.7.egg
 	
-When the script completes, you should this message:
+1. When the script completes, you should this message:
 	
-	All components were successfully installed
-	Installed SDNetwork packages:
-		TestNet: Create and test simulated SDNs
-		Routing: Compute least-cost paths in a simulated SDN
+		All components were successfully installed
+		Installed SDNetwork packages:
+			TestNet: Create and test simulated SDNs
+			Routing: Compute least-cost paths in a simulated SDN
 	
-Now you can [run **TestNet**](#run-simulation) by exectuing one of:
+1. Now you can [run **TestNet**](#run-simulation) by exectuing one of:
 
-	$ sudo ~/sdn-routing/run.py
-	$ sudo python ~/sdn-routing/run.py
+		$ sudo ~/sdn-routing/run.py
+		$ sudo python ~/sdn-routing/run.py
 		
-You can verify installation by listing the contents of home directory. Installed **sdn-routing** directory will appear there. 
+1. You can verify installation by listing the contents of home directory. Installed **sdn-routing** directory will appear there. 
 
-	$ ls ~
-	install-mininet-vm.sh loxigen mininet oflops oftest openflow pox sdn-routing ...
+		$ ls ~
+		install-mininet-vm.sh loxigen mininet oflops oftest openflow pox sdn-routing ...
 
-To verify the modules were installed, print :
+1. To verify the modules were installed, print:
 
-	$ python -c 'from TestNet import *; print(dir());'
-	['BabyTopo', 'CLI', 'LargeTopo', 'LinkTopo', 'Logger', 'RawWeightedLink', 'SmallTopo', 		...,		 'wlinks']
+		$ python -c 'from TestNet import *; print(dir());'
+		['BabyTopo', 'CLI', 'LargeTopo', 'LinkTopo', 'Logger', 'RawWeightedLink', 'SmallTopo', 		...,		 'wlinks']
+
+> _View **[sample output](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/1-install/install.sh.rtf)** of the installation script **install.sh**_  
 
 
-### Manual
 
-If the installation script `install.sh` does not work for you, you can use `scp -r` to copy the directory:
+&nbsp;
+## Manual
 
-	$ scp -r /path/to/sdn-network mininet@vm:~/sdn-network
+1. If the installation script `install.sh` does not work for you, you can manually copy and install the project. First, use `scp -r` to copy the directory:
+
+		$ scp -r /path/to/sdn-network mininet@vm:~/sdn-network
 	
-On the VM, run the `setup.sh <parent-dir>` script to install Python packages:
+1. On the VM, run the `setup.sh <parent-dir>` script to install Python packages:
 
-	$ ./sdn-network/setup.sh sdn-network
+		$ ./sdn-network/setup.sh sdn-network
 
-Verify installation by listing the contents of Python distribution packages. Installed packages will appear there. 
+1. Verify installation by listing the contents of Python distribution packages. Installed packages will appear there. 
 
-	$ ls /usr/local/lib/python2.7/dist-packages/
+		$ ls /usr/local/lib/python2.7/dist-packages/
 
-Now you can [run **TestNet**](#run-simulation) by exectuing one of:
+1. Now you can [run **TestNet**](#run-simulation) by exectuing one of:
 
-	$ sudo ~/sdn-routing/run.py
-	$ sudo python ~/sdn-routing/run.py
+		$ sudo ~/sdn-routing/run.py
+		$ sudo python ~/sdn-routing/run.py
 
-
-
-## Preset Networks
-
-**TestNet** includes four preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate the correctness of the routing algortihm.  
-
-1. **Baby** – very small network with 3 switches and 3 links.
-1. **Tiny** _(default)_ – simple network with 4 switches and 5 links in-between them.  
-1. **Small** – a network with 6 switches and 10 links.
-1. **Large** – ...
-
-> If your input is invalid, the default network is selected.  
+> _View **[sample output](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/1-install/setup.sh.rtf)** of the package setup script **setup.sh**_
 
 
+&nbsp;
+# Preset Networks
 
-## Run Simulation
+**TestNet** includes four preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate the correctness of the routing algortihm. If your input is invalid, the default network is selected.
 
+1. **Baby** – very small network with 3 switches and 3 links _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/1-Baby-Diagram.png)_.
+1. **Tiny** _(default)_ – simple network with 4 switches and 5 links in-between them _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/2-Tiny-Diagram.png)_.
+1. **Small** – a network with 6 switches and 10 links _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/3-Small-Diagram.png)_.
+1. **Large** – _(debug)_ _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/4-Large-Diagram.png)_.
+
+> _View all network diagrams **[here](#https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/tree/master/docs/diagrams)**_ 
+
+
+
+
+
+&nbsp;
+# Run Simulation
 
 ### Select Network 
 
@@ -120,9 +135,12 @@ Now you can [run **TestNet**](#run-simulation) by exectuing one of:
 		(see network diagrams in the project definition) 
 		Input the index (1 to 4) of a network you want to test:  
 
-2. Next LSRouting algorithm will determine the shortest paths from hosts to hosts.
+1. Configuration command-line interface (CLI) will start. Here you can enter commands to monitor network traffic (`tcpdump`, `wireshark`, etc.) or view initial network configuration (`all`, `flows`). Type `exit` to exit the configuration phase and begin the tests.
 
-3. Upon selecting, the network will launch. The following tests will be conducted:
+1. Next **LSRouting** algorithm will determine the shortest paths from hosts to hosts.
+
+1. Upon selecting, the network will launch. The following tests will be conducted:
+
 
 	1. **Initial Setup Test**: Check host reachability before adding flow tables.
 		
@@ -141,31 +159,56 @@ Now you can [run **TestNet**](#run-simulation) by exectuing one of:
 		Expected results: All hosts should be able to communicate. A path from one host to another has the lowest possible cost. 
 
 
-### Debugging Commands
+1. When the tests finish, you another CLI will start. View network statistics with `all` or any other debugging command. Type `exit` to exit the simulation phase and leave.
 
-* Multiple commands:
-	* `all` – run multiple relevant tests on the network, one by one
-* Link-State routing: 
+> _View [sample outputs](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/tree/master/docs/sample-outputs/3-Network-Simulation)_ 
+
+
+&nbsp;
+## Debugging Commands
+
+* Multiple commands _[(sample output)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/2-CLI-commands/all-sample.rtf)_:
+	* `all` – run multiple relevant tests on a network, one by one
+* Link-State routing _[(sample output)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/2-CLI-commands/routes-sample.rtf)_:
 	* `weights` – weight of links
-	* `costs` – cost of the lowest-cost path to every switch
+	* `costs` – cost of the lowest-cost path to samevery switch
 	* `routes` – first-hop switches with the lowest cost
 	* `paths` – all shortest paths
-* OpenFlow:
+* OpenFlow _[(sample output)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/2-CLI-commands/flows-sample.rtf)_:
+	* `stats` – traffic statistics for each switch
 	* `flows` – flow table entries of every switch
 	*  `deleteFlows` – delete all flows
-* Run on every node:
+* Run on every node _[(sample output)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/2-CLI-commands/other-sample.rtf)_:
 	* `ips` – IP addresses
 	* `arps` – ARP caches
 	* `netstats` – routing tables
 	* `ifconfigs` – interface configurations
 
 
-## Contributors
+&nbsp;
+## Wireshark
 
-Maxim Puchkov, Xiyu Zhang
+* Tiny Network:
+	1. Initially, **Host 1** cannot reach **Host 2** because the flow tables of SDN-conrolled switches are not computed. **Wireshark** and **tcpdump** show that **Host 1** sends 3 ARP packets to find **Host 2**, but does not receive a reply _[(image)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/4-wireshark-tcpdump/1-ping-s1-s2-fail.png)_.
+	1. When the flows tables are computed and updated, the least-cost path from **Switch 1** to **Switch 2** is going through **Switch 4**. The packets from **Host 1** travel to **Switch 1** (left), **Switch 4** (middle), and then **Switch 2** (right) before reaching the destination **Host 2** _[(image)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/4-wireshark-tcpdump/2-ping-s1-s2-via-s4.png)_.
+	1. **Host 2** replies to **Host 1**. 
+
+
+
+
+
+&nbsp;
+# Contributors
+
+* **Maxim Puchkov** 
+* **Xiyu Zhang**
+
+
 
 >>>
-November 21, 2019
+Date: November 21, 2019
 
-Submission Commit: fc0d92894f57bba92ee192848637363dcf56e3d8
+GitLab repository: https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing.git
+
+Submission commit: fc0d92894f57bba92ee192848637363dcf56e3d8
 >>>
