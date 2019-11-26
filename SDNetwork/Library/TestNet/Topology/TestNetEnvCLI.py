@@ -16,7 +16,8 @@ from mininet.term import makeTerms, runX11
 from mininet.util import irange
 
 from TestNet.Logger import log
-from TestNet.Utility import UITextStyle, colorizeEach, display, get_routing_decision, get_route_cost
+from TestNet.Utility import ( UITextStyle, display, colorizeEach,
+							  get_routing_decision, get_route_cost )
 
 
 # Check if route directly connects two switches

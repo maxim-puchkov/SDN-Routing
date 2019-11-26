@@ -14,14 +14,14 @@ from mininet.util import irange
 from TestNet.Logger import log
 from TestNet.Topology import ( BabyTopo, TinyTopo,
 							   SmallTopo, LargeTopo,
-							   TestNetEnvCLI )
+							   MassiveTopo, TestNetEnvCLI )
 from TestNet.Utility import ( TestNetLauncher, TestNetSelectionGroup,
 							  parser, display )
 
 
 # Three default Topology presets
 def defaultPresetGroup():
-	group = ( BabyTopo, TinyTopo, SmallTopo, LargeTopo )
+	group = ( BabyTopo, TinyTopo, SmallTopo, LargeTopo, MassiveTopo )
 	return TestNetSelectionGroup( group, 2 )
 
 # Check a value is within (min, max) value range
@@ -60,7 +60,8 @@ class TestNetEnvironment:
 	
 	# Update Routing Tables
 	def updateRoutes( self, lsAlgorithm, switches, linkWeights ):
-		display.section("Running Link-State Routing algorithm ...")
+		
+		display.section("Adding Flow table entries...")
 		log.infoln('Switch\t Protocols\t Dst-Address\t Actions')
 		log.infoln('-------------------------------------------------------')
 		weights = [ ( 's'+str(i[0]), 's'+str(i[1]), i[2] )
@@ -163,6 +164,9 @@ class TestNetEnvironment:
 		# Delete all flows
 		def clear( self, switch ):
 			return self.do( 'del-flows %s' % switch )
+		
+		def size( self, switch ):
+			return self.do( 'dump-flows %s | grep "table" -c' % switch )
 		
 	
 	# Two test hosts (h1, h2)

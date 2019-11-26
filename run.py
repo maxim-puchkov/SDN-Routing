@@ -18,6 +18,16 @@ from TestNet.Utility import *
 #							  get_routing_decision )
 
 
+def __wait__( *commandList ):
+	steps = len(commandList)
+	for i in range( steps ):
+		commandList[i]()
+		display.prompt('\n\nPress <Return> to continue')
+		try:
+			x = input('')
+		except:
+			x = ''
+
 # Main function
 def main( argc, *argv ):
 
@@ -50,23 +60,26 @@ def main( argc, *argv ):
 	# 6. Test 1: Destination Host Unreachable
 	display.section("Running tests...")
 	(host1, host2) = env.getTestHosts()
-	test1 = env.nodeReachability( host1, host2 )
-	display.section("Test 1: Hosts are unreachable...")
-	display.highlight(test1)
 	
-	
-	
+	def do_test_1():
+		test1 = env.nodeReachability( host1, host2 )
+		display.section("Test 1: Hosts are unreachable...")
+		display.highlight(test1)
+	__wait__(do_test_1)
+
 	#MARK: - Compute the Paths, Create Flow Tables, and do the Second Test
 	# 7. Get the switches and link weights
 	switches = env.net.topo.switches()
 	linkWeights = env.net.topo._slinks
 	# 8. Run LS Routing algorithm # 9. Add flow table entries
 	env.updateRoutes( get_routing_decision, switches, linkWeights )
+		
+	def do_test_2():
 	# 10. Test 2: Established connectivity
-	display.section("Test 2: Hosts are now connected...")
-	test2 = env.nodeReachability( host1, host2 )
-	display.highlight(test2)
-	
+		display.section("Test 2: Hosts are now connected...")
+		test2 = env.nodeReachability( host1, host2 )
+		display.highlight(test2)
+	__wait__(do_test_2)
 	
 	
 	#MARK: - Disable one of the Links and do the Third Test
@@ -81,23 +94,25 @@ def main( argc, *argv ):
 		if ((prev1 == n1 and prev2 == n2) or (prev1 == n2 and prev2 == n1)):
 			linkWeights.remove( (prev1, prev2, w) )
 			linkWeights.append( (str(n1), str(n2), 1000) )
-			print('Replacing link %s with %s' % ([(prev1, prev2, w)], [(n1, n2, 1000)]) )
+			print('Increasing the cost of link %s to 1000: %s' % ([(prev1, prev2, w)], [(n1, n2, 1000)]) )
 			break
 	# 12. Test 3: Hosts
-	display.section("Test 3: Link failure affects optimal routes...")
-	test3 = env.nodeReachability( host1, host2 )
-	display.highlight(test3)
-	
+	def do_test_3():
+		display.section("Test 3: Link failure affects optimal routes...")
+		test3 = env.nodeReachability( host1, host2 )
+		display.highlight(test3)
+	__wait__(do_test_3)
 	
 	
 	#MARK: - Recompute the Least-Cost Paths and do the Fourth Test
 	# 13.
 	env.updateRoutes( get_routing_decision, switches, linkWeights )
 	# 14. Test 4:
-	display.section("Test 4: Hosts can communicate again...")
-	test4 = env.nodeReachability(host1, host2)
-	display.highlight(test4)
-	
+	def do_test_4():
+		display.section("Test 4: Hosts can communicate again...")
+		test4 = env.nodeReachability(host1, host2)
+		display.highlight(test4)
+	__wait__(do_test_4)
 	
 	
 	#MARK: - Command Line Interface

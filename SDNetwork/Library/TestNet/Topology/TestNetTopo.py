@@ -10,10 +10,11 @@
 #
 
 import itertools
+from random import randint
 
 from mininet.topo import Topo
 from mininet.util import irange
-from TestNet.Topology import wlinks
+from TestNet.Topology import wlink, wlinks
 
 
 
@@ -247,20 +248,40 @@ class SmallTopo( LinkTopo ):
 #
 # Link costs:
 #	randomized
-class LargeTopo( SubnetTopo ):
+class LargeTopo( LinkTopo ):
 	displayName = 'Large Topology'
-	info = 'debug network'
+	info = 'network of 16 connected switches (debug)'
 	
 	def build( self ):
 		switches = 16
 		hostsPerSwitch = 1
 		linkWeights = wlinks(
-			((1, 2), 1), ((1, 11), 2), ((1, 10), 1),((10,9),1),((10,16),3),((10,7),1),((9,7),2),((7,16),2),((7,8),2),
+			((1, 2), 1), ((1, 11), 2), ((1, 10), 1),((10,9),1),((10,16),3),((10,7),1),((9,7),2),((7,16),2),((7,8),2),((4,5),100),((4,12),100),
 			((7,3),1),((16,8),2),((16,15),1),((7,4),1),((1,7),3),((10,11),1),((11,2),1),((2,4),6),((6,3),4),((11,12),4),
 			((12,5),3),((12,14),4),((14,13),1),((2,14),1),((14,3),1),((15,14),1),
 			((15,8),1),((15,4),1),((8,4),1),((4,3),1),((5,13),1),((13,4),2))
-		SubnetTopo.build( self, switches, hostsPerSwitch, linkWeights )
+		LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
 
+
+class MassiveTopo( LinkTopo ):
+	displayName = 'Massive Topology'
+	info = '200 switches and 1000 links, on average (debug)'
+	
+	def build( self ):
+		switches = randint(175, 225)
+		srange = irange(1, switches)
+		hostsPerSwitch = 1
+		try:
+			linkWeights = []
+			for s in srange:
+				for eCount in irange(1, randint(1, 10)):
+					e = randint(1, switches)
+					w = randint(1, 15)
+					link = wlink((s, e), w)
+					linkWeights.append(link)
+			LinkTopo.build( self, switches, hostsPerSwitch, linkWeights )
+		except:
+			print('Unable to construct')
 
 
 class TestTopo( LinkTopo ):
@@ -283,5 +304,6 @@ topos = {
     'tiny': TinyTopo,
     'small': SmallTopo,
     'large': LargeTopo,
+    'massive': MassiveTopo,
     'test': TestTopo
 }
