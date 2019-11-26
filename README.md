@@ -62,7 +62,7 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 			TestNet: Create and test simulated SDNs
 			Routing: Compute least-cost paths in a simulated SDN
 	
-1. Now you can [run **TestNet**](#run-simulation) by exectuing one of:
+1. Now you can [run **TestNet**](#run-simulation) by executing one of:
 
 		$ sudo ~/sdn-routing/run.py
 		$ sudo python ~/sdn-routing/run.py
@@ -96,7 +96,7 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 
 		$ ls /usr/local/lib/python2.7/dist-packages/
 
-1. Now you can [run **TestNet**](#run-simulation) by exectuing one of:
+1. Now you can [run **TestNet**](#run-simulation) by executing one of:
 
 		$ sudo ~/sdn-routing/run.py
 		$ sudo python ~/sdn-routing/run.py
@@ -107,7 +107,7 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 &nbsp;
 # Preset Networks
 
-**TestNet** includes four preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate the correctness of the routing algortihm. If your input is invalid, the default network is selected.
+**TestNet** includes four preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate the correctness of the routing algorithm. If your input is invalid, the default network is selected.
 
 1. **Baby** – very small network with 3 switches and 3 links _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/1-Baby-Diagram.png)_.
 1. **Tiny** _(default)_ – simple network with 4 switches and 5 links in-between them _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/2-Tiny-Diagram.png)_.
@@ -150,7 +150,7 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 		
 		Expected results: The hosts should reach other hosts after the controller constructs flow tables determined by the link-state routing algorithm. A path from one host to another has the lowest possible cost. 
 
-	1. **Network Condtions Test**: Check host reachability after disabling a link. 
+	1. **Network Conditions Test**: Check host reachability after disabling a link. 
 		
 		Expected results: A link between two nodes is no longer available. Some hosts may lose connection to other hosts because their traffic is routed through that link. 
 	
@@ -171,7 +171,7 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 	* `all` – run multiple relevant tests on a network, one by one
 * Link-State routing _[(sample output)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/2-CLI-commands/routes-sample.rtf)_:
 	* `weights` – weight of links
-	* `costs` – cost of the lowest-cost path to samevery switch
+	* `costs` – cost of the lowest-cost path to every other switch
 	* `routes` – first-hop switches with the lowest cost
 	* `paths` – all shortest paths
 * OpenFlow _[(sample output)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/2-CLI-commands/flows-sample.rtf)_:
@@ -189,7 +189,7 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 ## Wireshark
 
 * Tiny Network:
-	1. Initially, **Host 1** cannot reach **Host 2** because the flow tables of SDN-conrolled switches are not computed. **Wireshark** and **tcpdump** show that **Host 1** sends 3 ARP packets to find **Host 2**, but does not receive a reply _[(image)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/4-wireshark-tcpdump/1-ping-s1-s2-fail.png)_.
+	1. Initially, **Host 1** cannot reach **Host 2** because the flow tables of SDN-controlled switches are not computed. **Wireshark** and **tcpdump** show that **Host 1** sends 3 ARP packets to find **Host 2**, but does not receive a reply _[(image)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/4-wireshark-tcpdump/1-ping-s1-s2-fail.png)_.
 	1. When the flows tables are computed and updated, the least-cost path from **Switch 1** to **Switch 2** is going through **Switch 4**. The packets from **Host 1** travel to **Switch 1** (left), **Switch 4** (middle), and then **Switch 2** (right) before reaching the destination **Host 2** _[(image)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/4-wireshark-tcpdump/2-ping-s1-s2-via-s4.png)_.
 	1. **Host 2** replies to **Host 1**. 
 
