@@ -1,0 +1,885 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2509
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red0\green0\blue0;\red200\green20\blue201;
+\red44\green238\blue235;\red192\green192\blue192;\red161\green0\blue163;\red232\green235\blue20;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\csgenericrgb\c0\c0\c0;\cssrgb\c83397\c23076\c82665;
+\cssrgb\c15686\c93977\c93914;\cssrgb\c79890\c79891\c79890;\cssrgb\c70000\c0\c70000;\cssrgb\c92620\c92472\c8348;}
+{\info
+{\author Maxim Puchkov}
+{\*\company com.maximpuchkov}
+{\*\copyright Copyright \'a9 2019 Maxim Puchkov. All rights reserved.}}\margl1440\margr1440\vieww12600\viewh7800\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \cb3 \CocoaLigature0 Last login: Mon Nov 25 15:58:09 on ttys000\
+admin@MacBookPro ~ % ssh -Y mininet@vm\
+Warning: No xauth data; using fake authentication data for X11 forwarding.\
+Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-66-generic x86_64)\
+\
+ * Documentation:  https://help.ubuntu.com\
+ * Management:     https://landscape.canonical.com\
+ * Support:        https://ubuntu.com/advantage\
+\
+Last login: Mon Nov 25 15:58:17 2019 from 192.168.56.1\
+mininet@mininet-vm:~$ sudo ./sdn-routing/run.py \
+\
+
+\f1\b \cf4  < CLEANING UP... > 
+\f0\b0 \cf2 \
+*** Removing excess controllers/ofprotocols/ofdatapaths/pings/noxes\
+killall controller ofprotocol ofdatapath ping nox_corelt-nox_core ovs-openflowd ovs-controllerovs-testcontroller udpbwtest mnexec ivs ryu-manager 2> /dev/null\
+killall -9 controller ofprotocol ofdatapath ping nox_corelt-nox_core ovs-openflowd ovs-controllerovs-testcontroller udpbwtest mnexec ivs ryu-manager 2> /dev/null\
+pkill -9 -f "sudo mnexec"\
+*** Removing junk from /tmp\
+rm -f /tmp/vconn* /tmp/vlogs* /tmp/*.out /tmp/*.log\
+*** Removing old X11 tunnels\
+*** Removing excess kernel datapaths\
+ps ax | egrep -o 'dp[0-9]+' | sed 's/dp/nl:/'\
+***  Removing OVS datapaths\
+ovs-vsctl --timeout=1 list-br\
+ovs-vsctl --timeout=1 list-br\
+*** Removing all links of the pattern foo-ethX\
+ip link show | egrep -o '([-_.[:alnum:]]+-eth[[:digit:]]+)'\
+ip link show\
+*** Killing stale mininet node processes\
+pkill -9 -f mininet:\
+*** Shutting down stale tunnels\
+pkill -9 -f Tunnel=Ethernet\
+pkill -9 -f .ssh/mn\
+rm -f ~/.ssh/mn/*\
+*** Cleanup complete.\
+> Cleaned up old files\
+\
+
+\f1\b \cf4  < SELECT NETWORK TOPOLOGY > 
+\f0\b0 \cf2 \
+ Choose a test network topology preset: \
+	1. \cf5 Baby Topology\cf2  - very small network with 3 switches and 3 links.\
+	2. \cf5 Tiny Topology\cf2  (default) - simple network with 4 switches and 5 links.\
+	3. \cf5 Small Topology\cf2  - a network with 6 switches and 10 links.\
+	4. \cf5 Large Topology\cf2  - .\
+\cf6  (See network diagrams in the project definition.) \cf2 \
+\cf4  Input the index (1 to 4) of a network you want to test:  \cf2 \
+3\
+ Selected Small Topology (index: 3) \
+\
+
+\f1\b \cf4  < STARTING NETWORK WITH TOPOLOGY PRESET > 
+\f0\b0 \cf2 \
+>> DO: Prepare TestNet from <class 'TestNet.Topology.TestNetTopo.SmallTopo'>.\
+> Topology Name: Small Topology.\
+Total number of switches: 6\
+                   hosts: 6\
+  switch-to-switch links: 10 (each link has a weight)\
+    switch-to-host links: 6 (no weights)\
+\
+Unable to contact the remote controller at 127.0.0.1:6653\
+*** Creating network\
+*** Adding controller\
+*** Adding hosts:\
+h1 h2 h3 h4 h5 h6 \
+*** Adding switches:\
+s1 s2 s3 s4 s5 s6 \
+*** Adding links:\
+(s1, h1) (s1, s2) (s1, s3) (s1, s4) (s2, h2) (s2, s3) (s2, s4) (s3, h3) (s3, s4) (s3, s5) (s3, s6) (s4, h4) (s4, s5) (s5, h5) (s5, s6) (s6, h6) \
+*** Configuring hosts\
+h1 h2 h3 h4 h5 h6 \
+> Built TestNet topology from template class <class 'TestNet.Topology.TestNetTopo.SmallTopo'>\
+>> DONE: Network<id140220422479248> is ready to start.\
+> Reassigning host IP addresses.\
+>> DO: Start Network<id140220422479248>.\
+*** Starting controller\
+c0 \
+*** Starting 6 switches\
+s1 s2 s3 s4 s5 s6 ...\
+\
+
+\f1\b \cf4  < STARTING CONFIGURATION INTERFACE > 
+\f0\b0 \cf2 \
+\cf4  Input commands (optional):\cf2 \
+\cf4  (E.g., track packets with 'sudo wireshark &', 'tcpdump', etc.)\cf2 \
+\cf4  When you are ready to start the simulation tests, type 'exit' or press CTRL-D.\cf2 \
+\
+*** Starting CLI:\
+TestNet> all\
+\
+
+\f1\b \cf4  < IP ADDRESSES > 
+\f0\b0 \cf2 \
+\cf4   ----- Controllers -----  \cf2 \
+ c0	127.0.0.1 \
+\cf4   ----- Switches -----  \cf2 \
+ s1	127.0.0.1 \
+ s2	127.0.0.1 \
+ s3	127.0.0.1 \
+ s4	127.0.0.1 \
+ s5	127.0.0.1 \
+ s6	127.0.0.1 \
+\cf4   ----- Hosts -----  \cf2 \
+ h1	10.10.1.1	00:00:00:00:00:01 \
+ h2	10.10.2.2	00:00:00:00:00:02 \
+ h3	10.10.3.3	00:00:00:00:00:03 \
+ h4	10.10.4.4	00:00:00:00:00:04 \
+ h5	10.10.5.5	00:00:00:00:00:05 \
+ h6	10.10.6.6	00:00:00:00:00:06 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (1/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < WEIGHTS > 
+\f0\b0 \cf2 \
+> Link		Weight\
+> --------------------\
+> \{s1, s2\}	2\
+> \{s1, s3\}	5\
+> \{s1, s4\}	1\
+> \{s2, s3\}	3\
+> \{s2, s4\}	2\
+> \{s3, s4\}	3\
+> \{s3, s5\}	1\
+> \{s3, s6\}	5\
+> \{s4, s5\}	1\
+> \{s5, s6\}	2\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (2/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < TOTAL PATH COSTS > 
+\f0\b0 \cf2 \
+From\\To s1	s2	s3	s4	s5	s6\
+s1	--	2 	\cb7 3\cb3  	1 	\cb7 2\cb3  	\cb7 4\cb3  	\
+s2	2 	--	3 	2 	\cb7 3\cb3  	\cb7 5\cb3  	\
+s3	\cb7 3\cb3  	3 	--	\cb7 2\cb3  	1 	\cb7 3\cb3  	\
+s4	1 	2 	\cb7 2\cb3  	--	1 	\cb7 3\cb3  	\
+s5	\cb7 2\cb3  	\cb7 3\cb3  	1 	1 	--	2 	\
+s6	\cb7 4\cb3  	\cb7 5\cb3  	\cb7 3\cb3  	\cb7 3\cb3  	2 	--	\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (3/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < FIRST-HOP WITH LOWEST COST > 
+\f0\b0 \cf2 \
+From\\To	s1	s2	s3	s4	s5	s6\
+s1	--	s2 	\cb7 s4\cb3  	s4 	\cb7 s4\cb3  	\cb7 s4\cb3  	\
+s2	s1 	--	s3 	s4 	\cb7 s4\cb3  	\cb7 s4\cb3  	\
+s3	\cb7 s5\cb3  	s2 	--	\cb7 s5\cb3  	s5 	\cb7 s5\cb3  	\
+s4	s1 	s2 	\cb7 s5\cb3  	--	s5 	\cb7 s5\cb3  	\
+s5	\cb7 s4\cb3  	\cb7 s4\cb3  	s3 	s4 	--	s6 	\
+s6	\cb7 s5\cb3  	\cb7 s5\cb3  	\cb7 s5\cb3  	\cb7 s5\cb3  	s5 	--	\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (4/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < LEAST-COST PATHS TO OTHER NODES > 
+\f0\b0 \cf2 \
+ From -> To	Cost		Full Shortest Path \
+\cf4   ----- s1 -----  \cf2 \
+ s1   -> s2	2		['s1', 's2'] \
+ s1   -> s3	3		['s1', 's4', 's5', 's3'] \
+ s1   -> s4	1		['s1', 's4'] \
+ s1   -> s5	2		['s1', 's4', 's5'] \
+ s1   -> s6	4		['s1', 's4', 's5', 's6'] \
+\cf4   ----- s2 -----  \cf2 \
+ s2   -> s1	2		['s2', 's1'] \
+ s2   -> s3	3		['s2', 's3'] \
+ s2   -> s4	2		['s2', 's4'] \
+ s2   -> s5	3		['s2', 's4', 's5'] \
+ s2   -> s6	5		['s2', 's4', 's5', 's6'] \
+\cf4   ----- s3 -----  \cf2 \
+ s3   -> s1	3		['s3', 's5', 's4', 's1'] \
+ s3   -> s2	3		['s3', 's2'] \
+ s3   -> s4	2		['s3', 's5', 's4'] \
+ s3   -> s5	1		['s3', 's5'] \
+ s3   -> s6	3		['s3', 's5', 's6'] \
+\cf4   ----- s4 -----  \cf2 \
+ s4   -> s1	1		['s4', 's1'] \
+ s4   -> s2	2		['s4', 's2'] \
+ s4   -> s3	2		['s4', 's5', 's3'] \
+ s4   -> s5	1		['s4', 's5'] \
+ s4   -> s6	3		['s4', 's5', 's6'] \
+\cf4   ----- s5 -----  \cf2 \
+ s5   -> s1	2		['s5', 's4', 's1'] \
+ s5   -> s2	3		['s5', 's4', 's2'] \
+ s5   -> s3	1		['s5', 's3'] \
+ s5   -> s4	1		['s5', 's4'] \
+ s5   -> s6	2		['s5', 's6'] \
+\cf4   ----- s6 -----  \cf2 \
+ s6   -> s1	4		['s6', 's5', 's4', 's1'] \
+ s6   -> s2	5		['s6', 's5', 's4', 's2'] \
+ s6   -> s3	3		['s6', 's5', 's3'] \
+ s6   -> s4	3		['s6', 's5', 's4'] \
+ s6   -> s5	2		['s6', 's5'] \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (5/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < SHOWING ALL FLOWS OF ALL OVSSWITCHES > 
+\f0\b0 \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s1',)\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s2',)\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s3',)\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s4',)\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s5',)\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s6',)\
+\cf8  \cf2 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (6/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < OPENFLOW: SENT/RECEIVED PACKETS > 
+\f0\b0 \cf2 \
+ Packets passing through a switch on the way host with IP address = "nw_dst" \
+\cf4   ----- s1 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s1 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+\cf8  \cf2 \
+\cf4   ----- s2 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s2 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+\cf8  \cf2 \
+\cf4   ----- s3 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s3 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+\cf8  \cf2 \
+\cf4   ----- s4 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s4 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+\cf8  \cf2 \
+\cf4   ----- s5 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s5 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+\cf8  \cf2 \
+\cf4   ----- s6 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s6 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+\cf8  \cf2 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (7/7) \cf2 \
+\
+TestNet> h1 ping h2 -c1\
+PING 10.10.2.2 (10.10.2.2) 56(84) bytes of data.\
+From 10.10.1.1 icmp_seq=1 Destination Host Unreachable\
+\
+--- 10.10.2.2 ping statistics ---\
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms\
+\
+TestNet> exit\
+\
+
+\f1\b \cf4  < RUNNING TESTS... > 
+\f0\b0 \cf2 \
+\
+
+\f1\b \cf4  < TEST 1: HOSTS ARE UNREACHABLE... > 
+\f0\b0 \cf2 \
+\cf8  [1, ('ping 10.10.2.2 -c1', 'PING 10.10.2.2 (10.10.2.2) 56(84) bytes of data.\\r\\nFrom 10.10.1.1 icmp_seq=1 Destination Host Unreachable\\r\\n\\r\\n--- 10.10.2.2 ping statistics ---\\r\\n1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms\\r\\n\\r\\n')] \cf2 \
+\
+\cf8  [2, ('ping 10.10.1.1 -c1', 'PING 10.10.1.1 (10.10.1.1) 56(84) bytes of data.\\r\\nFrom 10.10.2.2 icmp_seq=1 Destination Host Unreachable\\r\\n\\r\\n--- 10.10.1.1 ping statistics ---\\r\\n1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms\\r\\n\\r\\n')] \cf2 \
+\
+\
+
+\f1\b \cf4  < RUNNING LINK-STATE ROUTING ALGORITHM ... > 
+\f0\b0 \cf2 \
+> Switch	 Protocols	 Dst-Address	 Actions\
+> -------------------------------------------------------\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.2.2	 output:1\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.3.3	 output:3\
+> s4		 ARP, IP	 10.10.3.3	 output:4\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.4.4	 output:3\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.5.5	 output:3\
+> s4		 ARP, IP	 10.10.5.5	 output:4\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.6.6	 output:3\
+> s4		 ARP, IP	 10.10.6.6	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.1.1	 output:1\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.3.3	 output:2\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.4.4	 output:3\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.5.5	 output:3\
+> s4		 ARP, IP	 10.10.5.5	 output:4\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.6.6	 output:3\
+> s4		 ARP, IP	 10.10.6.6	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.2.2	 output:2\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.1.1	 output:4\
+> s5		 ARP, IP	 10.10.1.1	 output:2\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.4.4	 output:4\
+> s5		 ARP, IP	 10.10.4.4	 output:2\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.5.5	 output:4\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.6.6	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.2.2	 output:2\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.3.3	 output:4\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.5.5	 output:4\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.6.6	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.2.2	 output:2\
+> s4		 ARP, IP	 10.10.2.2	 output:2\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.1.1	 output:2\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.4.4	 output:2\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.2.2	 output:2\
+> s5		 ARP, IP	 10.10.2.2	 output:2\
+> s4		 ARP, IP	 10.10.2.2	 output:2\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.1.1	 output:2\
+> s5		 ARP, IP	 10.10.1.1	 output:2\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.3.3	 output:2\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.4.4	 output:2\
+> s5		 ARP, IP	 10.10.4.4	 output:2\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.5.5	 output:2\
+\
+
+\f1\b \cf4  < TEST 2: HOSTS ARE NOW CONNECTED... > 
+\f0\b0 \cf2 \
+\cf8  [1, ('ping 10.10.2.2 -c1', 'PING 10.10.2.2 (10.10.2.2) 56(84) bytes of data.\\r\\n64 bytes from 10.10.2.2: icmp_seq=1 ttl=64 time=0.332 ms\\r\\n\\r\\n--- 10.10.2.2 ping statistics ---\\r\\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\\r\\nrtt min/avg/max/mdev = 0.332/0.332/0.332/0.000 ms\\r\\n')] \cf2 \
+\
+\cf8  [2, ('ping 10.10.1.1 -c1', 'PING 10.10.1.1 (10.10.1.1) 56(84) bytes of data.\\r\\n64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.022 ms\\r\\n\\r\\n--- 10.10.1.1 ping statistics ---\\r\\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\\r\\nrtt min/avg/max/mdev = 0.022/0.022/0.022/0.000 ms\\r\\n')] \cf2 \
+\
+\
+
+\f1\b \cf4  < CHANGING NETWORK CONDITIONS > 
+\f0\b0 \cf2 \
+ Problem link in this simulation is \{s1, s2\} \
+Replacing link [(1, 2, 2)] with [(1, 2, 1000)]\
+\
+
+\f1\b \cf4  < TEST 3: LINK FAILURE AFFECTS OPTIMAL ROUTES... > 
+\f0\b0 \cf2 \
+\cf8  [1, ('ping 10.10.2.2 -c1', 'PING 10.10.2.2 (10.10.2.2) 56(84) bytes of data.\\r\\n64 bytes from 10.10.2.2: icmp_seq=1 ttl=64 time=0.022 ms\\r\\n\\r\\n--- 10.10.2.2 ping statistics ---\\r\\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\\r\\nrtt min/avg/max/mdev = 0.022/0.022/0.022/0.000 ms\\r\\n')] \cf2 \
+\
+\cf8  [2, ('ping 10.10.1.1 -c1', 'PING 10.10.1.1 (10.10.1.1) 56(84) bytes of data.\\r\\n64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.020 ms\\r\\n\\r\\n--- 10.10.1.1 ping statistics ---\\r\\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\\r\\nrtt min/avg/max/mdev = 0.020/0.020/0.020/0.000 ms\\r\\n')] \cf2 \
+\
+\
+
+\f1\b \cf4  < RUNNING LINK-STATE ROUTING ALGORITHM ... > 
+\f0\b0 \cf2 \
+> Switch	 Protocols	 Dst-Address	 Actions\
+> -------------------------------------------------------\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.3.3	 output:3\
+> s4		 ARP, IP	 10.10.3.3	 output:4\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.4.4	 output:3\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.2.2	 output:3\
+> s4		 ARP, IP	 10.10.2.2	 output:2\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.5.5	 output:3\
+> s4		 ARP, IP	 10.10.5.5	 output:4\
+> s1		 ARP, IP	 10.10.1.1	 output:4\
+> s1		 ARP, IP	 10.10.6.6	 output:3\
+> s4		 ARP, IP	 10.10.6.6	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.3.3	 output:2\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.1.1	 output:3\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.4.4	 output:3\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.5.5	 output:3\
+> s4		 ARP, IP	 10.10.5.5	 output:4\
+> s2		 ARP, IP	 10.10.2.2	 output:4\
+> s2		 ARP, IP	 10.10.6.6	 output:2\
+> s3		 ARP, IP	 10.10.6.6	 output:5\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.1.1	 output:4\
+> s5		 ARP, IP	 10.10.1.1	 output:2\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.4.4	 output:4\
+> s5		 ARP, IP	 10.10.4.4	 output:2\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.2.2	 output:2\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.5.5	 output:4\
+> s3		 ARP, IP	 10.10.3.3	 output:6\
+> s3		 ARP, IP	 10.10.6.6	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.3.3	 output:4\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.2.2	 output:2\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.5.5	 output:4\
+> s4		 ARP, IP	 10.10.4.4	 output:5\
+> s4		 ARP, IP	 10.10.6.6	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.1.1	 output:2\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.4.4	 output:2\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.2.2	 output:2\
+> s4		 ARP, IP	 10.10.2.2	 output:2\
+> s5		 ARP, IP	 10.10.5.5	 output:4\
+> s5		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.3.3	 output:2\
+> s5		 ARP, IP	 10.10.3.3	 output:1\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.1.1	 output:2\
+> s5		 ARP, IP	 10.10.1.1	 output:2\
+> s4		 ARP, IP	 10.10.1.1	 output:1\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.4.4	 output:2\
+> s5		 ARP, IP	 10.10.4.4	 output:2\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.2.2	 output:2\
+> s5		 ARP, IP	 10.10.2.2	 output:2\
+> s4		 ARP, IP	 10.10.2.2	 output:2\
+> s6		 ARP, IP	 10.10.6.6	 output:3\
+> s6		 ARP, IP	 10.10.5.5	 output:2\
+\
+
+\f1\b \cf4  < TEST 4: HOSTS CAN COMMUNICATE AGAIN... > 
+\f0\b0 \cf2 \
+\cf8  [1, ('ping 10.10.2.2 -c1', 'PING 10.10.2.2 (10.10.2.2) 56(84) bytes of data.\\r\\n64 bytes from 10.10.2.2: icmp_seq=1 ttl=64 time=0.241 ms\\r\\n\\r\\n--- 10.10.2.2 ping statistics ---\\r\\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\\r\\nrtt min/avg/max/mdev = 0.241/0.241/0.241/0.000 ms\\r\\n')] \cf2 \
+\
+\cf8  [2, ('ping 10.10.1.1 -c1', 'PING 10.10.1.1 (10.10.1.1) 56(84) bytes of data.\\r\\n64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.026 ms\\r\\n\\r\\n--- 10.10.1.1 ping statistics ---\\r\\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\\r\\nrtt min/avg/max/mdev = 0.026/0.026/0.026/0.000 ms\\r\\n')] \cf2 \
+\
+\
+
+\f1\b \cf4  < STARTING COMMAND LINE INTERFACE > 
+\f0\b0 \cf2 \
+Custom debugging commands:\
+\cf4 all\cf2     \cf4 weights\cf2     \cf4 costs\cf2     \cf4 routes\cf2     \cf4 paths\cf2     \cf4 flows\cf2     \cf4 stats\cf2     \
+*** Starting CLI:\
+TestNet> all\
+\
+
+\f1\b \cf4  < IP ADDRESSES > 
+\f0\b0 \cf2 \
+\cf4   ----- Controllers -----  \cf2 \
+ c0	127.0.0.1 \
+\cf4   ----- Switches -----  \cf2 \
+ s1	127.0.0.1 \
+ s2	127.0.0.1 \
+ s3	127.0.0.1 \
+ s4	127.0.0.1 \
+ s5	127.0.0.1 \
+ s6	127.0.0.1 \
+\cf4   ----- Hosts -----  \cf2 \
+ h1	10.10.1.1	00:00:00:00:00:01 \
+ h2	10.10.2.2	00:00:00:00:00:02 \
+ h3	10.10.3.3	00:00:00:00:00:03 \
+ h4	10.10.4.4	00:00:00:00:00:04 \
+ h5	10.10.5.5	00:00:00:00:00:05 \
+ h6	10.10.6.6	00:00:00:00:00:06 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (1/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < WEIGHTS > 
+\f0\b0 \cf2 \
+> Link		Weight\
+> --------------------\
+> \{s1, s3\}	5\
+> \{s1, s4\}	1\
+> \{s2, s3\}	3\
+> \{s2, s4\}	2\
+> \{s3, s4\}	3\
+> \{s3, s5\}	1\
+> \{s3, s6\}	5\
+> \{s4, s5\}	1\
+> \{s5, s6\}	2\
+> \{s1, s2\}	1000\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (2/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < TOTAL PATH COSTS > 
+\f0\b0 \cf2 \
+From\\To s1	s2	s3	s4	s5	s6\
+s1	--	\cb7 3\cb3  	\cb7 3\cb3  	1 	\cb7 2\cb3  	\cb7 4\cb3  	\
+s2	\cb7 3\cb3  	--	3 	2 	\cb7 3\cb3  	\cb7 8\cb3  	\
+s3	\cb7 3\cb3  	3 	--	\cb7 2\cb3  	1 	\cb7 3\cb3  	\
+s4	1 	2 	\cb7 2\cb3  	--	1 	\cb7 3\cb3  	\
+s5	\cb7 2\cb3  	\cb7 3\cb3  	1 	1 	--	2 	\
+s6	\cb7 4\cb3  	\cb7 5\cb3  	\cb7 3\cb3  	\cb7 3\cb3  	2 	--	\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (3/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < FIRST-HOP WITH LOWEST COST > 
+\f0\b0 \cf2 \
+From\\To	s1	s2	s3	s4	s5	s6\
+s1	--	\cb7 s4\cb3  	\cb7 s4\cb3  	s4 	\cb7 s4\cb3  	\cb7 s4\cb3  	\
+s2	\cb7 s4\cb3  	--	s3 	s4 	\cb7 s4\cb3  	\cb7 s3\cb3  	\
+s3	\cb7 s5\cb3  	s2 	--	\cb7 s5\cb3  	s5 	\cb7 s5\cb3  	\
+s4	s1 	s2 	\cb7 s5\cb3  	--	s5 	\cb7 s5\cb3  	\
+s5	\cb7 s4\cb3  	\cb7 s4\cb3  	s3 	s4 	--	s6 	\
+s6	\cb7 s5\cb3  	\cb7 s5\cb3  	\cb7 s5\cb3  	\cb7 s5\cb3  	s5 	--	\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (4/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < LEAST-COST PATHS TO OTHER NODES > 
+\f0\b0 \cf2 \
+ From -> To	Cost		Full Shortest Path \
+\cf4   ----- s1 -----  \cf2 \
+ s1   -> s2	3		['s1', 's4', 's2'] \
+ s1   -> s3	3		['s1', 's4', 's5', 's3'] \
+ s1   -> s4	1		['s1', 's4'] \
+ s1   -> s5	2		['s1', 's4', 's5'] \
+ s1   -> s6	4		['s1', 's4', 's5', 's6'] \
+\cf4   ----- s2 -----  \cf2 \
+ s2   -> s1	3		['s2', 's4', 's1'] \
+ s2   -> s3	3		['s2', 's3'] \
+ s2   -> s4	2		['s2', 's4'] \
+ s2   -> s5	3		['s2', 's4', 's5'] \
+ s2   -> s6	8		['s2', 's3', 's6'] \
+\cf4   ----- s3 -----  \cf2 \
+ s3   -> s1	3		['s3', 's5', 's4', 's1'] \
+ s3   -> s2	3		['s3', 's2'] \
+ s3   -> s4	2		['s3', 's5', 's4'] \
+ s3   -> s5	1		['s3', 's5'] \
+ s3   -> s6	3		['s3', 's5', 's6'] \
+\cf4   ----- s4 -----  \cf2 \
+ s4   -> s1	1		['s4', 's1'] \
+ s4   -> s2	2		['s4', 's2'] \
+ s4   -> s3	2		['s4', 's5', 's3'] \
+ s4   -> s5	1		['s4', 's5'] \
+ s4   -> s6	3		['s4', 's5', 's6'] \
+\cf4   ----- s5 -----  \cf2 \
+ s5   -> s1	2		['s5', 's4', 's1'] \
+ s5   -> s2	3		['s5', 's4', 's2'] \
+ s5   -> s3	1		['s5', 's3'] \
+ s5   -> s4	1		['s5', 's4'] \
+ s5   -> s6	2		['s5', 's6'] \
+\cf4   ----- s6 -----  \cf2 \
+ s6   -> s1	4		['s6', 's5', 's4', 's1'] \
+ s6   -> s2	5		['s6', 's5', 's4', 's2'] \
+ s6   -> s3	3		['s6', 's5', 's3'] \
+ s6   -> s4	3		['s6', 's5', 's4'] \
+ s6   -> s5	2		['s6', 's5'] \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (5/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < SHOWING ALL FLOWS OF ALL OVSSWITCHES > 
+\f0\b0 \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s1',)\
+ cookie=0x0, duration=8.169s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s1-eth3"\
+ cookie=0x0, duration=8.162s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s1-eth3"\
+ cookie=0x0, duration=8.103s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.4.4 actions=output:"s1-eth3"\
+ cookie=0x0, duration=8.096s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.4.4 actions=output:"s1-eth3"\
+ cookie=0x0, duration=8.072s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s1-eth3"\
+ cookie=0x0, duration=8.064s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s1-eth3"\
+ cookie=0x0, duration=8.023s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.5.5 actions=output:"s1-eth3"\
+ cookie=0x0, duration=8.016s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.5.5 actions=output:"s1-eth3"\
+ cookie=0x0, duration=7.991s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s1-eth4"\
+ cookie=0x0, duration=7.984s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s1-eth4"\
+ cookie=0x0, duration=7.975s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.6.6 actions=output:"s1-eth3"\
+ cookie=0x0, duration=7.967s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.6.6 actions=output:"s1-eth3"\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s2',)\
+ cookie=0x0, duration=7.924s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s2-eth2"\
+ cookie=0x0, duration=7.917s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s2-eth2"\
+ cookie=0x0, duration=7.893s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s2-eth3"\
+ cookie=0x0, duration=7.885s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s2-eth3"\
+ cookie=0x0, duration=7.844s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.4.4 actions=output:"s2-eth3"\
+ cookie=0x0, duration=7.836s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.4.4 actions=output:"s2-eth3"\
+ cookie=0x0, duration=7.811s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.5.5 actions=output:"s2-eth3"\
+ cookie=0x0, duration=7.803s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.5.5 actions=output:"s2-eth3"\
+ cookie=0x0, duration=7.778s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s2-eth4"\
+ cookie=0x0, duration=7.771s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s2-eth4"\
+ cookie=0x0, duration=7.762s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.6.6 actions=output:"s2-eth2"\
+ cookie=0x0, duration=7.753s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.6.6 actions=output:"s2-eth2"\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s3',)\
+ cookie=0x0, duration=7.726s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.1.1 actions=output:"s3-eth4"\
+ cookie=0x0, duration=7.719s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.1.1 actions=output:"s3-eth4"\
+ cookie=0x0, duration=7.661s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.4.4 actions=output:"s3-eth4"\
+ cookie=0x0, duration=7.652s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.4.4 actions=output:"s3-eth4"\
+ cookie=0x0, duration=7.612s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.2.2 actions=output:"s3-eth2"\
+ cookie=0x0, duration=7.604s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.2.2 actions=output:"s3-eth2"\
+ cookie=0x0, duration=7.581s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.5.5 actions=output:"s3-eth4"\
+ cookie=0x0, duration=7.573s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.5.5 actions=output:"s3-eth4"\
+ cookie=0x0, duration=7.566s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s3-eth6"\
+ cookie=0x0, duration=7.558s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s3-eth6"\
+ cookie=0x0, duration=7.550s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.6.6 actions=output:"s3-eth4"\
+ cookie=0x0, duration=7.542s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.6.6 actions=output:"s3-eth4"\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s4',)\
+ cookie=0x0, duration=7.516s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s4-eth4"\
+ cookie=0x0, duration=7.509s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s4-eth4"\
+ cookie=0x0, duration=7.402s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.5.5 actions=output:"s4-eth4"\
+ cookie=0x0, duration=7.395s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.5.5 actions=output:"s4-eth4"\
+ cookie=0x0, duration=7.386s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.4.4 actions=output:"s4-eth5"\
+ cookie=0x0, duration=7.377s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.4.4 actions=output:"s4-eth5"\
+ cookie=0x0, duration=7.368s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.6.6 actions=output:"s4-eth4"\
+ cookie=0x0, duration=7.360s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.6.6 actions=output:"s4-eth4"\
+ cookie=0x0, duration=7.041s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s4-eth1"\
+ cookie=0x0, duration=7.033s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s4-eth1"\
+ cookie=0x0, duration=6.927s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s4-eth2"\
+ cookie=0x0, duration=6.919s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s4-eth2"\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s5',)\
+ cookie=0x0, duration=7.187s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.5.5 actions=output:"s5-eth4"\
+ cookie=0x0, duration=7.179s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.5.5 actions=output:"s5-eth4"\
+ cookie=0x0, duration=7.171s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.6.6 actions=output:"s5-eth3"\
+ cookie=0x0, duration=7.163s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.6.6 actions=output:"s5-eth3"\
+ cookie=0x0, duration=7.122s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s5-eth1"\
+ cookie=0x0, duration=7.114s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s5-eth1"\
+ cookie=0x0, duration=7.073s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.1.1 actions=output:"s5-eth2"\
+ cookie=0x0, duration=7.065s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.1.1 actions=output:"s5-eth2"\
+ cookie=0x0, duration=7.007s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.4.4 actions=output:"s5-eth2"\
+ cookie=0x0, duration=6.999s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.4.4 actions=output:"s5-eth2"\
+ cookie=0x0, duration=6.958s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.2.2 actions=output:"s5-eth2"\
+ cookie=0x0, duration=6.950s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.2.2 actions=output:"s5-eth2"\
+\cf8  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s6',)\
+ cookie=0x0, duration=7.153s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s6-eth2"\
+ cookie=0x0, duration=7.145s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s6-eth2"\
+ cookie=0x0, duration=7.104s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.1.1 actions=output:"s6-eth2"\
+ cookie=0x0, duration=7.096s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.1.1 actions=output:"s6-eth2"\
+ cookie=0x0, duration=7.038s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.4.4 actions=output:"s6-eth2"\
+ cookie=0x0, duration=7.030s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.4.4 actions=output:"s6-eth2"\
+ cookie=0x0, duration=6.989s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.2.2 actions=output:"s6-eth2"\
+ cookie=0x0, duration=6.982s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.2.2 actions=output:"s6-eth2"\
+ cookie=0x0, duration=6.940s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.6.6 actions=output:"s6-eth3"\
+ cookie=0x0, duration=6.931s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.6.6 actions=output:"s6-eth3"\
+ cookie=0x0, duration=6.922s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.5.5 actions=output:"s6-eth2"\
+ cookie=0x0, duration=6.914s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.5.5 actions=output:"s6-eth2"\
+\cf8  \cf2 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (6/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < OPENFLOW: SENT/RECEIVED PACKETS > 
+\f0\b0 \cf2 \
+ Packets passing through a switch on the way host with IP address = "nw_dst" \
+\cf4   ----- s1 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s1 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.4.4\
+n_packets=2, n_bytes=196, idle_age=9, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.5.5\
+n_packets=2, n_bytes=196, idle_age=9, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.6.6\
+\cf8  \cf2 \
+\cf4   ----- s2 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s2 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.3.3\
+n_packets=2, n_bytes=196, idle_age=9, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.5.5\
+n_packets=2, n_bytes=196, idle_age=9, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.6.6\
+\cf8  \cf2 \
+\cf4   ----- s3 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s3 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.5.5\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.6.6\
+\cf8  \cf2 \
+\cf4   ----- s4 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s4 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=12, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.5.5\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.6.6\
+n_packets=2, n_bytes=196, idle_age=9, ip,nw_dst=10.10.1.1\
+n_packets=2, n_bytes=196, idle_age=9, ip,nw_dst=10.10.2.2\
+\cf8  \cf2 \
+\cf4   ----- s5 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s5 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.5.5\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.6.6\
+n_packets=0, n_bytes=0, idle_age=12, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.2.2\
+\cf8  \cf2 \
+\cf4   ----- s6 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s6 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=10, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=10, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=10, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=10, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=11, ip,nw_dst=10.10.6.6\
+n_packets=0, n_bytes=0, idle_age=10, ip,nw_dst=10.10.5.5\
+\cf8  \cf2 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (7/7) \cf2 \
+\
+TestNet> h1 ping h2 -c5\
+PING 10.10.2.2 (10.10.2.2) 56(84) bytes of data.\
+64 bytes from 10.10.2.2: icmp_seq=1 ttl=64 time=0.293 ms\
+64 bytes from 10.10.2.2: icmp_seq=2 ttl=64 time=0.057 ms\
+64 bytes from 10.10.2.2: icmp_seq=3 ttl=64 time=0.067 ms\
+64 bytes from 10.10.2.2: icmp_seq=4 ttl=64 time=0.056 ms\
+64 bytes from 10.10.2.2: icmp_seq=5 ttl=64 time=0.067 ms\
+\
+--- 10.10.2.2 ping statistics ---\
+5 packets transmitted, 5 received, 0% packet loss, time 4090ms\
+rtt min/avg/max/mdev = 0.056/0.108/0.293/0.092 ms\
+TestNet> stats\
+\
+
+\f1\b \cf4  < OPENFLOW: SENT/RECEIVED PACKETS > 
+\f0\b0 \cf2 \
+ Packets passing through a switch on the way host with IP address = "nw_dst" \
+\cf4   ----- s1 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s1 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.4.4\
+n_packets=7, n_bytes=686, idle_age=4, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.5.5\
+n_packets=7, n_bytes=686, idle_age=4, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.6.6\
+\cf8  \cf2 \
+\cf4   ----- s2 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s2 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.3.3\
+n_packets=7, n_bytes=686, idle_age=4, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.5.5\
+n_packets=7, n_bytes=686, idle_age=4, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.6.6\
+\cf8  \cf2 \
+\cf4   ----- s3 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s3 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.5.5\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.6.6\
+\cf8  \cf2 \
+\cf4   ----- s4 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s4 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.5.5\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.6.6\
+n_packets=7, n_bytes=686, idle_age=4, ip,nw_dst=10.10.1.1\
+n_packets=7, n_bytes=686, idle_age=4, ip,nw_dst=10.10.2.2\
+\cf8  \cf2 \
+\cf4   ----- s5 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s5 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.5.5\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.6.6\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=26, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.2.2\
+\cf8  \cf2 \
+\cf4   ----- s6 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s6 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.3.3\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.4.4\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.2.2\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.6.6\
+n_packets=0, n_bytes=0, idle_age=25, ip,nw_dst=10.10.5.5\
+\cf8  \cf2 \
+TestNet> exit\
+\
+
+\f1\b \cf4  < SHUTTING DOWN > 
+\f0\b0 \cf2 \
+*** Stopping 1 controllers\
+c0 \
+*** Stopping 16 links\
+...............e.\
+*** Stopping 6 switches\
+s1 s2 s3 s4 s5 s6 \
+*** Stopping 6 hosts\
+h1 h2 h3 h4 h5 h6 \
+*** Done\
+>> DONE: Stopped Network<id140220422479248>.\
+Error in atexit._run_exitfuncs:\
+Traceback (most recent call last):\
+  File "/usr/lib/python2.7/atexit.py", line 24, in _run_exitfuncs\
+    func(*targs, **kargs)\
+  File "build/bdist.linux-x86_64/egg/mininet/cli.py", line 91, in <lambda>\
+    atexit.register( lambda: write_history_file( history_path ) )\
+IOError: [Errno 22] Invalid argument\
+Error in sys.exitfunc:\
+Traceback (most recent call last):\
+  File "/usr/lib/python2.7/atexit.py", line 24, in _run_exitfuncs\
+    func(*targs, **kargs)\
+  File "build/bdist.linux-x86_64/egg/mininet/cli.py", line 91, in <lambda>\
+IOError: [Errno 22] Invalid argument\
+mininet@mininet-vm:~$ exit\
+logout\
+Connection to vm closed.\
+admin@MacBookPro ~ % exit\
+\
+[Process completed]\
+\
+}
