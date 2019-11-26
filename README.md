@@ -107,6 +107,9 @@ Now you can [run **TestNet**](#run-simulation) by exectuing one of:
 
 ## Run Simulation
 
+
+### Select Network 
+
 1. Run the **TestNet** simulation and choose a preset to create the chosen network.
 
 		< SELECT NETWORK TOPOLOGY > 
@@ -118,7 +121,6 @@ Now you can [run **TestNet**](#run-simulation) by exectuing one of:
 		Input the index (1 to 4) of a network you want to test:  
 
 2. Next LSRouting algorithm will determine the shortest paths from hosts to hosts.
-
 
 3. Upon selecting, the network will launch. The following tests will be conducted:
 
@@ -138,6 +140,24 @@ Now you can [run **TestNet**](#run-simulation) by exectuing one of:
 		
 		Expected results: All hosts should be able to communicate. A path from one host to another has the lowest possible cost. 
 
+
+### Debugging Commands
+
+* Multiple commands:
+	* `all` – run multiple relevant tests on the network, one by one
+* Link-State routing: 
+	* `weights` – weight of links
+	* `costs` – cost of the lowest-cost path to every switch
+	* `routes` – first-hop switches with the lowest cost
+	* `paths` – all shortest paths
+* OpenFlow:
+	* `flows` – flow table entries of every switch
+	*  `deleteFlows` – delete all flows
+* Run on every node:
+	* `ips` – IP addresses
+	* `arps` – ARP caches
+	* `netstats` – routing tables
+	* `ifconfigs` – interface configurations
 
 
 ## Contributors

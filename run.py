@@ -11,9 +11,11 @@
 
 import sys
 
-from TestNet.Topology import *
-from TestNet.Logger import log
-from TestNet.Utility import ( TestNetLauncher, TestNetSelectionGroup, parser, display, get_routing_decision )
+from TestNet.Topology import TestNetEnvironment
+from TestNet.Utility import *
+#from TestNet.Utility import ( TestNetLauncher, TestNetSelectionGroup,
+#							  parser, display, colorizeEach,
+#							  get_routing_decision )
 
 
 # Main function
@@ -27,7 +29,7 @@ def main( argc, *argv ):
 	env.clean()
 	# 2. Ask to input the index of a topology preset
 	display.section("Select Network Topology")
-	index = env.getNetworkTopologyIndex( argv, env.presetTopologies.range() )
+	index = env.getNetworkTopologyIndex( argv )
 	# 3. Select the preset with that index
 	selectedTopoPreset = env.presetTopologies.select( index )
 	display.message('Selected %s (index: %s)' % (selectedTopoPreset.displayName, index))
@@ -36,16 +38,22 @@ def main( argc, *argv ):
 	
 	#MARK: - Begin Network Simulation and do the First Test
 	# 4. Initialize a new network with selected topology
-	display.section("Building Topology Preset")
+	display.section("Starting network with topology preset")
 	env.prepare( selectedTopoPreset )
-	# 5. Launch the network
-	display.section("Starting Network")
 	env.start()
+	# 5. Launch the network
+	display.section("Starting Configuration Interface")
+	display.prompt('Input commands (optional):\n' + \
+		' (E.g., track packets with \'sudo wireshark &\', \'tcpdump\', etc.)\n' + \
+		' When you are ready to start the simulation tests, type \'exit\' or press CTRL-D.\n')
+	env.startCLI()
 	# 6. Test 1: Destination Host Unreachable
-	display.section("Test 1: Hosts are unreachable...")
+	display.section("Running tests...")
 	(host1, host2) = env.getTestHosts()
-#	test1 = env.nodeReachability( host1, host2 )
-#	display.highlight(test1)
+	test1 = env.nodeReachability( host1, host2 )
+	display.section("Test 1: Hosts are unreachable...")
+	display.highlight(test1)
+	
 	
 	
 	#MARK: - Compute the Paths, Create Flow Tables, and do the Second Test
@@ -66,8 +74,15 @@ def main( argc, *argv ):
 	link = env.net.topo.problemLink
 	display.section("Changing network conditions")
 	display.message('Problem link in this simulation is {%s, %s}' % link )
-	display.message('Problem link between %s %s is down' % link )
-	env.disableLink(link)
+	env.simulateLinkProblem(link)
+	n1 = int( link[0][1:] )
+	n2 = int( link[1][1:] )
+	for (prev1, prev2, w) in linkWeights:
+		if ((prev1 == n1 and prev2 == n2) or (prev1 == n2 and prev2 == n1)):
+			linkWeights.remove( (prev1, prev2, w) )
+			linkWeights.append( (str(n1), str(n2), 1000) )
+			print('Replacing link %s with %s' % ([(prev1, prev2, w)], [(n1, n2, 1000)]) )
+			break
 	# 12. Test 3: Hosts
 	display.section("Test 3: Link failure affects optimal routes...")
 	test3 = env.nodeReachability( host1, host2 )
@@ -77,14 +92,6 @@ def main( argc, *argv ):
 	
 	#MARK: - Recompute the Least-Cost Paths and do the Fourth Test
 	# 13.
-	n1 = int( link[0][1:] )
-	n2 = int( link[1][1:] )
-	for (prev1, prev2, w) in linkWeights:
-		if ((prev1 == n1 and prev2 == n2) or (prev1 == n2 and prev2 == n1)):
-			linkWeights.remove( (prev1, prev2, w) )
-			linkWeights.append( (str(n1), str(n2), 1000) )
-			log.infoln('Replacing link %s with %s' % ([(prev1, prev2, w)], [(n1, n2, 1000)]) )
-			break
 	env.updateRoutes( get_routing_decision, switches, linkWeights )
 	# 14. Test 4:
 	display.section("Test 4: Hosts can communicate again...")
@@ -96,6 +103,11 @@ def main( argc, *argv ):
 	#MARK: - Command Line Interface
 	# 15. Start the CLI to run other tests
 	display.section("Starting Command Line Interface")
+	print('Custom debugging commands:')
+	customList = colorizeEach(['stats', 'flows', 'paths', 'routes', 'costs', 'weights', 'all'], UITextStyle.Color.magenta)
+	for c in customList:
+		print ('%s   ' % c),
+	print('')
 	env.startCLI()
 	
 	
@@ -104,8 +116,6 @@ def main( argc, *argv ):
 	# 15. Stop network
 	display.section("Shutting down")
 	env.stop()
-	
-	
 
 
 if __name__ == '__main__':
