@@ -1,0 +1,145 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2509
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red188\green0\blue189;
+\red208\green212\blue9;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c100000\c0;\cssrgb\c79250\c18003\c78721;
+\cssrgb\c84841\c85057\c0;}
+{\info
+{\author Maxim Puchkov}
+{\*\company com.maximpuchkov}
+{\*\copyright Copyright \'a9 2019 Maxim Puchkov. All rights reserved.}}\margl1440\margr1440\vieww12600\viewh7800\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \cb3 \CocoaLigature0 TestNet> all\
+\
+
+\f1\b \cf4  < IP ADDRESSES > 
+\f0\b0 \cf2 \
+\cf4   ----- Controllers -----  \cf2 \
+ c0	127.0.0.1 \
+\cf4   ----- Switches -----  \cf2 \
+ s1	127.0.0.1 \
+ s2	127.0.0.1 \
+ s3	127.0.0.1 \
+\cf4   ----- Hosts -----  \cf2 \
+ h1	10.10.1.1	00:00:00:00:00:01 \
+ h2	10.10.2.2	00:00:00:00:00:02 \
+ h3	10.10.3.3	00:00:00:00:00:03 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (1/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < WEIGHTS > 
+\f0\b0 \cf2 \
+> Link		Weight\
+> --------------------\
+> \{s1, s3\}	1\
+> \{s2, s3\}	5\
+> \{s1, s2\}	1000\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (2/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < TOTAL PATH COSTS > 
+\f0\b0 \cf2 \
+From\\To s1	s2	s3\
+s1	--	6 	1 	\
+s2	6 	--	5 	\
+s3	1 	5 	--	\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (3/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < FIRST-HOP WITH LOWEST COST > 
+\f0\b0 \cf2 \
+From\\To	s1	s2	s3\
+s1	--	s3 	s3 	\
+s2	s3 	--	s3 	\
+s3	s1 	s2 	--	\
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (4/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < LEAST-COST PATHS TO OTHER NODES > 
+\f0\b0 \cf2 \
+ From -> To	Cost		Full Shortest Path \
+\cf4   ----- s1 -----  \cf2 \
+ s1   -> s2	6		['s1', 's3', 's2'] \
+ s1   -> s3	1		['s1', 's3'] \
+\cf4   ----- s2 -----  \cf2 \
+ s2   -> s1	6		['s2', 's3', 's1'] \
+ s2   -> s3	5		['s2', 's3'] \
+\cf4   ----- s3 -----  \cf2 \
+ s3   -> s1	1		['s3', 's1'] \
+ s3   -> s2	5		['s3', 's2'] \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (5/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < SHOWING ALL FLOWS OF ALL OVSSWITCHES > 
+\f0\b0 \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s1',)\
+ cookie=0x0, duration=91.489s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s1-eth2"\
+ cookie=0x0, duration=91.474s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s1-eth2"\
+ cookie=0x0, duration=91.466s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s1-eth3"\
+ cookie=0x0, duration=91.456s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s1-eth3"\
+ cookie=0x0, duration=91.448s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s1-eth2"\
+ cookie=0x0, duration=91.441s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s1-eth2"\
+\cf5  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s2',)\
+ cookie=0x0, duration=91.410s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s2-eth2"\
+ cookie=0x0, duration=91.402s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s2-eth2"\
+ cookie=0x0, duration=91.392s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s2-eth3"\
+ cookie=0x0, duration=91.384s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s2-eth3"\
+ cookie=0x0, duration=91.375s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s2-eth2"\
+ cookie=0x0, duration=91.364s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s2-eth2"\
+\cf5  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s3',)\
+ cookie=0x0, duration=91.334s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s3-eth1"\
+ cookie=0x0, duration=91.326s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s3-eth1"\
+ cookie=0x0, duration=91.318s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s3-eth3"\
+ cookie=0x0, duration=91.310s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s3-eth3"\
+ cookie=0x0, duration=91.300s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s3-eth2"\
+ cookie=0x0, duration=91.293s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s3-eth2"\
+\cf5  \cf2 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (6/7) \cf2 \
+\
+\
+
+\f1\b \cf4  < OPENFLOW: SENT/RECEIVED PACKETS > 
+\f0\b0 \cf2 \
+ Packets passing through a switch on the way host with IP address = "nw_dst" \
+\cf4   ----- s1 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s1 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=92, ip,nw_dst=10.10.3.3\
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.1.1\
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.2.2\
+\cf5  \cf2 \
+\cf4   ----- s2 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s2 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=0, n_bytes=0, idle_age=92, ip,nw_dst=10.10.3.3\
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.2.2\
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.1.1\
+\cf5  \cf2 \
+\cf4   ----- s3 - Traffic -----  \cf2 \
+*** c0 : ('sudo ovs-ofctl dump-flows s3 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)\
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.1.1\
+n_packets=0, n_bytes=0, idle_age=92, ip,nw_dst=10.10.3.3\
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.2.2\
+\cf5  \cf2 \
+\cf4  \cf2 \
+\
+\cf4 Press <Return> to continue (7/7) \cf2 \
+}
