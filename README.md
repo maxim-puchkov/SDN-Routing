@@ -3,12 +3,10 @@
 Create a simulated software defined network and run least-cost paths Dijkstra's algorithm
 
 
-## Contents 
+### Contents 
 
 * [Description](#description)
 * [Installation Guides](#installation-guides) 
-    * [Quick](#quick)
-    * [Manual](#manual)
 * [Preset Networks](#preset-networks)
 * [Run Simulation](#run-simulation)
 	* [Commands](#debugging-commands)
@@ -29,92 +27,36 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 
 
 
-
-
 &nbsp;
 # Installation Guides
 
-### Quick
+Clone the repository, install Python packages on the VM, and run `run.py` script. 
 
-1. Start Mininet on Virtual Machine (VM) and login. For example:
-
-		$ ssh -Y mininet@vm
-		$ ssh -Y mininet@192.168.56.3
-
-1. Clone this repository or download archived source code on your computer. 
-
-		$ git clone git@csil-git1.cs.surrey.sfu.ca:471-project-6/sdn-routing.git
-
-1. __From the same folder__, run the `install.sh` shell script to copy your local folder to the VM. If necessary, you can specify the IP address of the VM: `install.sh <IP>` (default = 192.168.56.3).
-
-		$ ./sdn-routing/install.sh 
-		$ ./sdn-routing/install.sh 192.168.56.3
-
-1. While `install.sh` runs, it executes `ssh mininet@vm ~/sdn-routing/setup.sh ` shell script to install the Python modules.
-	
-		Installed /usr/local/lib/python2.7/dist-packages/TestNet-1.0-py2.7.egg
-		Installed /usr/local/lib/python2.7/dist-packages/LSRouting-1.0-py2.7.egg
-	
-1. When the script completes, you should this message:
-	
-		All components were successfully installed
-		Installed SDNetwork packages:
-			TestNet: Create and test simulated SDNs
-			Routing: Compute least-cost paths in a simulated SDN
-	
-1. Now you can [run **TestNet**](#run-simulation) by executing one of:
-
-		$ sudo ~/sdn-routing/run.py
-		$ sudo python ~/sdn-routing/run.py
-		
-1. You can verify installation by listing the contents of home directory. Installed **sdn-routing** directory will appear there. 
-
-		$ ls ~
-		install-mininet-vm.sh loxigen mininet oflops oftest openflow pox sdn-routing ...
-
-1. To verify the modules were installed, print:
-
-		$ python -c 'from TestNet import *; print(dir());'
-		['BabyTopo', 'CLI', 'LargeTopo', 'LinkTopo', 'Logger', 'RawWeightedLink', 'SmallTopo', 		...,		 'wlinks']
-
-> _View **[sample output](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/1-install/install.sh.rtf)** of the installation script **install.sh**_  
+ > _Read [detailed installation instructions](docs/Install.md)._
 
 
 
-&nbsp;
-## Manual
-
-1. If the installation script `install.sh` does not work for you, you can manually copy and install the project. First, use `scp -r` to copy the directory:
-
-		$ scp -r /path/to/sdn-network mininet@vm:~/sdn-network
-	
-1. On the VM, run the `setup.sh <parent-dir>` script to install Python packages:
-
-		$ ./sdn-network/setup.sh sdn-network
-
-1. Verify installation by listing the contents of Python distribution packages. Installed packages will appear there. 
-
-		$ ls /usr/local/lib/python2.7/dist-packages/
-
-1. Now you can [run **TestNet**](#run-simulation) by executing one of:
-
-		$ sudo ~/sdn-routing/run.py
-		$ sudo python ~/sdn-routing/run.py
-
-> _View **[sample output](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/1-install/setup.sh.rtf)** of the package setup script **setup.sh**_
 
 
 &nbsp;
 # Preset Networks
 
-**TestNet** includes four preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate the correctness of the routing algorithm. If your input is invalid, the default network is selected.
+**TestNet** includes multiple preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate the correctness of the routing algorithm.
 
 1. **Baby** – very small network with 3 switches and 3 links _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/1-Baby-Diagram.png)_.
 1. **Tiny** _(default)_ – simple network with 4 switches and 5 links in-between them _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/2-Tiny-Diagram.png)_.
 1. **Small** – a network with 6 switches and 10 links _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/3-Small-Diagram.png)_.
-1. **Large** – _(debug)_ _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/4-Large-Diagram.png)_.
+1. ...
+1. ...
 
-> _View all network diagrams **[here](#https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/tree/master/docs/diagrams)**_ 
+
+<!-- Other networks:
+	1. **Large** – _(debug)_ _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/diagrams/4-Large-Diagram.png)_.
+	1. **Massive** – 200 switches and 1,000 links.
+-->
+
+
+> _View all network diagrams [here](#https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/tree/master/docs/diagrams)._ 
 
 
 
@@ -125,22 +67,41 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 
 ### Select Network 
 
-1. Run the **TestNet** simulation and choose a preset to create the chosen network.
+1. Run a **TestNet** simulation.
 
-		< SELECT NETWORK TOPOLOGY > 
-		1. Baby Topo - very small network with 3 switches and 3 links.
-		2. Tiny Topology (default) - simple network with 4 switches and 5 links in-between them.
-		3. Small Topology - a network with 6 switches and 10 links.
-		4. Large Topology - .
-		(see network diagrams in the project definition) 
-		Input the index (1 to 4) of a network you want to test:  
+	```sh
+	$ sudo python ~/sdn-routing/run.py
+	```
 
-1. Configuration command-line interface (CLI) will start. Here you can enter commands to monitor network traffic (`tcpdump`, `wireshark`, etc.) or view initial network configuration (`all`, `flows`). Type `exit` to exit the configuration phase and begin the tests.
+1. Choose a preset network from the list.
 
-1. Next **LSRouting** algorithm will determine the shortest paths from hosts to hosts.
+	```		
+	< SELECT NETWORK TOPOLOGY > 
+	1. Baby Topology - very small network with 3 switches and 3 links.
+	2. Tiny Topology (default) - simple network with 4 switches and 5 links.
+	3. Small Topology - a network with 6 switches and 10 links.
+	4. Large Topology - network of 16 connected switches (debug).
+	5. Massive Topology - 200 switches and 1000 links, on average (debug).
+	(see network diagrams in the project definition) 
+	Input the index (1 to 5) of a network you want to test:
+	```
 
-1. Upon selecting, the network will launch. The following tests will be conducted:
+1. First configuration command-line interface (CLI) will start. Here you can enter commands to monitor network traffic (`tcpdump`, `wireshark`, etc.) or view initial network configuration (`all`, `flows`, [etc.](#debugging-commands)). 
 
+	```
+	< STARTING CONFIGURATION INTERFACE > 
+	Input commands (optional):
+	(E.g., track packets with 'sudo wireshark &', 'tcpdump', etc.)
+	When you are ready to start the simulation tests, type 'exit' or press CTRL-D.
+	```
+
+1. Type `exit` to exit the configuration phase and begin the tests. Upon selecting, the network will launch. Next **LSRouting** algorithm will determine the shortest paths from hosts to hosts. The following tests will be conducted:
+
+	```
+	TestNet> exit
+
+	< RUNNING TESTS... >
+	```
 
 	1. **Initial Setup Test**: Check host reachability before adding flow tables.
 		
@@ -159,9 +120,11 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 		Expected results: All hosts should be able to communicate. A path from one host to another has the lowest possible cost. 
 
 
-1. When the tests finish, you another CLI will start. View network statistics with `all` or any other debugging command. Type `exit` to exit the simulation phase and leave.
+1. When the tests finish, the second CLI will start. View network statistics with `all` or any other debugging command. Type `exit` to exit the simulation phase and leave.
 
-> _View [sample outputs](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/tree/master/docs/sample-outputs/3-Network-Simulation)_ 
+
+> _View [sample outputs](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/tree/master/docs/sample-outputs/3-Network-Simulation)._
+
 
 
 &nbsp;
@@ -185,6 +148,7 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 	* `ifconfigs` – interface configurations
 
 
+
 &nbsp;
 ## Wireshark
 
@@ -200,15 +164,16 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 &nbsp;
 # Contributors
 
-* **Maxim Puchkov** 
-* **Xiyu Zhang**
+* Maxim Puchkov
+* Xiyu Zhang
 
+_See latest [CHANGES.**md**](CHANGES.md) (or [.**txt**](CHANGES.txt))._
 
 
 >>>
-Date: November 21, 2019
-
 GitLab repository: https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing.git
 
 Submission commit: fc0d92894f57bba92ee192848637363dcf56e3d8
+
+Presentation commit: 8608fcc5712eef882d29a005759e99982857abb0
 >>>
