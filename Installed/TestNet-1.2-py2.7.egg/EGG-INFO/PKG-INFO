@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: TestNet
+Version: 1.2
+Summary: Process-based OpenFlow emulator
+Home-page: UNKNOWN
+Author: Maxim Puchkov, Xiyu Zhang
+Author-email: mpuchkov@sfu.ca
+License: UNKNOWN
+Description: 
+                SDN Simulation and Routing
+                
+Keywords: networking emulator protocol Internet OpenFlow SDN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: System :: Emulators

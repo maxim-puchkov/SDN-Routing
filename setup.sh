@@ -31,8 +31,8 @@ cleanup() {
 	NET_BUILD="${NET_LIB}.${EXT}"
 	sudo mv "${NET_BUILD}" "${DIR}/${NET_BUILD}"
 	
-	LSR_BUILD="${LSR_LIB}.${EXT}"
-	sudo mv "${LSR_BUILD}" "${DIR}/${LSR_BUILD}"
+#	LSR_BUILD="${LSR_LIB}.${EXT}"
+#	sudo mv "${LSR_BUILD}" "${DIR}/${LSR_BUILD}"
 	
 	VAR="${VM_BUNDLE_DIR}/var"
 	mkdir "${VAR}"
@@ -49,10 +49,10 @@ install_packages() {
 	sudo python "${TMP}/${SETUP}" 'install'
 	mv "${TMP}" "${VM_LIBRARY}/${NET_LIB}"
 	
-	TMP=~/${LSR_LIB}
-	mv "${VM_LIBRARY}/${LSR_LIB}" "${TMP}"
-	sudo python "${TMP}/${SETUP}" 'install'
-	mv "${TMP}" "${VM_LIBRARY}/${LSR_LIB}"
+#	TMP=~/${LSR_LIB}
+#	mv "${VM_LIBRARY}/${LSR_LIB}" "${TMP}"
+#	sudo python "${TMP}/${SETUP}" 'install'
+#	mv "${TMP}" "${VM_LIBRARY}/${LSR_LIB}"
 
 }
 
