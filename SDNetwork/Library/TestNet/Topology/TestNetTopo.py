@@ -14,6 +14,7 @@ from random import randint
 
 from mininet.topo import Topo
 from mininet.util import irange
+
 from TestNet.Topology import wlink, wlinks
 
 
@@ -67,7 +68,7 @@ class SuperTopo( Topo ):
 
 
 #MARK: - Link Topology
-# LinkTopo is a network topology with
+# LinkTopo is a base topology with weighted links.
 #   n:      swtiches
 #   k:      hosts per every switch
 #  _wlinks: weighted links from every switch to its
@@ -86,7 +87,7 @@ class LinkTopo( SuperTopo ):
 		def addSwitches():
 			return [ self.addSwitch( 's%s' % i )
 				for i in irange( 1, n ) ]
-		# Create all slinks between switches ((with cost)
+		# Create all links between switches (with cost)
 		def addSwitchLinks():
 			switchLinks = []
 			for weightedLink in _wlinks:
@@ -98,12 +99,12 @@ class LinkTopo( SuperTopo ):
 		# Get host by index: h(1) = <Host h1>
 		def h( index ):
 			return self.hosts()[index - 1]
-		# Create (n * k) _hosts
+		# Create (n * k) hosts
 		def addHosts():
 			h = n * k
 			return [ self.addHost( 'h%s' % i )
 				for i in irange( 1, h ) ]
-		# Create k _wlinks from _hosts to every switch (no cost)
+		# Create k links from each host to connected switch (no cost)
 		def addHostLinks():
 			hostLinks = []
 			for i in irange( 1, n ):
@@ -198,7 +199,7 @@ class SmallTopo( LinkTopo ):
 #	randomized
 class LargeTopo( LinkTopo ):
 	displayName = 'Large Topology'
-	info = 'network of 16 connected switches (debug)'
+	info = 'a network of 16 connected switches (debug)'
 	
 	def build( self ):
 		switches = 16
@@ -249,10 +250,10 @@ class TestTopo( LinkTopo ):
 
 # Allows the file to be imported using `mn --custom <filename> --topo minimal`
 topos = {
-	'baby': BabyTopo,
-	'tiny': TinyTopo,
-	'small': SmallTopo,
-	'large': LargeTopo,
-	'massive': MassiveTopo,
-	'test': TestTopo
+	'baby'    : BabyTopo,
+	'tiny'    : TinyTopo,
+	'small'   : SmallTopo,
+	'large'   : LargeTopo,
+	'massive' : MassiveTopo
+#	'test': TestTopo
 }

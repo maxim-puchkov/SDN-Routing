@@ -10,41 +10,38 @@
 #
 
 
-# Text color
+# Text style
 class UITextStyle:
-	# Regular colors
-	class Color:
-		black   = '\033[0;30m'
-		red     = '\033[0;31m'
-		green   = '\033[0;32m'
-		yellow  = '\033[93m'
-		blue    = '\033[0;34m'
-		magenta = '\033[35m'
-		cyan    = '\033[0;36m'
-		gray    = '\033[0;37m'
-		lightred     ='\033[91m'
+	class Color:						# Regular text color
+		black   	 = '\033[0;30m'
+		red     	 = '\033[0;31m'
+		green   	 = '\033[0;32m'
+		yellow  	 = '\033[93m'
+		blue    	 = '\033[0;34m'
+		magenta 	 = '\033[35m'
+		cyan    	 = '\033[0;36m'
+		gray    	 = '\033[0;37m'
+		lightred     = '\033[91m'
 		lightcyan    = '\033[96m'
 		red_bold     = '\033[1;31m'
 		magenta_bold = '\033[1;35m'
-	class BackgroundColor:
-		black		= '\033[40m'
-		red			= '\033[41m'
-		green		= '\033[42m'
-		orange		= '\033[43m'
-		blue		= '\033[44m'
-		purple		= '\033[45m'
-		cyan		= '\033[46m'
-		lightgrey	= '\033[47m'
+	class BackgroundColor:				# Background color
+		black	     = '\033[40m'
+		red			 = '\033[41m'
+		green		 = '\033[42m'
+		orange		 = '\033[43m'
+		blue		 = '\033[44m'
+		purple		 = '\033[45m'
+		cyan		 = '\033[46m'
+		lightgrey	 = '\033[47m'
 	class Format:
-		underline = '\033[0;4m'
-		# Reset color to default
-		reset = '\033[m'
+		underline 	 = '\033[0;4m'
+		reset 		 = '\033[m'			# Reset color to default
 
 
-# Make one colored string
+# Convert original string to colored string
 def colorize( _str, color ):
 	return ( color + _str + UITextStyle.Format.reset )
-# Make each string colored
 def colorizeEach( strList, color ):
 	ret = [ colorize( _str, color )
 		for _str in strList ]
@@ -80,7 +77,6 @@ def displayFootnote( content ):
 
 # Display formatted blocks of text
 class TestNetDisplay:
-	
 	#
 	def section( self, content ):
 		print('')
@@ -107,7 +103,7 @@ class TestNetDisplay:
 		for n in range( len(block) ):
 			printColored([n + 1, block[n]], UITextStyle.Color.yellow)
 			print('')
-	
+	#
 	def cmdHighlight( self, enable ):
 		if (enable):
 			print(UITextStyle.Color.yellow),

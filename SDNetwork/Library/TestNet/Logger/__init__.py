@@ -9,4 +9,4 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
-from .TestNetLogger import *
+from .TestNetLogger import log

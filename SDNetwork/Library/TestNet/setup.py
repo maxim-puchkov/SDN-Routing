@@ -19,7 +19,7 @@ print(sys.path)
 
 setup(
     name=distname,
-    version='1.2',
+    version='1.3',
     description='Process-based OpenFlow emulator',
     author='Maxim Puchkov, Xiyu Zhang',
     author_email='mpuchkov@sfu.ca',

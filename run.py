@@ -13,9 +13,6 @@ import sys
 
 from TestNet.Topology import TestNetEnvironment
 from TestNet.Utility import *
-#from TestNet.Utility import ( TestNetLauncher, TestNetSelectionGroup,
-#							  parser, display, colorizeEach,
-#							  get_routing_decision )
 
 
 def __wait__( *commandList ):

@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- coding: utf-8 -*-
 
 #  install.sh
 #  SDNetwork
@@ -46,7 +47,7 @@ VAR="${VM_BUNDLE_DIR}/var"
 NET_LIB="TestNet"
 LSR_LIB="Routing"
 
-# Names of executables scripts
+# Names of executable scripts
 SETUP="setup.sh"
 RUN="run.py"
 
@@ -54,7 +55,7 @@ RUN="run.py"
 remove_bundle() {
     echo "Removing old ${BUNDLE_NAME} files..."
     ( ssh mininet@${VM_IP} "if [ -d ${VM_BUNDLE_DIR} ]; then sudo rm -r ${VM_BUNDLE_DIR}; fi;" \
-    && echo "Deleted the '${VM_BUNDLE_DIR}' directory." )
+        && echo "Deleted the '${VM_BUNDLE_DIR}' directory." )
 }
 copy_bundle() {
     echo "Copying files to remote host..."
@@ -62,12 +63,13 @@ copy_bundle() {
 }
 install_packages() {
     echo "Installing packages..."
-    ssh mininet@${VM_IP} "chmod 0755 ${VM_BUNDLE_DIR}/${SETUP} && sh ${VM_BUNDLE_DIR}/${SETUP} ${BUNDLE_NAME}"
+    ssh mininet@${VM_IP} "chmod 0755 ${VM_BUNDLE_DIR}/${SETUP} &&" \
+        "sh ${VM_BUNDLE_DIR}/${SETUP} ${BUNDLE_NAME}"
 }
 set_privilege() {
     echo "Setting file access privilege..."
-    ( ssh mininet@vm "chmod 0755 ${VM_BUNDLE_DIR}/${RUN}" \
-    && echo -e "\t${RUN}: 0755" )
+    ( ssh mininet@vm "chmod 0755 ${VM_BUNDLE_DIR}/${RUN}" &&
+        echo -e "\t${RUN}: 0755" )
 }
 
 
@@ -82,13 +84,8 @@ show_info() {
     echo -e "Installed ${BUNDLE_NAME} packages:"
     echo -e "\t$(__cmd__ ${NET_LIB}): Create and test simulated SDNs"
     echo -e "\t$(__cmd__ ${LSR_LIB}): Compute least-cost paths in a simulated SDN"
-
-#    echo -e "\nTo use ${NET_LIB}, first run the setup script:"
-#    echo -e "\t$(__cmd__ ${VM_BUNDLE_DIR}/${SETUP} build): setup package modules."
-
     echo -e "\nNow you can create test networks by running:"
     echo -e "\t$(__cmd__ ${VM_BUNDLE_DIR}/${RUN}): create a test network (run as root)."
-#    echo -e "\t$(__cmd__ ${VM_BUNDLE_DIR}/...): ..."
     echo
 }
 

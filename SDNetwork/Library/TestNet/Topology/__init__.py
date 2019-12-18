@@ -11,5 +11,5 @@
 
 from .TestNetRawLink import *
 from .TestNetTopo import *
-from .TestNetEnvCLI import *
-from .TestNetEnvironment import *
+from .TestNetEnvCLI import TestNetEnvCLI
+from .TestNetEnvironment import TestNetEnvironment

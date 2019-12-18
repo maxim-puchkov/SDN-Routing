@@ -9,10 +9,8 @@
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
 #
 
-from subprocess import Popen, PIPE
-
 from mininet.cli import CLI
-from mininet.term import makeTerms, runX11
+from mininet.term import makeTerms
 from mininet.util import irange
 
 from TestNet.Logger import log
