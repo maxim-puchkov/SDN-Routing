@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 #
-#  main.py
-#  Test Network main function
+#  run.py
+#  Test Network Demo
 #
 #  Created by mpuchkov on 2019-11-18.
 #  Copyright © 2019 Maxim Puchkov. All rights reserved.
@@ -25,8 +25,9 @@ def __wait__( *commandList ):
 		except:
 			x = ''
 
-# Main function
-def main( argc, *argv ):
+
+# Run the demonstration
+def __run__( argc, *argv ):
 
 	#MARK: - Select Network Topology
 	# 1. Create environment for creating, running, and testing
@@ -132,5 +133,5 @@ def main( argc, *argv ):
 
 if __name__ == '__main__':
 	argc = len( sys.argv )
-	main( argc, sys.argv )
+	__run__( argc, sys.argv )
 

@@ -65,6 +65,7 @@
 	['BabyTopo', 'CLI', 'LargeTopo', 'LinkTopo', 'Logger', 'RawWeightedLink', 'SmallTopo',   ...,   'wlinks']
 	```
 
+
 > _View **[sample output](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/1-install/install.sh.rtf)** of the installation script install.sh._  
 
 
@@ -96,5 +97,6 @@
 	$ sudo python ~/sdn-routing/run.py
 	$ sudo ~/sdn-routing/run.py
 	```
+
 
 > _View **[sample output](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/docs/sample-outputs/1-install/setup.sh.rtf)** of the package setup script setup.sh._

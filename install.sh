@@ -35,13 +35,11 @@ BUNDLE_DIR="${BUNDLE_ROOT}/${BUNDLE_NAME}"
 
 
 
-
 # ./install.sh <VM IP address>
 # Default IP: 192.168.56.3
 VM_IP="${1:-192.168.56.3}"
 VM_BUNDLE_DIR="~/${BUNDLE_NAME}"
 VAR="${VM_BUNDLE_DIR}/var"
-
 
 # Copy TestNet and LinkStateRouting to VM
 NET_LIB="TestNet"
@@ -50,8 +48,11 @@ LSR_LIB="Routing"
 # Names of executable scripts
 SETUP="setup.sh"
 RUN="run.py"
+MAIN="__main__.py"
 
 
+
+# Copy and install files
 remove_bundle() {
     echo "Removing old ${BUNDLE_NAME} files..."
     ( ssh mininet@${VM_IP} "if [ -d ${VM_BUNDLE_DIR} ]; then sudo rm -r ${VM_BUNDLE_DIR}; fi;" \
@@ -68,30 +69,34 @@ install_packages() {
 }
 set_privilege() {
     echo "Setting file access privilege..."
+    ( ssh mininet@vm "chmod 0755 ${VM_BUNDLE_DIR}/${MAIN}" &&
+        echo -e "\t${MAIN}: 0755" )
     ( ssh mininet@vm "chmod 0755 ${VM_BUNDLE_DIR}/${RUN}" &&
         echo -e "\t${RUN}: 0755" )
 }
 
 
-display_broadcast() {
-    MSG="Installing..."
-    echo -e "\t"$MSG | write $USER
+
+# Installation
+install() {
+    echo ">> Running $(__cmd__ 'install') utility..."
+    ( (remove_bundle &&
+        copy_bundle &&
+        set_privilege &&
+        install_packages &&
+        show_info) ||
+    (__error__) )
 }
-
-
 show_info() {
     __done__
     echo -e "Installed ${BUNDLE_NAME} packages:"
     echo -e "\t$(__cmd__ ${NET_LIB}): Create and test simulated SDNs"
-    echo -e "\t$(__cmd__ ${LSR_LIB}): Compute least-cost paths in a simulated SDN"
     echo -e "\nNow you can create test networks by running:"
-    echo -e "\t$(__cmd__ ${VM_BUNDLE_DIR}/${RUN}): create a test network (run as root)."
+    echo -e "\t- $(__cmd__ 'sudo python '${BUNDLE_NAME})"
+    echo -e "\t- $(__cmd__ 'sudo '${VM_BUNDLE_DIR}/${RUN})"
     echo
 }
 
-install() {
-    echo ">> Running $(__cmd__ 'install') utility..."
-    ( (remove_bundle && copy_bundle && set_privilege && install_packages && show_info) || (__error__) )
-}
+
 
 install "${BUNDLE_NAME}"

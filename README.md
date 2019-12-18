@@ -32,7 +32,8 @@ This project aims to simulate SDN LSRouting and data delivering using OpenFlow o
 
 Clone the repository, install Python packages on the VM, and run `run.py` script. 
 
- > _Read [detailed installation instructions](Documents/Install.md)._
+
+ > _View detailed **[installation instructions](Documents/Install.md)**._
  
  <!-- URL:
 https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documents/Install.md -->
@@ -44,7 +45,7 @@ https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documen
 &nbsp;
 # Preset Networks
 
-**TestNet** includes multiple preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate the correctness of the routing algorithm.
+**TestNet** includes multiple preset networks. The name of a preset describes its relative size. Most presets were reconstructed from familiar examples to demonstrate correctness of the routing algorithm.
 
 1. **Baby** – very small network with 3 switches and 3 links _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documents/Diagrams/1-Baby-Diagram.png)_.
 1. **Tiny** _(default)_ – simple network with 4 switches and 5 links in-between them _[(network diagram)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documents/Diagrams/2-Tiny-Diagram.png)_.
@@ -165,13 +166,14 @@ https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documen
 * Maxim Puchkov
 * Xiyu Zhang
 
-_See latest [CHANGES.**md**](CHANGES.md) (or [.**txt**](CHANGES.txt))._
+_See latest [CHANGES.md](CHANGES.md) (display as [plaintext](CHANGES.txt))._
 
 
+&nbsp;
 >>>
 GitLab repository: https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing.git
 
-Submission commit: fc0d92894f57bba92ee192848637363dcf56e3d8
+Submission commit: fc0d92894f57bba92ee192848637363dcf56e3d8 (Nov 21, 2019)
 
-Presentation commit: 8608fcc5712eef882d29a005759e99982857abb0
+Presentation commit: 8608fcc5712eef882d29a005759e99982857abb0 (Nov 26, 2019)
 >>>

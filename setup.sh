@@ -51,4 +51,4 @@ cleanup() {
 
 
 install_packages
-cleanup
+#cleanup
