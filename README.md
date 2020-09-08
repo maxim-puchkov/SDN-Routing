@@ -152,8 +152,8 @@ https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documen
 ## Wireshark
 
 * Tiny Network:
-	1. Initially, **Host 1** cannot reach **Host 2** because the flow tables of SDN-controlled switches are not computed. **Wireshark** and **tcpdump** show that **Host 1** sends 3 ARP packets to find **Host 2**, but does not receive a reply _[(image)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documents/SampleOutputs/4-Wireshark/1-ping-s1-s2-fail.png)_.
-	1. When the flows tables are computed and updated, the least-cost path from **Switch 1** to **Switch 2** is going through **Switch 4**. The packets from **Host 1** travel to **Switch 1** (left), **Switch 4** (middle), and then **Switch 2** (right) before reaching the destination **Host 2** _[(image)](https://csil-git1.cs.surrey.sfu.ca/471-project-6/sdn-routing/blob/master/Documents/SampleOutputs/4-Wireshark/2-ping-s1-s2-via-s4.png)_.
+	1. Initially, **Host 1** cannot reach **Host 2** because the flow tables of SDN-controlled switches are not computed. **Wireshark** and **tcpdump** show that **Host 1** sends 3 ARP packets to find **Host 2**, but does not receive a reply ![Image 1](https://github.com/maxim-puchkov/SDN-Routing/blob/master/Documents/SampleOutputs/4-Wireshark/1-ping-s1-s2-fail.png)
+	1. When the flows tables are computed and updated, the least-cost path from **Switch 1** to **Switch 2** is going through **Switch 4**. The packets from **Host 1** travel to **Switch 1** (left), **Switch 4** (middle), and then **Switch 2** (right) before reaching the destination **Host 2** ![Image 2](https://github.com/maxim-puchkov/SDN-Routing/blob/master/Documents/SampleOutputs/4-Wireshark/2-ping-s1-s2-via-s4.png)
 	1. **Host 2** replies to **Host 1**. 
 
 
