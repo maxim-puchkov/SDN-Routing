@@ -1,0 +1,274 @@
+sdn-routing/
+├── Documents
+│   ├── Diagrams
+│   │   ├── 1-Baby-Diagram.png
+│   │   ├── 2-Tiny-Diagram.png
+│   │   ├── 3-Small-Diagram.png
+│   │   └── 4-Large-Diagram.png
+│   ├── Install.md
+│   ├── Other
+│   │   ├── Network-Links.txt
+│   │   ├── Project-Tree.rtf
+│   │   └── Switch-All-Variables.txt
+│   ├── Presets
+│   │   ├── Network 1 - Baby 
+│   │   │   ├── baby.mn
+│   │   │   └── baby.py
+│   │   ├── Network 2 - Tiny
+│   │   │   ├── tiny.mn
+│   │   │   └── tiny.py
+│   │   ├── Network 3 - Small
+│   │   │   ├── small.mn
+│   │   │   └── small.py
+│   │   └── Network 4 - Large
+│   └── SampleOutputs
+│       ├── 1-Install
+│       │   ├── install.sh.rtf
+│       │   └── setup.sh.rtf
+│       ├── 2-CLI-Commands
+│       │   ├── all-sample.rtf
+│       │   ├── flows-sample.rtf
+│       │   ├── other-sample.rtf
+│       │   └── routes-sample.rtf
+│       ├── 3-Simulation
+│       │   ├── 2-tiny-network.rtf
+│       │   └── 3-small-network.rtf
+│       └── 4-Wireshark
+│           ├── 1-ping-s1-s2-fail.png
+│           └── 2-ping-s1-s2-via-s4.png
+├── Installed
+│   └── TestNet-1.1-py2.7.egg
+│       ├── EGG-INFO
+│       │   ├── dependency_links.txt
+│       │   ├── not-zip-safe
+│       │   ├── PKG-INFO
+│       │   ├── requires.txt
+│       │   ├── SOURCES.txt
+│       │   └── top_level.txt
+│       └── TestNet
+│           ├── consoles.py
+│           ├── consoles.pyc
+│           ├── __init__.py
+│           ├── __init__.pyc
+│           ├── Logger
+│           │   ├── __init__.py
+│           │   ├── __init__.pyc
+│           │   ├── TestNetLogger.py
+│           │   └── TestNetLogger.pyc
+│           ├── setup.py
+│           ├── setup.pyc
+│           ├── Topology
+│           │   ├── __init__.py
+│           │   ├── __init__.pyc
+│           │   ├── TestNetEnvCLI.py
+│           │   ├── TestNetEnvCLI.pyc
+│           │   ├── TestNetEnvironment.py
+│           │   ├── TestNetEnvironment.pyc
+│           │   ├── TestNetRawLink.py
+│           │   ├── TestNetRawLink.pyc
+│           │   ├── TestNetTopo.py
+│           │   └── TestNetTopo.pyc
+│           └── Utility
+│               ├── dijkstra.py
+│               ├── dijkstra.pyc
+│               ├── __init__.py
+│               ├── __init__.pyc
+│               ├── TestNetDisplay.py
+│               ├── TestNetDisplay.pyc
+│               ├── TestNetLauncher.py
+│               ├── TestNetLauncher.pyc
+│               ├── TestNetParser.py
+│               ├── TestNetParser.pyc
+│               ├── TestNetSelectionGroup.py
+│               └── TestNetSelectionGroup.pyc
+├── install.sh
+├── run.py
+├── SDNetwork
+│   ├── Info.plist
+│   └── Library
+│       └── TestNet
+│           ├── __init__.py
+│           ├── Logger
+│           │   ├── __init__.py
+│           │   └── TestNetLogger.py
+│           ├── setup.py
+│           ├── Topology
+│           │   ├── __init__.py
+│           │   ├── TestNetEnvCLI.py
+│           │   ├── TestNetEnvironment.py
+│           │   ├── TestNetRawLink.py
+│           │   └── TestNetTopo.py
+│           └── Utility
+│               ├── dijkstra.py
+│               ├── __init__.py
+│               ├── TestNetDisplay.py
+│               ├── TestNetLauncher.py
+│               ├── TestNetParser.py
+│               └── TestNetSelectionGroup.py
+├── SDNetwork.xcodeproj
+│   ├── project.pbxproj
+│   ├── project.xcworkspace
+│   │   ├── contents.xcworkspacedata
+│   │   ├── xcshareddata
+│   │   │   ├── IDEWorkspaceChecks.plist
+│   │   │   └── WorkspaceSettings.xcsettings
+│   │   └── xcuserdata
+│   │       └── admin.xcuserdatad
+│   │           ├── UserInterfaceState.xcuserstate
+│   │           └── WorkspaceSettings.xcsettings
+│   ├── xcshareddata
+│   │   └── xcschemes
+│   │       └── SDNetworkLauncher.xcscheme
+│   └── xcuserdata
+│       └── admin.xcuserdatad
+│           └── xcschemes
+│               └── xcschememanagement.plist
+├── setup.sh
+└── var
+    └── dist
+        ├── TestNet-1.2-py2.7.egg
+        └── TestNet.egg-info
+            ├── dependency_links.txt
+            ├── PKG-INFO
+            ├── requires.txt
+            ├── SOURCES.txt
+            └── top_level.txt
+
+39 directories, 95 files
+mininet@mininet-vm:~$ sudo rm -r Group6-sdn-routing/
+mininet@mininet-vm:~$ tree Group6-sdn-routing/
+Group6-sdn-routing/
+├── Documents
+│   ├── Diagrams
+│   │   ├── 1-Baby-Diagram.png
+│   │   ├── 2-Tiny-Diagram.png
+│   │   ├── 3-Small-Diagram.png
+│   │   └── 4-Large-Diagram.png
+│   ├── Install.md
+│   ├── Other
+│   │   ├── Network-Links.txt
+│   │   ├── Project-Tree.rtf
+│   │   └── Switch-All-Variables.txt
+│   ├── Presets
+│   │   ├── Network 1 - Baby 
+│   │   │   ├── baby.mn
+│   │   │   └── baby.py
+│   │   ├── Network 2 - Tiny
+│   │   │   ├── tiny.mn
+│   │   │   └── tiny.py
+│   │   ├── Network 3 - Small
+│   │   │   ├── small.mn
+│   │   │   └── small.py
+│   │   └── Network 4 - Large
+│   └── SampleOutputs
+│       ├── 1-Install
+│       │   ├── install.sh.rtf
+│       │   └── setup.sh.rtf
+│       ├── 2-CLI-Commands
+│       │   ├── all-sample.rtf
+│       │   ├── flows-sample.rtf
+│       │   ├── other-sample.rtf
+│       │   └── routes-sample.rtf
+│       ├── 3-Simulation
+│       │   ├── 2-tiny-network.rtf
+│       │   └── 3-small-network.rtf
+│       └── 4-Wireshark
+│           ├── 1-ping-s1-s2-fail.png
+│           └── 2-ping-s1-s2-via-s4.png
+├── Installed
+│   └── TestNet-1.2-py2.7.egg
+│       ├── EGG-INFO
+│       │   ├── dependency_links.txt
+│       │   ├── not-zip-safe
+│       │   ├── PKG-INFO
+│       │   ├── requires.txt
+│       │   ├── SOURCES.txt
+│       │   └── top_level.txt
+│       └── TestNet
+│           ├── __init__.py
+│           ├── __init__.pyc
+│           ├── Logger
+│           │   ├── __init__.py
+│           │   ├── __init__.pyc
+│           │   ├── TestNetLogger.py
+│           │   └── TestNetLogger.pyc
+│           ├── setup.py
+│           ├── setup.pyc
+│           ├── Topology
+│           │   ├── __init__.py
+│           │   ├── __init__.pyc
+│           │   ├── TestNetEnvCLI.py
+│           │   ├── TestNetEnvCLI.pyc
+│           │   ├── TestNetEnvironment.py
+│           │   ├── TestNetEnvironment.pyc
+│           │   ├── TestNetRawLink.py
+│           │   ├── TestNetRawLink.pyc
+│           │   ├── TestNetTopo.py
+│           │   └── TestNetTopo.pyc
+│           └── Utility
+│               ├── dijkstra.py
+│               ├── dijkstra.pyc
+│               ├── __init__.py
+│               ├── __init__.pyc
+│               ├── TestNetDisplay.py
+│               ├── TestNetDisplay.pyc
+│               ├── TestNetLauncher.py
+│               ├── TestNetLauncher.pyc
+│               ├── TestNetParser.py
+│               ├── TestNetParser.pyc
+│               ├── TestNetSelectionGroup.py
+│               └── TestNetSelectionGroup.pyc
+├── install.sh
+├── run.py
+├── SDNetwork
+│   ├── Info.plist
+│   └── Library
+│       └── TestNet
+│           ├── __init__.py
+│           ├── Logger
+│           │   ├── __init__.py
+│           │   └── TestNetLogger.py
+│           ├── setup.py
+│           ├── Topology
+│           │   ├── __init__.py
+│           │   ├── TestNetEnvCLI.py
+│           │   ├── TestNetEnvironment.py
+│           │   ├── TestNetRawLink.py
+│           │   └── TestNetTopo.py
+│           └── Utility
+│               ├── dijkstra.py
+│               ├── __init__.py
+│               ├── TestNetDisplay.py
+│               ├── TestNetLauncher.py
+│               ├── TestNetParser.py
+│               └── TestNetSelectionGroup.py
+├── SDNetwork.xcodeproj
+│   ├── project.pbxproj
+│   ├── project.xcworkspace
+│   │   ├── contents.xcworkspacedata
+│   │   ├── xcshareddata
+│   │   │   ├── IDEWorkspaceChecks.plist
+│   │   │   └── WorkspaceSettings.xcsettings
+│   │   └── xcuserdata
+│   │       └── admin.xcuserdatad
+│   │           ├── UserInterfaceState.xcuserstate
+│   │           └── WorkspaceSettings.xcsettings
+│   ├── xcshareddata
+│   │   └── xcschemes
+│   │       └── SDNetworkLauncher.xcscheme
+│   └── xcuserdata
+│       └── admin.xcuserdatad
+│           └── xcschemes
+│               └── xcschememanagement.plist
+├── setup.sh
+└── var
+    └── dist
+        ├── TestNet-1.2-py2.7.egg
+        └── TestNet.egg-info
+            ├── dependency_links.txt
+            ├── PKG-INFO
+            ├── requires.txt
+            ├── SOURCES.txt
+            └── top_level.txt
+
+39 directories, 93 files

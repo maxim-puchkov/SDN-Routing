@@ -1,0 +1,36 @@
+TestNet> weights
+
+ < WEIGHTS > 
+> Link		Weight
+> --------------------
+> {s1, s3}	1
+> {s2, s3}	5
+> {s1, s2}	1000
+TestNet> costs
+
+ < TOTAL PATH COSTS > 
+From\To s1	s2	s3
+s1		--	6 	1 	
+s2		6 	--	5 	
+s3		1 	5 	--	
+TestNet> routes
+
+ < FIRST-HOP WITH LOWEST COST > 
+From\To	s1	s2	s3
+s1		--	s3 	s3 	
+s2		s3 	--	s3 	
+s3		s1 	s2 	--	
+TestNet> paths
+
+ < LEAST-COST PATHS TO OTHER NODES > 
+ From -> To	Cost		Full Shortest Path 
+  ----- s1 -----  
+ s1   -> s2	6		['s1', 's3', 's2'] 
+ s1   -> s3	1		['s1', 's3'] 
+  ----- s2 -----  
+ s2   -> s1	6		['s2', 's3', 's1'] 
+ s2   -> s3	5		['s2', 's3'] 
+  ----- s3 -----  
+ s3   -> s1	1		['s3', 's1'] 
+ s3   -> s2	5		['s3', 's2'] 
+TestNet> 

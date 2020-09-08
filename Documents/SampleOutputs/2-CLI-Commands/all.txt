@@ -1,0 +1,118 @@
+TestNet> all
+
+ < IP ADDRESSES > 
+  ----- Controllers -----  
+ c0	127.0.0.1 
+  ----- Switches -----  
+ s1	127.0.0.1 
+ s2	127.0.0.1 
+ s3	127.0.0.1 
+  ----- Hosts -----  
+ h1	10.10.1.1	00:00:00:00:00:01 
+ h2	10.10.2.2	00:00:00:00:00:02 
+ h3	10.10.3.3	00:00:00:00:00:03 
+ 
+
+Press <Return> to continue (1/7) 
+
+
+ < WEIGHTS > 
+> Link		Weight
+> --------------------
+> {s1, s3}	1
+> {s2, s3}	5
+> {s1, s2}	1000
+ 
+
+Press <Return> to continue (2/7) 
+
+
+ < TOTAL PATH COSTS > 
+From\To s1	s2	s3
+s1	--	6 	1 	
+s2	6 	--	5 	
+s3	1 	5 	--	
+ 
+
+Press <Return> to continue (3/7) 
+
+
+ < FIRST-HOP WITH LOWEST COST > 
+From\To	s1	s2	s3
+s1	--	s3 	s3 	
+s2	s3 	--	s3 	
+s3	s1 	s2 	--	
+ 
+
+Press <Return> to continue (4/7) 
+
+
+ < LEAST-COST PATHS TO OTHER NODES > 
+ From -> To	Cost		Full Shortest Path 
+  ----- s1 -----  
+ s1   -> s2	6		['s1', 's3', 's2'] 
+ s1   -> s3	1		['s1', 's3'] 
+  ----- s2 -----  
+ s2   -> s1	6		['s2', 's3', 's1'] 
+ s2   -> s3	5		['s2', 's3'] 
+  ----- s3 -----  
+ s3   -> s1	1		['s3', 's1'] 
+ s3   -> s2	5		['s3', 's2'] 
+ 
+
+Press <Return> to continue (5/7) 
+
+
+ < SHOWING ALL FLOWS OF ALL OVSSWITCHES > 
+*** c0 : ('sudo ovs-ofctl dump-flows s1',)
+ cookie=0x0, duration=91.489s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s1-eth2"
+ cookie=0x0, duration=91.474s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s1-eth2"
+ cookie=0x0, duration=91.466s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s1-eth3"
+ cookie=0x0, duration=91.456s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s1-eth3"
+ cookie=0x0, duration=91.448s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s1-eth2"
+ cookie=0x0, duration=91.441s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s1-eth2"
+ 
+*** c0 : ('sudo ovs-ofctl dump-flows s2',)
+ cookie=0x0, duration=91.410s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s2-eth2"
+ cookie=0x0, duration=91.402s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s2-eth2"
+ cookie=0x0, duration=91.392s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s2-eth3"
+ cookie=0x0, duration=91.384s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s2-eth3"
+ cookie=0x0, duration=91.375s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s2-eth2"
+ cookie=0x0, duration=91.364s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s2-eth2"
+ 
+*** c0 : ('sudo ovs-ofctl dump-flows s3',)
+ cookie=0x0, duration=91.334s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.1.1 actions=output:"s3-eth1"
+ cookie=0x0, duration=91.326s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.1.1 actions=output:"s3-eth1"
+ cookie=0x0, duration=91.318s, table=0, n_packets=0, n_bytes=0, arp,arp_tpa=10.10.3.3 actions=output:"s3-eth3"
+ cookie=0x0, duration=91.310s, table=0, n_packets=0, n_bytes=0, ip,nw_dst=10.10.3.3 actions=output:"s3-eth3"
+ cookie=0x0, duration=91.300s, table=0, n_packets=1, n_bytes=42, arp,arp_tpa=10.10.2.2 actions=output:"s3-eth2"
+ cookie=0x0, duration=91.293s, table=0, n_packets=2, n_bytes=196, ip,nw_dst=10.10.2.2 actions=output:"s3-eth2"
+ 
+ 
+
+Press <Return> to continue (6/7) 
+
+
+ < OPENFLOW: SENT/RECEIVED PACKETS > 
+ Packets passing through a switch on the way host with IP address = "nw_dst" 
+  ----- s1 - Traffic -----  
+*** c0 : ('sudo ovs-ofctl dump-flows s1 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)
+n_packets=0, n_bytes=0, idle_age=92, ip,nw_dst=10.10.3.3
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.1.1
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.2.2
+ 
+  ----- s2 - Traffic -----  
+*** c0 : ('sudo ovs-ofctl dump-flows s2 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)
+n_packets=0, n_bytes=0, idle_age=92, ip,nw_dst=10.10.3.3
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.2.2
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.1.1
+ 
+  ----- s3 - Traffic -----  
+*** c0 : ('sudo ovs-ofctl dump-flows s3 | grep -e "n_packets=[1-9]*.*n_bytes=[1-9]*.*nw_dst=10.10.[1-9].[1-9]" -To',)
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.1.1
+n_packets=0, n_bytes=0, idle_age=92, ip,nw_dst=10.10.3.3
+n_packets=2, n_bytes=196, idle_age=91, ip,nw_dst=10.10.2.2
+ 
+ 
+
+Press <Return> to continue (7/7) 
